@@ -19,6 +19,7 @@ class SocalIcon extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 10),
         padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
+          color: Colors.white,
           border: Border.all(
             width: 1,
             color: "3ff7cf".toColor(),

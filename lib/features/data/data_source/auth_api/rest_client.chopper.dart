@@ -44,7 +44,8 @@ class _$AuthClient extends AuthClient {
     final $url = '/api/logout';
     final $headers = {'Authorization': accessToken};
     final $request = Request('POST', $url, client.baseUrl, headers: $headers);
-    return client.send<dynamic, dynamic>($request);
+    return client.send<dynamic, dynamic>($request,
+        requestConverter: FormUrlEncodedConverter.requestFactory);
   }
 
   @override
@@ -80,6 +81,24 @@ class _$AuthClient extends AuthClient {
     };
     final $request =
         Request('POST', $url, client.baseUrl, body: $body, headers: $headers);
+    return client.send<dynamic, dynamic>($request,
+        requestConverter: FormUrlEncodedConverter.requestFactory);
+  }
+
+  @override
+  Future<Response<dynamic>> recoverPassword(String email) {
+    final $url = '/api/recover_password';
+    final $body = <String, dynamic>{'email': email};
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request,
+        requestConverter: FormUrlEncodedConverter.requestFactory);
+  }
+
+  @override
+  Future<Response<dynamic>> changePassword(int pin, String password) {
+    final $url = '/api/change_password';
+    final $body = <String, dynamic>{'pin': pin, 'password': password};
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request,
         requestConverter: FormUrlEncodedConverter.requestFactory);
   }

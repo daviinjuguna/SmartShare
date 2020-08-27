@@ -3,6 +3,7 @@ import 'package:SmartShare/features/presentation/widgets/components/already_have
 import 'package:SmartShare/features/presentation/widgets/components/background.dart';
 import 'package:SmartShare/features/presentation/widgets/components/custom_button.dart';
 import 'package:SmartShare/features/presentation/widgets/components/fade_animation.dart';
+import 'package:SmartShare/features/presentation/widgets/components/forgot_password.dart';
 import 'package:SmartShare/features/presentation/widgets/components/or_divider.dart';
 import 'package:SmartShare/features/presentation/widgets/components/social_icon.dart';
 import 'package:SmartShare/features/presentation/widgets/components/textfield.dart';
@@ -29,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
@@ -108,11 +109,15 @@ class _LoginPageState extends State<LoginPage> {
                       FadeAnimation(1.5, AlreadyHaveAnAccountCheck(
                         press: ()=>Navigator.of(context).pushNamed("/register"),//route to register
                         color: Color(0xff3ff7cf))),
+                      SizedBox(height: SizeConfig.safeBlockHorizontal*2,),
+                      FadeAnimation(1.6, ForgotPasswordText(
+                        press: ()=>Navigator.of(context).pushNamed("/reset_password"), 
+                        color: Color(0xff3ff7cf))),
                     ],
                   ),
                 ),
-                FadeAnimation(1.6, OrDivider()),
-                FadeAnimation(1.7, Row(
+                FadeAnimation(1.7, OrDivider()),
+                FadeAnimation(1.8, Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SocalIcon(

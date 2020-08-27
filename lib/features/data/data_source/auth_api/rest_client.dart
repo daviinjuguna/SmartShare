@@ -43,6 +43,7 @@ abstract class AuthClient extends ChopperService{
   );
 
   @Post(path: 'api/logout')
+  @FactoryConverter(request: FormUrlEncodedConverter.requestFactory)
   Future<Response> logout(
     @Header('Authorization') String accessToken,
     // @Body() Map<String, dynamic> body,
@@ -69,5 +70,18 @@ abstract class AuthClient extends ChopperService{
     @Field("name") String firstName,
     @Field("last_name") String lastName,
     @Field("photo") String imageUrl
+  );
+
+  @Post(path: "api/recover_password")
+  @FactoryConverter(request: FormUrlEncodedConverter.requestFactory)
+  Future<Response> recoverPassword(
+    @Field("email") String email,
+  );
+
+  @Post(path:"api/change_password")//!uses AuthSuccessModel
+  @FactoryConverter(request: FormUrlEncodedConverter.requestFactory)
+  Future<Response> changePassword(
+    @Field("pin") int pin,
+    @Field("password") String password,
   );
 }
