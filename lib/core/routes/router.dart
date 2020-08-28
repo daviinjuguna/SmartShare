@@ -1,6 +1,7 @@
 import 'package:SmartShare/features/presentation/pages/auth/change_password.dart';
 import 'package:SmartShare/features/presentation/pages/auth/login_page.dart';
 import 'package:SmartShare/features/presentation/pages/auth/recover_password.dart';
+import 'package:SmartShare/features/presentation/pages/home/dashboard_screen.dart';
 import 'package:SmartShare/features/presentation/pages/intro/welcome_page.dart';
 import 'package:SmartShare/features/presentation/pages/auth/register_page.dart';
 import 'package:auto_route/auto_route_annotations.dart';
@@ -25,6 +26,8 @@ import 'package:flutter/material.dart';
 
 class RoutesGenerator {
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
+          final args = routeSettings.arguments;
+
     switch (routeSettings.name) {
       // case '/':
       //   return CupertinoPageRoute(builder: (_) => SplashScreen());
@@ -38,6 +41,8 @@ class RoutesGenerator {
         return CupertinoPageRoute(builder: (_)=>RecoverPassword());
       case '/change_password':
         return CupertinoPageRoute(builder: (_)=>ChangePassword());
+      case '/dashboard':
+        return CupertinoPageRoute(builder: (_)=>DashboardScreen());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

@@ -35,6 +35,13 @@ abstract class CommentClient extends ChopperService {
     @Field("comment") String comments,
   );
 
+  @Post(path: "api/posts/comments")
+  @FactoryConverter(request: FormUrlEncodedConverter.requestFactory)
+  Future<Response> getComments(
+    @Header('Authorization') String accessToken,
+    @Field("id") int postId,
+  );
+
   @Post(path:"api/comments/update")//!usess authsuccessmodel
   @FactoryConverter(request: FormUrlEncodedConverter.requestFactory)
   Future<Response> editComments(

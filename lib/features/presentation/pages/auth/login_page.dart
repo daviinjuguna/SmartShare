@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       SizedBox(height: SizeConfig.safeBlockHorizontal*3,),
                       FadeAnimation(1.4, CustomButton(
-                        press: (){}, 
+                        press: ()=>Navigator.of(context).pushReplacementNamed("/dashboard"), 
                         text: "Sign In",
                               color:Color(0xff3ff7cf),
                       )),

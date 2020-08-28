@@ -29,6 +29,17 @@ class _$CommentClient extends CommentClient {
   }
 
   @override
+  Future<Response<dynamic>> getComments(String accessToken, int postId) {
+    final $url = '/api/posts/comments';
+    final $headers = {'Authorization': accessToken};
+    final $body = <String, dynamic>{'id': postId};
+    final $request =
+        Request('POST', $url, client.baseUrl, body: $body, headers: $headers);
+    return client.send<dynamic, dynamic>($request,
+        requestConverter: FormUrlEncodedConverter.requestFactory);
+  }
+
+  @override
   Future<Response<dynamic>> editComments(
       String accessToken, int commentId, String comments) {
     final $url = '/api/comments/update';
