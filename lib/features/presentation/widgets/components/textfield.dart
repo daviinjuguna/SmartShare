@@ -5,7 +5,7 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
   final TextEditingController controller;
   final TextInputType keyboardType;
-//  final Function validation;
+  final Function validation;
   final Icon prefix;
   final String lableText;
   final String hintText;
@@ -14,7 +14,7 @@ class CustomTextField extends StatelessWidget {
   @required this.obscureText,
   @required this.controller,
   @required this.keyboardType,
-//  @required this.validation,
+  this.validation,
   @required this.prefix,
   @required this.lableText,
   @required this.hintText,}) : super(key: key);
@@ -27,7 +27,7 @@ class CustomTextField extends StatelessWidget {
       autocorrect: false,
       obscureText: obscureText,
       keyboardType: keyboardType,
-//      validator: validation,
+      validator: validation,
       decoration:inputDecoration(
         lableText,
         hintText,
@@ -40,7 +40,7 @@ class PasswordTextField extends StatelessWidget {
   final bool obscureText;
   final TextEditingController controller;
   final TextInputType keyboardType;
-//  final Function validation,onChanged;
+  final Function validation,onChanged;
   final Icon prefix;
   final IconButton suffix;
   final String lableText;
@@ -50,12 +50,12 @@ class PasswordTextField extends StatelessWidget {
   @required this.obscureText,
   @required this.controller,
   @required this.keyboardType,
-//  @required this.validation,
+  this.validation,
   @required this.prefix,
   @required this.suffix,
   @required this.lableText,
   @required this.hintText, 
-  /*this.onChanged*/}) : super(key: key);
+  this.onChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +65,8 @@ class PasswordTextField extends StatelessWidget {
       autocorrect: false,
       obscureText: obscureText,
       keyboardType: keyboardType,
-//      validator: validation,
-//      onChanged: onChanged,
+      validator: validation,
+      onChanged: onChanged,
       decoration:passwordInputDecoration(
         lableText,
         hintText,

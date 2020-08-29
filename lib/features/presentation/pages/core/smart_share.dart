@@ -1,23 +1,35 @@
 import 'package:SmartShare/core/routes/router.dart';
+import 'package:SmartShare/features/presentation/bloc/auth/intro_bloc/intro_bloc.dart';
+import 'package:SmartShare/injection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class SmartShare extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     MaterialColor colorCustom = MaterialColor(0xfffee56f, color);
-    return MaterialApp(
-      title: 'SmartShare',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: colorCustom,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    FlutterStatusbarcolor.setNavigationBarColor(Colors.white,animate: true);
+    FlutterStatusbarcolor.setStatusBarColor(Colors.white,animate: true);
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
+    FlutterStatusbarcolor.setNavigationBarWhiteForeground(false);
+
+    return BlocProvider(
+      create: (context)=>getIt<IntroBloc>()..add(const IntroEvent.started()),
+      child: MaterialApp(
+        title: 'SmartShare',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: colorCustom,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        initialRoute: "/",
+        onGenerateRoute: RoutesGenerator.generateRoute,
       ),
-      initialRoute: "/",
-      onGenerateRoute: RoutesGenerator.generateRoute,
     );
   }
-} 
+}
 
 Map<int, Color> color = {
   50: Color.fromRGBO(254, 229, 111, .1),
