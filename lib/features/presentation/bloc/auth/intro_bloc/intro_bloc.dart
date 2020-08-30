@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:SmartShare/features/domain/repository/auth_repository.dart';
 import 'package:SmartShare/features/domain/usecase/check_login.dart';
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
@@ -13,7 +14,7 @@ part 'intro_bloc.freezed.dart';
 @injectable
 class IntroBloc extends Bloc<IntroEvent, IntroState> {
   IntroBloc({@required this.isLoggedIn,@required this.repository}) :assert(repository != null),
-   super(IntroState.initial());
+   super(Initial());
   
   final CheckLogin isLoggedIn;
   final AuthRepository repository;
@@ -26,22 +27,22 @@ class IntroBloc extends Bloc<IntroEvent, IntroState> {
       started: (e)async*{
          final userIsLoggedIn = await isLoggedIn();
         if (userIsLoggedIn) {
-          yield IntroState.authenticated();
+          yield Authenticated();
         }else{
-          yield IntroState.unauthenticated();
+          yield Unauthenticated();
         }
       },
       loggedIn: (e)async*{
-        yield IntroState.authenticated();
+        yield Unauthenticated();
       },
       loggedOut: (e)async*{
         final logoutEither = await repository.logout();
         yield* logoutEither.fold(
           (failure) async*{
-            yield IntroState.error("naamini utaenda utarudii ooooh, mimi wakoo sheeerrieeeh");
+            yield Error(message:"naamini utaenda utarudii ooooh, mimi wakoo sheeerrieeeh");
           },
           (success) async*{
-            yield IntroState.unauthenticated(); //successfully unauthenticated
+            yield Unauthenticated(); //successfully unauthenticated
           }
         );
       },
@@ -49,10 +50,10 @@ class IntroBloc extends Bloc<IntroEvent, IntroState> {
         final refreshEither = await repository.refreshToken();
         yield* refreshEither.fold(
           (failure) async*{
-            yield IntroState.unauthenticated();
+            yield Unauthenticated();
           },
           (success) async*{
-            yield IntroState.authenticated();
+            yield Authenticated();
           }
         );
       },

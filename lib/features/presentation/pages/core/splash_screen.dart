@@ -7,12 +7,15 @@ class SplashScreen extends StatelessWidget {//handle authentication
   Widget build(BuildContext context) {
     return BlocListener<IntroBloc,IntroState>(
       listener: (context, state) { 
-        state.map(
-          initial: (_){},
-          authenticated: (_)=> Navigator.of(context).pushReplacementNamed("/dashboard"),
-          unauthenticated: (_)=>Navigator.of(context).pushReplacementNamed("/welcome"),
-          error: (_){}
-        );
+        // state.map(
+        //   initial: (_){},
+        //   authenticated: (_)=> Navigator.of(context).pushReplacementNamed("/dashboard"),
+        //   unauthenticated: (_)=>Navigator.of(context).pushReplacementNamed("/welcome"),
+        //   error: (_){}
+        // );
+
+        if(state is Authenticated) Navigator.of(context).pushReplacementNamed("/dashboard");
+        if(state is Unauthenticated)Navigator.of(context).pushReplacementNamed("/welcome");
       },
       child: Container(),
     );

@@ -16,8 +16,11 @@ class PostModel {
   String createdAt;
   @JsonKey(name: "updated_at")
   String updatedAt;
+  @JsonKey( name: "comments_count")
   int commentsCount;
+  @JsonKey(name: "likes_count")
   int likesCount;
+  @JsonKey(name: "self_like")
   bool selfLike;
   UserModel user;
   List<CommentModel> comments;

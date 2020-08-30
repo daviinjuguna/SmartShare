@@ -12,7 +12,6 @@ import 'package:SmartShare/features/presentation/widgets/components/or_divider.d
 import 'package:SmartShare/features/presentation/widgets/components/social_icon.dart';
 import 'package:SmartShare/features/presentation/widgets/components/textfield.dart';
 import 'package:SmartShare/injection.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -99,8 +98,9 @@ class _LoginPageState extends State<LoginPage> {
               );
             }
             if (state.isSuccess) {
-              getIt<IntroBloc>().add(IntroEvent.loggedIn());
-              Navigator.of(context).pop();
+              getIt<IntroBloc>()..add(IntroEvent.loggedIn());
+              // Navigator.of(context).pop();
+              Navigator.of(context).pushReplacementNamed("/dashboard");
             }
           },
 
@@ -149,6 +149,10 @@ class _LoginPageState extends State<LoginPage> {
                                 obscureText: !_passwordVisible, 
                                 controller: _passwordController, 
                                 keyboardType: TextInputType.text,
+                                textInputAction: TextInputAction.go,
+                                onSubmitted: (_){
+                                  _login();
+                                },
                                 validation:(_){
                                   return !state.isPasswordValid ? "Please enter alpha-numerical min of 6" :null;
                                 },
