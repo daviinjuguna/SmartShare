@@ -1,0 +1,20 @@
+import 'package:SmartShare/core/errors/failures.dart';
+import 'package:SmartShare/core/utils/use_case.dart';
+import 'package:SmartShare/features/data/model/post/get_post_model.dart';
+import 'package:SmartShare/features/data/model/post/post_model.dart';
+import 'package:SmartShare/features/domain/repository/post_repository.dart';
+import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
+
+@lazySingleton
+class GetPost extends UseCase<List<GetPostModel>,NoParams> {
+  final PostRepository repository;
+
+  GetPost({@required this.repository});
+  @override
+  Future<Either<Failure, List<GetPostModel>>> call(NoParams params) {
+   return repository.getPost();
+  }
+ 
+}

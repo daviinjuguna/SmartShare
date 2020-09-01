@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:SmartShare/core/utils/validators.dart';
-import 'package:SmartShare/features/domain/repository/auth_repository.dart';
+import 'package:SmartShare/features/domain/usecase/login.dart';
+import 'package:SmartShare/features/domain/usecase/register.dart';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -12,10 +13,11 @@ part 'auth_bloc.freezed.dart';
 
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc({@required this.repository}) : assert(repository != null),
+  AuthBloc({@required this.loginUseCase, @required this.registerUseCase}):
    super(AuthState.initial());
 
-  final AuthRepository repository;
+  final LoginUseCase loginUseCase;
+  final RegisterUseCase registerUseCase;
 
   @override
   Stream<AuthState> mapEventToState(
@@ -42,7 +44,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
       loginPressed: (e)async*{
         yield AuthState.loading();
-        final loginEither = await repository.loginUser(e.email, e.password);
+        final loginEither = await loginUseCase(LoginParams(email: e.email, password: e.password));
         yield* loginEither.fold(
           (failure) async*{
             yield AuthState.failure();
@@ -54,7 +56,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
       registerPressed: (e)async*{
         yield AuthState.loading();
-        final regesterEither = await repository.registerUser(e.email, e.password, e.passwordConfirmation);
+        final regesterEither = await registerUseCase(RegisterParams(email: e.email, password: e.password, passwordConfirmation: e.passwordConfirmation));
         yield* regesterEither.fold(
           (failure) async*{
             yield AuthState.failure();
