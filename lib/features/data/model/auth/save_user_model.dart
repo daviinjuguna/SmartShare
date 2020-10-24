@@ -9,7 +9,7 @@ class SaveUserModel{
   @JsonKey(name: "photo")
   final String imageUrl;
 
-  SaveUserModel({@required this.success, @required this.imageUrl});
+  SaveUserModel({@required this.success,this.imageUrl});
   
 
   factory SaveUserModel.fromJson(Map<String, dynamic> json) =>

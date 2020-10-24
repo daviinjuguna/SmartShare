@@ -28,22 +28,23 @@ abstract class PostClient extends ChopperService {
     return _$PostClient(client);
   }
 
-  @Post(path:"api/posts/create")
-  @FactoryConverter(request: FormUrlEncodedConverter.requestFactory)
+  @Post(path:"api/posts/create")  //!single GetPostModel
+  @multipart
   Future<Response> createUserPost(
     @Header('Authorization') String accessToken,
-    @Field("desc") String postDescription,
+    @Part("desc") String postDescription,
+    @PartFile("photo") String imageUrl //!nullable
   );
 
-  @Post(path:"api/posts/create")
-  @FactoryConverter(request: FormUrlEncodedConverter.requestFactory)
-  Future<Response> createUserPostWithPhoto(
-    @Header('Authorization') String accessToken,
-    @Field("desc") String postDescription,
-    @Field("photo") String imageUrl
-  );
+  // @Post(path:"api/posts/create")
+  // @FactoryConverter(request: FormUrlEncodedConverter.requestFactory)
+  // Future<Response> createUserPostWithPhoto(
+  //   @Header('Authorization') String accessToken,
+  //   @Field("desc") String postDescription,
+  //
+  // );
 
-  @Get(path:"api/posts")
+  @Get(path:"api/posts") //! List GetPostModel
   @FactoryConverter(request: FormUrlEncodedConverter.requestFactory)
   Future<Response> getPost(
     @Header('Authorization') String accessToken,

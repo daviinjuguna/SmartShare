@@ -19,3 +19,12 @@ class ParamsId extends Equatable {
   @override
   List<Object> get props => [id];
 }
+
+class ParamsString extends Equatable {
+  final String string;
+
+  ParamsString({@required this.string});
+
+  @override
+  List<Object> get props => [string];
+}

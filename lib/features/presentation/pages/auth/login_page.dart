@@ -100,7 +100,9 @@ class _LoginPageState extends State<LoginPage> {
             if (state.isSuccess) {
               getIt<IntroBloc>()..add(IntroEvent.loggedIn());
               // Navigator.of(context).pop();
-              Navigator.of(context).pushReplacementNamed("/dashboard");
+              WidgetsBinding.instance.addPostFrameCallback((_) { 
+                Navigator.of(context).pushReplacementNamed("/dashboard");
+              });
             }
           },
 

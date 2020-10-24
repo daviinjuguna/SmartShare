@@ -9,8 +9,16 @@ abstract class PostState extends Equatable{
 
 class Initial extends PostState {}
 class Loading extends PostState {}
+class CreatePostLoading extends PostState{}
+class CreatePostSuccess extends PostState{
+ final String message;
+
+  CreatePostSuccess({@required this.message});
+  @override
+  List<Object> get props => [message];
+}
 class Success extends PostState{
-  final List<GetPostModel> model;
+  final List<GetPost> model;
 
   Success({@required this.model});
 
@@ -18,9 +26,20 @@ class Success extends PostState{
   List<Object> get props => [model];
 }
 class Error extends PostState {
-  final String message;
+  final String title,message;
 
-  Error({@required this.message});
+  Error({@required this.message,@required this.title});
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message,title];
 }
+
+class RegisterImageState extends PostState {
+  final String imageFile;
+ 
+  RegisterImageState({
+    @required this.imageFile,
+   
+  });
+}
+
+class RegisterImageLoading extends PostState{}

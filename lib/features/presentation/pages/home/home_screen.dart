@@ -13,14 +13,14 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin<HomeScreen>{
   PostBloc _bloc;
 
   @override
   void initState() {
     super.initState();
     _bloc = getIt<PostBloc>();
-    _bloc.add(PostEvent.getPost());
+    _bloc.add(GetPostEvent());
   }
 
   @override
@@ -57,6 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 

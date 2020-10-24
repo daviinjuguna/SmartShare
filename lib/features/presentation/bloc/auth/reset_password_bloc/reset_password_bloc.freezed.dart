@@ -9,6 +9,7 @@ part of 'reset_password_bloc.dart';
 
 T _$identity<T>(T value) => value;
 
+/// @nodoc
 class _$ResetPasswordEventTearOff {
   const _$ResetPasswordEventTearOff();
 
@@ -28,9 +29,11 @@ class _$ResetPasswordEventTearOff {
   }
 }
 
+/// @nodoc
 // ignore: unused_element
 const $ResetPasswordEvent = _$ResetPasswordEventTearOff();
 
+/// @nodoc
 mixin _$ResetPasswordEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
@@ -56,12 +59,14 @@ mixin _$ResetPasswordEvent {
   });
 }
 
+/// @nodoc
 abstract class $ResetPasswordEventCopyWith<$Res> {
   factory $ResetPasswordEventCopyWith(
           ResetPasswordEvent value, $Res Function(ResetPasswordEvent) then) =
       _$ResetPasswordEventCopyWithImpl<$Res>;
 }
 
+/// @nodoc
 class _$ResetPasswordEventCopyWithImpl<$Res>
     implements $ResetPasswordEventCopyWith<$Res> {
   _$ResetPasswordEventCopyWithImpl(this._value, this._then);
@@ -71,6 +76,7 @@ class _$ResetPasswordEventCopyWithImpl<$Res>
   final $Res Function(ResetPasswordEvent) _then;
 }
 
+/// @nodoc
 abstract class $RecoverPasswordCopyWith<$Res> {
   factory $RecoverPasswordCopyWith(
           RecoverPassword value, $Res Function(RecoverPassword) then) =
@@ -78,6 +84,7 @@ abstract class $RecoverPasswordCopyWith<$Res> {
   $Res call({String email});
 }
 
+/// @nodoc
 class _$RecoverPasswordCopyWithImpl<$Res>
     extends _$ResetPasswordEventCopyWithImpl<$Res>
     implements $RecoverPasswordCopyWith<$Res> {
@@ -98,6 +105,7 @@ class _$RecoverPasswordCopyWithImpl<$Res>
   }
 }
 
+/// @nodoc
 class _$RecoverPassword implements RecoverPassword {
   const _$RecoverPassword(this.email) : assert(email != null);
 
@@ -183,6 +191,7 @@ abstract class RecoverPassword implements ResetPasswordEvent {
   $RecoverPasswordCopyWith<RecoverPassword> get copyWith;
 }
 
+/// @nodoc
 abstract class $ChangePasswordCopyWith<$Res> {
   factory $ChangePasswordCopyWith(
           ChangePassword value, $Res Function(ChangePassword) then) =
@@ -190,6 +199,7 @@ abstract class $ChangePasswordCopyWith<$Res> {
   $Res call({int pin, String password});
 }
 
+/// @nodoc
 class _$ChangePasswordCopyWithImpl<$Res>
     extends _$ResetPasswordEventCopyWithImpl<$Res>
     implements $ChangePasswordCopyWith<$Res> {
@@ -212,6 +222,7 @@ class _$ChangePasswordCopyWithImpl<$Res>
   }
 }
 
+/// @nodoc
 class _$ChangePassword implements ChangePassword {
   const _$ChangePassword(this.pin, this.password)
       : assert(pin != null),

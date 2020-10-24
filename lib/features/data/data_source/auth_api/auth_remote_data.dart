@@ -1,6 +1,7 @@
 import 'package:SmartShare/core/errors/exceptions.dart';
 import 'package:SmartShare/features/data/data_source/auth_api/rest_client.dart';
 import 'package:SmartShare/features/data/model/auth/access_token_model.dart';
+import 'package:SmartShare/features/data/model/auth/save_user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
@@ -12,6 +13,12 @@ abstract class AuthRemoteDataSource{
     String passwordConfirmation);
   Future<void>logout(AccessTokenModel model);
   Future<AccessTokenModel> refreshToken(AccessTokenModel model);
+  Future<SaveUserModel>saveUserInfo(
+    AccessTokenModel model,
+    String firstName,
+    String lastName,
+    String imageUrl
+  );
 }
 
 @LazySingleton(as: AuthRemoteDataSource)
@@ -63,5 +70,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
       throw ServerException();
     }
   }
-  
+
+  @override
+  Future<SaveUserModel> saveUserInfo(AccessTokenModel model, String firstName, String lastName, String imageUrl) async{
+    final response = await client.saveUserInfo('Bearer ${model.accessToken}', firstName, lastName, imageUrl);
+    if (response.statusCode == 200) {
+      return SaveUserModel.fromJson(response.body);
+    }else if (response.statusCode == 401) {
+      throw UnAuthenticatedException();
+    } else {
+      throw ServerException();
+    }
+  }
 }

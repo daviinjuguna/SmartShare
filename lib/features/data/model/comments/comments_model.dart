@@ -1,69 +1,56 @@
-import 'package:SmartShare/features/domain/entities/home/get_my_post.dart';
+import 'package:SmartShare/features/domain/entities/home/get_comment.dart';
 
-class MyPostModel extends GetMyPost{
-  List<Post> post;
-  User user;
-
-  MyPostModel({this.post, this.user}):super(post: post,user: user);
-
-  @override
-  List<Object> get props => [post,user];
-
-  MyPostModel.fromJson(Map<String, dynamic> json) {
-    if (json['post'] != null) {
-      post = new List<Post>();
-      json['post'].forEach((v) {
-        post.add(new Post.fromJson(v));
-      });
-    }
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.post != null) {
-      data['post'] = this.post.map((v) => v.toJson()).toList();
-    }
-    if (this.user != null) {
-      data['user'] = this.user.toJson();
-    }
-    return data;
-  }
-}
-
-class Post {
+class CommentsModel extends GetComments{
   int id;
   int userId;
-  String desc;
-  String photo;
+  int postId;
+  String comment;
   String createdAt;
   String updatedAt;
+  User user;
 
-  Post(
+  CommentsModel(
       {this.id,
         this.userId,
-        this.desc,
-        this.photo,
+        this.postId,
+        this.comment,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.user}):
+      super(
+        id: id,
+        userId: userId,
+        postId: postId,
+        comment: comment,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        user: user
+      );
 
-  Post.fromJson(Map<String, dynamic> json) {
+  @override
+  List<Object> get props => [id,userId,postId,comment,createdAt,updatedAt,user];
+
+  CommentsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
-    desc = json['desc'];
-    photo = json['photo'];
+    postId = json['post_id'];
+    comment = json['comment'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['user_id'] = this.userId;
-    data['desc'] = this.desc;
-    data['photo'] = this.photo;
+    data['post_id'] = this.postId;
+    data['comment'] = this.comment;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    if (this.user != null) {
+      data['user'] = this.user.toJson();
+    }
     return data;
   }
 }

@@ -18,26 +18,16 @@ class _$PostClient extends PostClient {
 
   @override
   Future<Response<dynamic>> createUserPost(
-      String accessToken, String postDescription) {
-    final $url = '/api/posts/create';
-    final $headers = {'Authorization': accessToken};
-    final $body = <String, dynamic>{'desc': postDescription};
-    final $request =
-        Request('POST', $url, client.baseUrl, body: $body, headers: $headers);
-    return client.send<dynamic, dynamic>($request,
-        requestConverter: FormUrlEncodedConverter.requestFactory);
-  }
-
-  @override
-  Future<Response<dynamic>> createUserPostWithPhoto(
       String accessToken, String postDescription, String imageUrl) {
     final $url = '/api/posts/create';
     final $headers = {'Authorization': accessToken};
-    final $body = <String, dynamic>{'desc': postDescription, 'photo': imageUrl};
-    final $request =
-        Request('POST', $url, client.baseUrl, body: $body, headers: $headers);
-    return client.send<dynamic, dynamic>($request,
-        requestConverter: FormUrlEncodedConverter.requestFactory);
+    final $parts = <PartValue>[
+      PartValue<String>('desc', postDescription),
+      PartValueFile<String>('photo', imageUrl)
+    ];
+    final $request = Request('POST', $url, client.baseUrl,
+        parts: $parts, multipart: true, headers: $headers);
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override

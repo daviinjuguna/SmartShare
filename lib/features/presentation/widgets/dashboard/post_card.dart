@@ -1,12 +1,13 @@
 import 'package:SmartShare/core/utils/constants.dart';
 import 'package:SmartShare/core/utils/size_config.dart';
 import 'package:SmartShare/features/data/model/post/get_post_model.dart';
+import 'package:SmartShare/features/domain/entities/home/get_post.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class PostsCard extends StatelessWidget {
-  final GetPostModel post;
+  final GetPost post;
   const PostsCard({
     Key key,@required this.post,
   }) : super(key: key);

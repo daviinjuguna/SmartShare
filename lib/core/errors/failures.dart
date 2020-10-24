@@ -30,6 +30,21 @@ class CheckAuthFormatFailure extends Failure {
   List<Object> get props => [];
 }
 
+class SelectImageFailure extends Failure {
+  @override
+  List<Object> get props => [];
+}
+
+class SelectImageFromCameraFailure extends Failure {
+  @override
+  List<Object> get props => [];
+}
+
+class SelectImageFromGalleryFailure extends Failure {
+  @override
+  List<Object> get props => [];
+}
+
 class UnAuthenticatedFailure extends Failure {
   @override
   List<Object> get props => [];

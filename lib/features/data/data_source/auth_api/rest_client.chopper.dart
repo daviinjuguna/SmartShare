@@ -59,30 +59,17 @@ class _$AuthClient extends AuthClient {
 
   @override
   Future<Response<dynamic>> saveUserInfo(
-      String accessToken, String firstName, String lastName) {
-    final $url = '/api/save_user_info';
-    final $headers = {'Authorization': accessToken};
-    final $body = <String, dynamic>{'name': firstName, 'last_name': lastName};
-    final $request =
-        Request('POST', $url, client.baseUrl, body: $body, headers: $headers);
-    return client.send<dynamic, dynamic>($request,
-        requestConverter: FormUrlEncodedConverter.requestFactory);
-  }
-
-  @override
-  Future<Response<dynamic>> saveUserInfoWithPhoto(
       String accessToken, String firstName, String lastName, String imageUrl) {
     final $url = '/api/save_user_info';
     final $headers = {'Authorization': accessToken};
-    final $body = <String, dynamic>{
-      'name': firstName,
-      'last_name': lastName,
-      'photo': imageUrl
-    };
-    final $request =
-        Request('POST', $url, client.baseUrl, body: $body, headers: $headers);
-    return client.send<dynamic, dynamic>($request,
-        requestConverter: FormUrlEncodedConverter.requestFactory);
+    final $parts = <PartValue>[
+      PartValue<String>('name', firstName),
+      PartValue<String>('last_name', lastName),
+      PartValueFile<String>('photo', imageUrl)
+    ];
+    final $request = Request('POST', $url, client.baseUrl,
+        parts: $parts, multipart: true, headers: $headers);
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override

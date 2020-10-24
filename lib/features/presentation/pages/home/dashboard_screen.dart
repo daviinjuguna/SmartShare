@@ -1,8 +1,10 @@
 import 'package:SmartShare/core/utils/size_config.dart';
 import 'package:SmartShare/features/presentation/bloc/auth/intro_bloc/intro_bloc.dart';
 import 'package:SmartShare/features/presentation/pages/home/home_screen.dart';
+import 'package:SmartShare/features/presentation/widgets/dashboard/register_select_image_list.dart';
 import 'package:SmartShare/injection.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -75,12 +77,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: ()async{
-         getIt<IntroBloc>().add(IntroEvent.loggedOut());
-
-        Navigator.of(context).pushReplacementNamed("/welcome");
-          
-        },
+        onPressed: ()=>Navigator.of(context).pushNamed("/newPost"),
         child: Icon(LineAwesomeIcons.plus),
         backgroundColor: Color(0xfffee56f),
         elevation: 2,

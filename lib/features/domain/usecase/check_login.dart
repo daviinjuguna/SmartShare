@@ -2,7 +2,7 @@ import 'package:SmartShare/core/utils/check_app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
-@injectable
+@lazySingleton
 class CheckLogin {
   final CheckAppState appState;
 

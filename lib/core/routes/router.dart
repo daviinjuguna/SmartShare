@@ -3,6 +3,7 @@ import 'package:SmartShare/features/presentation/pages/auth/login_page.dart';
 import 'package:SmartShare/features/presentation/pages/auth/recover_password.dart';
 import 'package:SmartShare/features/presentation/pages/core/splash_screen.dart';
 import 'package:SmartShare/features/presentation/pages/home/dashboard_screen.dart';
+import 'package:SmartShare/features/presentation/pages/home/new_post.dart';
 import 'package:SmartShare/features/presentation/pages/intro/welcome_page.dart';
 import 'package:SmartShare/features/presentation/pages/auth/register_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,6 +44,8 @@ class RoutesGenerator {
         return CupertinoPageRoute(builder: (_)=>ChangePassword());
       case '/dashboard':
         return CupertinoPageRoute(builder: (_)=>DashboardScreen());
+      case '/newPost':
+        return CupertinoPageRoute(builder: (_)=>NewPostPage());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

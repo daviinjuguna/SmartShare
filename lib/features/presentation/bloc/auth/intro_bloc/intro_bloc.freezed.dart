@@ -9,6 +9,7 @@ part of 'intro_bloc.dart';
 
 T _$identity<T>(T value) => value;
 
+/// @nodoc
 class _$IntroEventTearOff {
   const _$IntroEventTearOff();
 
@@ -33,9 +34,11 @@ class _$IntroEventTearOff {
   }
 }
 
+/// @nodoc
 // ignore: unused_element
 const $IntroEvent = _$IntroEventTearOff();
 
+/// @nodoc
 mixin _$IntroEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
@@ -69,12 +72,14 @@ mixin _$IntroEvent {
   });
 }
 
+/// @nodoc
 abstract class $IntroEventCopyWith<$Res> {
   factory $IntroEventCopyWith(
           IntroEvent value, $Res Function(IntroEvent) then) =
       _$IntroEventCopyWithImpl<$Res>;
 }
 
+/// @nodoc
 class _$IntroEventCopyWithImpl<$Res> implements $IntroEventCopyWith<$Res> {
   _$IntroEventCopyWithImpl(this._value, this._then);
 
@@ -83,11 +88,13 @@ class _$IntroEventCopyWithImpl<$Res> implements $IntroEventCopyWith<$Res> {
   final $Res Function(IntroEvent) _then;
 }
 
+/// @nodoc
 abstract class $StartedCopyWith<$Res> {
   factory $StartedCopyWith(Started value, $Res Function(Started) then) =
       _$StartedCopyWithImpl<$Res>;
 }
 
+/// @nodoc
 class _$StartedCopyWithImpl<$Res> extends _$IntroEventCopyWithImpl<$Res>
     implements $StartedCopyWith<$Res> {
   _$StartedCopyWithImpl(Started _value, $Res Function(Started) _then)
@@ -97,6 +104,7 @@ class _$StartedCopyWithImpl<$Res> extends _$IntroEventCopyWithImpl<$Res>
   Started get _value => super._value as Started;
 }
 
+/// @nodoc
 class _$Started implements Started {
   const _$Started();
 
@@ -180,11 +188,13 @@ abstract class Started implements IntroEvent {
   const factory Started() = _$Started;
 }
 
+/// @nodoc
 abstract class $LoggedInCopyWith<$Res> {
   factory $LoggedInCopyWith(LoggedIn value, $Res Function(LoggedIn) then) =
       _$LoggedInCopyWithImpl<$Res>;
 }
 
+/// @nodoc
 class _$LoggedInCopyWithImpl<$Res> extends _$IntroEventCopyWithImpl<$Res>
     implements $LoggedInCopyWith<$Res> {
   _$LoggedInCopyWithImpl(LoggedIn _value, $Res Function(LoggedIn) _then)
@@ -194,6 +204,7 @@ class _$LoggedInCopyWithImpl<$Res> extends _$IntroEventCopyWithImpl<$Res>
   LoggedIn get _value => super._value as LoggedIn;
 }
 
+/// @nodoc
 class _$LoggedIn implements LoggedIn {
   const _$LoggedIn();
 
@@ -277,11 +288,13 @@ abstract class LoggedIn implements IntroEvent {
   const factory LoggedIn() = _$LoggedIn;
 }
 
+/// @nodoc
 abstract class $LoggedOutCopyWith<$Res> {
   factory $LoggedOutCopyWith(LoggedOut value, $Res Function(LoggedOut) then) =
       _$LoggedOutCopyWithImpl<$Res>;
 }
 
+/// @nodoc
 class _$LoggedOutCopyWithImpl<$Res> extends _$IntroEventCopyWithImpl<$Res>
     implements $LoggedOutCopyWith<$Res> {
   _$LoggedOutCopyWithImpl(LoggedOut _value, $Res Function(LoggedOut) _then)
@@ -291,6 +304,7 @@ class _$LoggedOutCopyWithImpl<$Res> extends _$IntroEventCopyWithImpl<$Res>
   LoggedOut get _value => super._value as LoggedOut;
 }
 
+/// @nodoc
 class _$LoggedOut implements LoggedOut {
   const _$LoggedOut();
 
@@ -374,12 +388,14 @@ abstract class LoggedOut implements IntroEvent {
   const factory LoggedOut() = _$LoggedOut;
 }
 
+/// @nodoc
 abstract class $RefreshTokenCopyWith<$Res> {
   factory $RefreshTokenCopyWith(
           RefreshToken value, $Res Function(RefreshToken) then) =
       _$RefreshTokenCopyWithImpl<$Res>;
 }
 
+/// @nodoc
 class _$RefreshTokenCopyWithImpl<$Res> extends _$IntroEventCopyWithImpl<$Res>
     implements $RefreshTokenCopyWith<$Res> {
   _$RefreshTokenCopyWithImpl(
@@ -390,6 +406,7 @@ class _$RefreshTokenCopyWithImpl<$Res> extends _$IntroEventCopyWithImpl<$Res>
   RefreshToken get _value => super._value as RefreshToken;
 }
 
+/// @nodoc
 class _$RefreshToken implements RefreshToken {
   const _$RefreshToken();
 

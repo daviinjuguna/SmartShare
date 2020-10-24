@@ -56,21 +56,22 @@ abstract class AuthClient extends ChopperService{
   );
 
   @Post(path:"api/save_user_info")
-  @FactoryConverter(request: FormUrlEncodedConverter.requestFactory)
+  @multipart
   Future<Response> saveUserInfo(
     @Header('Authorization') String accessToken,
-    @Field("name") String firstName,
-    @Field("last_name") String lastName,
+    @Part("name") String firstName,
+    @Part("last_name") String lastName,
+    @PartFile("photo") String imageUrl //!nullable
   );
-
-  @Post(path:"api/save_user_info")
-  @FactoryConverter(request: FormUrlEncodedConverter.requestFactory)
-  Future<Response> saveUserInfoWithPhoto(
-    @Header('Authorization') String accessToken,
-    @Field("name") String firstName,
-    @Field("last_name") String lastName,
-    @Field("photo") String imageUrl
-  );
+  //
+  // @Post(path:"api/save_user_info")
+  // @FactoryConverter(request: FormUrlEncodedConverter.requestFactory)
+  // Future<Response> saveUserInfoWithPhoto(
+  //   @Header('Authorization') String accessToken,
+  //   @Field("name") String firstName,
+  //   @Field("last_name") String lastName,
+  //
+  // );
 
   @Post(path: "api/recover_password")
   @FactoryConverter(request: FormUrlEncodedConverter.requestFactory)

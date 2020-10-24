@@ -2,8 +2,10 @@ import 'package:SmartShare/core/errors/exceptions.dart';
 import 'package:SmartShare/core/utils/network_info.dart';
 import 'package:SmartShare/features/data/data_source/auth_api/auth_local_data.dart';
 import 'package:SmartShare/features/data/data_source/auth_api/auth_remote_data.dart';
+import 'package:SmartShare/features/data/data_source/image/image_data_source.dart';
 import 'package:SmartShare/features/data/model/auth/api_success_model.dart';
 import 'package:SmartShare/core/errors/failures.dart';
+import 'package:SmartShare/features/domain/entities/auth/api_success.dart';
 import 'package:SmartShare/features/domain/repository/auth_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
@@ -14,15 +16,17 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthLocalDataSource localDataSource;
   final AuthRemoteDataSource remoteDataSource;
   final NetworkInfo networkInfo;
+  final ImageDataSource imageDataSource;
   
   AuthRepositoryImpl({
     @required this.localDataSource,
     @required this.remoteDataSource,
-    @required this.networkInfo
+    @required this.networkInfo,
+    @required this.imageDataSource
   });
 
   @override
-  Future<Either<Failure, ApiSuccessModel>> logout() async{
+  Future<Either<Failure, ApiSuccess>> logout() async{
     final accessToken = localDataSource.getAuthToken();
     if(accessToken != null){
      if (await networkInfo.isConnected) {
@@ -35,7 +39,9 @@ class AuthRepositoryImpl implements AuthRepository {
          return Left(ServerFailure());
        }on CacheException{
          return Left(CacheFailure());
-       }
+       } on UnAuthenticatedException {
+            return Left(UnAuthenticatedFailure());
+      } 
      } else {
        return Left(ServerFailure());
      }
@@ -45,7 +51,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
   
   @override
-  Future<Either<Failure, ApiSuccessModel>> refreshToken() async{
+  Future<Either<Failure, ApiSuccess>> refreshToken() async{
     final accessToken = localDataSource.getAuthToken();
     if(accessToken != null){
      if (await networkInfo.isConnected) {
@@ -68,7 +74,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
   
   @override
-  Future<Either<Failure, ApiSuccessModel>> registerUser(String email, String password, String passwordConfirmation) async{
+  Future<Either<Failure, ApiSuccess>> registerUser(String email, String password, String passwordConfirmation) async{
     if (await networkInfo.isConnected) {
       try {
         final registerSuccessModel = await remoteDataSource.registerUser(email, password, passwordConfirmation);
@@ -86,7 +92,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, ApiSuccessModel>> loginUser(String email, String password) async{
+  Future<Either<Failure, ApiSuccess>> loginUser(String email, String password) async{
     if (await networkInfo.isConnected) {
       try {
         final loginSuccessModel = await remoteDataSource.loginUser(email, password);
@@ -100,6 +106,53 @@ class AuthRepositoryImpl implements AuthRepository {
       }
     } else{
       return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ApiSuccess>> saveUserInfo(String firstName, String lastName, String imageUrl) async{
+     final accessToken = localDataSource.getAuthToken();
+    if(accessToken != null){
+     if (await networkInfo.isConnected) {
+       try {
+          await remoteDataSource.saveUserInfo(await accessToken, firstName, lastName, imageUrl);//catchess the token again
+         ApiSuccessModel apiSuccessModel = new ApiSuccessModel(success: true, message: "User Saved");
+         return Right(apiSuccessModel);
+       }on ServerException {
+         return Left(ServerFailure());
+       }on CacheException{
+         return Left(CacheFailure());
+       }on UnAuthenticatedException {
+         return Left(UnAuthenticatedFailure());
+       } 
+     } else {
+       return Left(ServerFailure());
+     }
+    }else{
+      return Left(UnAuthenticatedFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> fetchImageUrl(String url) async{
+    if (url == "Camera") {
+      try {
+        final imageFile = await imageDataSource.selectFromCamera();
+        return Right(imageFile);
+      } on SelectImageException {
+        return Left(SelectImageFailure());
+      } on SelectImageFromCameraException {
+        return Left(SelectImageFromCameraFailure());
+      }
+    } else {
+      try {
+        final imageFile = await imageDataSource.selectFromGallery();
+        return Right(imageFile);
+      } on SelectImageException {
+        return Left(SelectImageFailure());
+      } on SelectImageFromGalleryException {
+        return Left(SelectImageFromGalleryFailure());
+      }
     }
   }
 }

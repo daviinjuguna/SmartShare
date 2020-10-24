@@ -1,4 +1,6 @@
-class GetPostModel {
+import 'package:SmartShare/features/domain/entities/home/get_post.dart';
+
+class GetPostModel extends GetPost{
   int id;
   int userId;
   String desc;
@@ -24,7 +26,28 @@ class GetPostModel {
       this.selfLike,
       this.user,
       this.comments,
-      this.likes});
+      this.likes}):
+  super(
+        id: id,
+        userId: userId,
+        desc: desc,
+        photo: photo,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        commentsCount: commentsCount,
+        likesCount: likesCount,
+        selfLike: selfLike,
+        user: user,
+        comments: comments,
+        likes: likes
+      );
+
+  @override
+  List<Object> get props => [
+    id,userId,desc,photo,
+    createdAt,updatedAt,likesCount,selfLike,user,
+    comments,likes
+  ];
 
   GetPostModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -84,7 +107,7 @@ class User {
   Null emailVerifiedAt;
   String createdAt;
   String updatedAt;
-  Null pin;
+  int pin;
 
   User(
       {this.id,
