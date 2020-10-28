@@ -28,3 +28,40 @@ class CreatePostEvent extends PostEvent{
   @override
   List<Object> get props => [postDescription,imageUrl];
 }
+
+class DeletePostEvent extends PostEvent{
+  final int postId;
+  final List<GetPost> model;
+  final GetMyPost myModel;
+
+  DeletePostEvent({@required this.postId,@required this.model,@required this.myModel});
+
+  @override
+  List<Object> get props => [postId,model,myModel];
+}
+
+class EditPostEvent extends PostEvent {
+  final int postId;
+  final String postDescription;
+
+  final List<GetPost> model;
+  final GetMyPost myModel;
+
+  EditPostEvent({@required this.postId,@required this.postDescription,@required this.model,@required this.myModel});
+
+  @override
+  List<Object> get props => [postId,postDescription,model,myModel];
+}
+
+class LikePostEvent extends PostEvent{
+  final int postId;
+
+  final List<GetPost> model;
+  final GetMyPost myModel;
+
+  LikePostEvent({@required this.postId,@required this.model,@required this.myModel});
+
+  @override
+  List<Object> get props => [postId,model,myModel];
+}
+

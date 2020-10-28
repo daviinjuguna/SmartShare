@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:SmartShare/core/utils/constants.dart';
 import 'package:SmartShare/core/utils/use_case.dart';
 import 'package:SmartShare/features/data/model/post/get_post_model.dart';
+import 'package:SmartShare/features/domain/entities/home/get_my_post.dart';
 import 'package:SmartShare/features/domain/entities/home/get_post.dart';
 import 'package:SmartShare/features/domain/usecase/create_user_post.dart';
 import 'package:SmartShare/features/domain/usecase/delete_post.dart';
@@ -52,7 +53,16 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           yield Error(message: mapFailureToMessage(failure),title: "Error");
         },
         (model) async*{
-          yield Success(model: model);
+          // yield Success(model: model);
+          final myPostEither = await getMyPostUseCase(NoParams());
+          yield* myPostEither.fold(
+            (failure) async*{
+              yield Error(message: mapFailureToMessage(failure),title: "Error");
+            },
+            (myModel) async*{
+              yield Success(model: model,myModel:myModel);
+            }
+          );
         }
       );
     }else if(event is CreatePostEvent){
@@ -78,6 +88,39 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         }, 
         (imageUrl) async*{
           yield RegisterImageState(imageFile: imageUrl);
+        }
+      );
+    }else if(event is DeletePostEvent){
+      // yield DeleteLoading();
+      final deleteEither = await deletePostUseCase(DeletePostParams(postId: event.postId));
+      yield* deleteEither.fold(
+        (failure) async*{
+          yield Error(message: mapFailureToMessage(failure), title: "Error");
+        } ,
+        (success) async*{
+          yield Success(model: event.model,myModel: event.myModel);
+        }
+      );
+    }else if (event is EditPostEvent){
+      // yield EditLoading();
+      final editEither = await editPostUseCase(EditPostParams(postId: event.postId, postDescription: event.postDescription));
+      yield* editEither.fold(
+        (failure) async*{
+          yield Error(message: mapFailureToMessage(failure), title: "Error");
+        },
+        (success) async*{
+          yield Success(model: event.model,myModel: event.myModel);
+        }
+      );
+    }else if(event is LikePostEvent){
+      // yield LikeLoading();
+      final likeEither = await likePostUseCase(LikePostParams(postId: event.postId));
+      yield* likeEither.fold(
+        (failure) async*{
+          yield Error(message: mapFailureToMessage(failure), title: "Error");
+        },
+        (success) async*{
+          yield Success(model: event.model,myModel: event.myModel);
         }
       );
     }

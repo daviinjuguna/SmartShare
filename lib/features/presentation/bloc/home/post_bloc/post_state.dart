@@ -19,11 +19,12 @@ class CreatePostSuccess extends PostState{
 }
 class Success extends PostState{
   final List<GetPost> model;
+  final GetMyPost myModel;
 
-  Success({@required this.model});
+  Success({@required this.model,@required this.myModel});
 
   @override
-  List<Object> get props => [model];
+  List<Object> get props => [model,myModel];
 }
 class Error extends PostState {
   final String title,message;
@@ -43,3 +44,12 @@ class RegisterImageState extends PostState {
 }
 
 class RegisterImageLoading extends PostState{}
+
+class DeleteLoading extends PostState {}
+class DeleteSuccess extends PostState {}
+
+class EditLoading extends PostState {}
+class EditSuccess extends PostState {}
+
+class LikeLoading extends PostState {}
+class LikeSuccess extends PostState {}

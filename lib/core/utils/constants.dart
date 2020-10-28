@@ -2,7 +2,7 @@ import 'package:SmartShare/core/errors/failures.dart';
 import 'package:flutter/material.dart';
 import 'package:supercharged/supercharged.dart';
 
-const String BASE_URL = "https://cac426c1d2db.ngrok.io";
+const String BASE_URL = "https://99a5f3237e47.ngrok.io";
 const String IMAGE_URL = BASE_URL + "/";
 
 const String SERVER_FAILURE_MESSAGE = "Server Failure";
@@ -34,4 +34,13 @@ String mapFailureToMessage(Failure failure) {
     default:
       return 'Unexpected Error';
   }
+}
+
+class PopUpMenu {
+  static const String editPost = 'Edit';
+  static const String deletePost = 'Delete';
+
+  static const List<String> choices = <String>[
+    editPost,deletePost
+  ];
 }

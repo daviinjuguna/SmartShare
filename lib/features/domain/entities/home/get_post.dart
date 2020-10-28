@@ -26,7 +26,7 @@ class GetPost extends Equatable{
 
   final int id;
   final int userId;
-  final String desc;
+  String desc;
   final String photo;
   final String createdAt;
   final String updatedAt;

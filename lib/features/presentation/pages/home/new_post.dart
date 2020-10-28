@@ -103,7 +103,7 @@ class _NewPostPageState extends State<NewPostPage> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5)
                     ),
-                    hintText: "Say something"
+                  hintText: "Say something",
                     
                   ),
                 ),
