@@ -4,8 +4,10 @@ import 'package:SmartShare/core/errors/exceptions.dart';
 import 'package:SmartShare/core/errors/failures.dart';
 import 'package:SmartShare/core/utils/network_info.dart';
 import 'package:SmartShare/features/data/data_source/auth_api/auth_local_data.dart';
+import 'package:SmartShare/features/data/data_source/comments_api/comments_remote.dart';
 import 'package:SmartShare/features/data/data_source/post_api/post_remote_data.dart';
 import 'package:SmartShare/features/data/model/auth/api_success_model.dart';
+import 'package:SmartShare/features/domain/entities/home/get_comment.dart';
 import 'package:SmartShare/features/domain/entities/home/get_my_post.dart';
 import 'package:SmartShare/features/domain/entities/auth/api_success.dart';
 import 'package:SmartShare/features/domain/entities/home/get_post.dart';
@@ -18,12 +20,14 @@ import 'package:injectable/injectable.dart';
 class PostRepositoryImpl implements PostRepository {
   final AuthLocalDataSource localDataSource;
   final PostRemoteData remoteDataSource;
+  final CommentsRemoteDataSource commentsRemoteDataSource;
   final NetworkInfo networkInfo;
 
   PostRepositoryImpl({
     @required this.localDataSource,
     @required this.remoteDataSource,
-    @required this.networkInfo
+    @required this.networkInfo,
+    @required this.commentsRemoteDataSource
   });
 
   @override
@@ -180,5 +184,105 @@ class PostRepositoryImpl implements PostRepository {
         return Left(UnAuthenticatedFailure());
       }
   }
-  
+
+  //!comments section
+
+  @override
+  Future<Either<Failure, ApiSuccess>> createComments(int postId, String comments) async{
+    final accessToken = localDataSource.getAuthToken();
+    if (accessToken != null){
+      if(await networkInfo.isConnected){
+        try{
+          await commentsRemoteDataSource.createComments(await accessToken, postId, comments);
+          ApiSuccessModel apiSuccessModel = new ApiSuccessModel(success: true, message: "comments created");
+          return Right(apiSuccessModel);
+        }on ServerException {
+          print("server exception");
+          return Left(ServerFailure());
+        }on UnAuthenticatedException {
+          return Left(UnAuthenticatedFailure());
+        }on CacheException {
+          return Left(CacheFailure());
+        }
+      }else{
+        return Left(ServerFailure());
+      }
+    }else{
+      return Left(UnAuthenticatedFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure,List<GetComments>>>getComments(int postId) async{
+    final accessToken = localDataSource.getAuthToken();
+    if(accessToken != null){
+      if(await networkInfo.isConnected){
+        try{
+          final comments = await commentsRemoteDataSource.getComments(await accessToken, postId);
+          return Right(comments);
+        }on ServerException {
+          print("server exception");
+          return Left(ServerFailure());
+        }on UnAuthenticatedException {
+          return Left(UnAuthenticatedFailure());
+        }on CacheException {
+          return Left(CacheFailure());
+        }
+      }else{
+        return Left(ServerFailure());
+      }
+    }else{
+      return Left(UnAuthenticatedFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ApiSuccess>> editComments(int commentId, String comments) async{
+    final accessToken = localDataSource.getAuthToken();
+    if (accessToken != null){
+      if(await networkInfo.isConnected){
+        try{
+          await commentsRemoteDataSource.editComments(await accessToken, commentId, comments);
+          ApiSuccessModel apiSuccessModel = new ApiSuccessModel(success: true, message: "Comments Edited");
+          return Right(apiSuccessModel);
+        }on ServerException {
+          print("server exception");
+          return Left(ServerFailure());
+        }on UnAuthenticatedException {
+          return Left(UnAuthenticatedFailure());
+        }on CacheException {
+          return Left(CacheFailure());
+        }
+      }else{
+        return Left(ServerFailure());
+      }
+    }else{
+      return Left(UnAuthenticatedFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ApiSuccess>> deleteComments(int commentId) async{
+    final accessToken = localDataSource.getAuthToken();
+    if (accessToken != null){
+      if(await networkInfo.isConnected){
+        try{
+          await commentsRemoteDataSource.deleteComments(await accessToken, commentId);
+          ApiSuccessModel apiSuccessModel = new ApiSuccessModel(success: true, message: "Comments Deleted");
+          return Right(apiSuccessModel);
+        }on ServerException {
+          print("server exception");
+          return Left(ServerFailure());
+        }on UnAuthenticatedException {
+          return Left(UnAuthenticatedFailure());
+        }on CacheException {
+          return Left(CacheFailure());
+        }
+      }else{
+        return Left(ServerFailure());
+      }
+    }else{
+      return Left(UnAuthenticatedFailure());
+    }
+  }
 }

@@ -18,7 +18,7 @@ class GetComments extends Equatable{
   final int id;
   final int userId;
   final int postId;
-  final String comment;
+  String comment;
   final String createdAt;
   final String updatedAt;
   final User user;

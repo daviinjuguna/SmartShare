@@ -18,10 +18,16 @@ import 'features/domain/repository/auth_repository.dart';
 import 'features/data/repository_impl/auth_repository_impl.dart';
 import 'core/utils/check_app_state.dart';
 import 'features/domain/usecase/check_login.dart';
+import 'features/presentation/bloc/home/comment_bloc/comment_bloc.dart';
 import 'features/data/data_source/comments_api/comments_client.dart';
+import 'features/data/data_source/comments_api/comments_remote.dart';
+import 'features/domain/usecase/create_comment_usecase.dart';
 import 'features/domain/usecase/create_user_post.dart';
+import 'features/domain/usecase/delete_comment_usecase.dart';
 import 'features/domain/usecase/delete_post.dart';
+import 'features/domain/usecase/edit_comment_usecase.dart';
 import 'features/domain/usecase/edit_post.dart';
+import 'features/domain/usecase/get_comment_usecase.dart';
 import 'features/domain/usecase/get_my_post_usecase.dart';
 import 'features/domain/usecase/get_post.dart';
 import 'features/data/data_source/image/image_data_source.dart';
@@ -55,6 +61,8 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(client: get<AuthClient>()));
   gh.lazySingleton<CommentClient>(() => CommentClient.create());
+  gh.lazySingleton<CommentsRemoteDataSource>(
+      () => CommentsRemoteDataSourceImpl(client: get<CommentClient>()));
   gh.lazySingleton<DataConnectionChecker>(
       () => injectionModule.dataConnectionChecker);
   gh.lazySingleton<ImagePicker>(() => injectionModule.imagePicker);
@@ -77,6 +85,7 @@ Future<GetIt> $initGetIt(
         localDataSource: get<AuthLocalDataSource>(),
         remoteDataSource: get<PostRemoteData>(),
         networkInfo: get<NetworkInfo>(),
+        commentsRemoteDataSource: get<CommentsRemoteDataSource>(),
       ));
   gh.lazySingleton<AuthRepository>(() => AuthRepositoryImpl(
         localDataSource: get<AuthLocalDataSource>(),
@@ -84,12 +93,20 @@ Future<GetIt> $initGetIt(
         networkInfo: get<NetworkInfo>(),
         imageDataSource: get<ImageDataSource>(),
       ));
+  gh.lazySingleton<CreateCommentUseCase>(
+      () => CreateCommentUseCase(repository: get<PostRepository>()));
   gh.lazySingleton<CreatePostUseCase>(
       () => CreatePostUseCase(repository: get<PostRepository>()));
+  gh.lazySingleton<DeleteCommentUseCase>(
+      () => DeleteCommentUseCase(repository: get<PostRepository>()));
   gh.lazySingleton<DeletePostUseCase>(
       () => DeletePostUseCase(repository: get<PostRepository>()));
+  gh.lazySingleton<EditCommentUseCase>(
+      () => EditCommentUseCase(repository: get<PostRepository>()));
   gh.lazySingleton<EditPostUseCase>(
       () => EditPostUseCase(repository: get<PostRepository>()));
+  gh.lazySingleton<GetCommentUseCase>(
+      () => GetCommentUseCase(repository: get<PostRepository>()));
   gh.lazySingleton<GetMyPostUseCase>(
       () => GetMyPostUseCase(repository: get<PostRepository>()));
   gh.lazySingleton<GetPostUseCase>(
@@ -111,6 +128,12 @@ Future<GetIt> $initGetIt(
   gh.factory<AuthBloc>(() => AuthBloc(
       loginUseCase: get<LoginUseCase>(),
       registerUseCase: get<RegisterUseCase>()));
+  gh.factory<CommentBloc>(() => CommentBloc(
+        getCommentUseCase: get<GetCommentUseCase>(),
+        createCommentUseCase: get<CreateCommentUseCase>(),
+        editCommentUseCase: get<EditCommentUseCase>(),
+        deleteCommentUseCase: get<DeleteCommentUseCase>(),
+      ));
   gh.factory<IntroBloc>(() => IntroBloc(
         isLoggedIn: get<CheckLogin>(),
         logoutUseCase: get<LogoutUseCase>(),
@@ -124,6 +147,7 @@ Future<GetIt> $initGetIt(
         likePostUseCase: get<LikePostUseCase>(),
         editPostUseCase: get<EditPostUseCase>(),
         deletePostUseCase: get<DeletePostUseCase>(),
+        logoutUseCase: get<LogoutUseCase>(),
       ));
   return get;
 }

@@ -11,6 +11,7 @@ import 'package:SmartShare/features/domain/usecase/edit_post.dart';
 import 'package:SmartShare/features/domain/usecase/get_my_post_usecase.dart';
 import 'package:SmartShare/features/domain/usecase/get_post.dart';
 import 'package:SmartShare/features/domain/usecase/like_post.dart';
+import 'package:SmartShare/features/domain/usecase/logout_usecase.dart';
 import 'package:SmartShare/features/domain/usecase/select_image_usecase.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -31,6 +32,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     @required this.likePostUseCase,
     @required this.editPostUseCase,
     @required this.deletePostUseCase,
+    @required this.logoutUseCase
   }) : super(Initial());
 
   final GetPostUseCase getPost;
@@ -40,6 +42,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   final LikePostUseCase likePostUseCase;
   final EditPostUseCase editPostUseCase;
   final DeletePostUseCase deletePostUseCase;
+  final LogoutUseCase logoutUseCase;
 
   @override
   Stream<PostState> mapEventToState(
@@ -121,6 +124,17 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         },
         (success) async*{
           yield Success(model: event.model,myModel: event.myModel);
+        }
+      );
+    }else if(event is LogoutEvent){
+      yield LogoutLoading();
+      final logoutEither = await logoutUseCase(NoParams());
+      yield* logoutEither.fold(
+        (failure) async*{
+          yield Error(message: mapFailureToMessage(failure), title: "Error");
+        },
+        (success) async*{
+          yield LogoutSuccess();
         }
       );
     }

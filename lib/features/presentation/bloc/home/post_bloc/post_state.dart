@@ -44,12 +44,5 @@ class RegisterImageState extends PostState {
 }
 
 class RegisterImageLoading extends PostState{}
-
-class DeleteLoading extends PostState {}
-class DeleteSuccess extends PostState {}
-
-class EditLoading extends PostState {}
-class EditSuccess extends PostState {}
-
-class LikeLoading extends PostState {}
-class LikeSuccess extends PostState {}
+class LogoutLoading extends PostState{}
+class LogoutSuccess extends PostState{}

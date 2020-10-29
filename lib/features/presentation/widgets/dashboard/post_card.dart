@@ -10,7 +10,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class PostsCard extends StatefulWidget {
-  final GetPost post;
+  final post;
   final GetMyPost myPost;
   final bloc;
   final model;

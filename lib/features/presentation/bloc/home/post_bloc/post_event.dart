@@ -65,3 +65,4 @@ class LikePostEvent extends PostEvent{
   List<Object> get props => [postId,model,myModel];
 }
 
+class LogoutEvent extends PostEvent {}

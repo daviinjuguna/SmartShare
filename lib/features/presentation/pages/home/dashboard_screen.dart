@@ -1,6 +1,7 @@
 import 'package:SmartShare/core/utils/size_config.dart';
 import 'package:SmartShare/features/presentation/bloc/auth/intro_bloc/intro_bloc.dart';
 import 'package:SmartShare/features/presentation/pages/home/home_screen.dart';
+import 'package:SmartShare/features/presentation/pages/home/profile_screen.dart';
 import 'package:SmartShare/features/presentation/widgets/dashboard/register_select_image_list.dart';
 import 'package:SmartShare/injection.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
@@ -56,9 +57,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         },
         children: [
           HomeScreen(),
-          Container(
-            color: Colors.grey[200],
-          ),
+          ProfileScreen(),
         ],
       ),
       bottomNavigationBar: BubbleBottomBar(

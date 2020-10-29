@@ -2,7 +2,7 @@ import 'package:SmartShare/core/errors/failures.dart';
 import 'package:flutter/material.dart';
 import 'package:supercharged/supercharged.dart';
 
-const String BASE_URL = "https://99a5f3237e47.ngrok.io";
+const String BASE_URL = "https://5379d0ee4623.ngrok.io";
 const String IMAGE_URL = BASE_URL + "/";
 
 const String SERVER_FAILURE_MESSAGE = "Server Failure";
