@@ -108,9 +108,11 @@ class ProfileBody extends StatefulWidget {
 
 class _ProfileBodyState extends State<ProfileBody> {
   // final TextEditingController _desc = TextEditingController();
+  var filteredPhoto;
 
   @override
   void initState() {
+    filteredPhoto = widget.myPost.post.where((element) => element.photo != "").toList();
     super.initState();
   }
 
@@ -134,7 +136,7 @@ class _ProfileBodyState extends State<ProfileBody> {
               automaticallyImplyLeading: false,
               flexibleSpace: FlexibleSpaceBar(
                 background: Container(
-                  padding: EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+                  padding: EdgeInsets.only(left: 20,right: 20,bottom: 50,top: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -246,25 +248,46 @@ class _ProfileBodyState extends State<ProfileBody> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    GridView.count(
-                      padding: EdgeInsets.zero,
-                      crossAxisCount: 3,
-                      children: List.generate(
-                        widget.post.length,
-                        (index) => Container(
-                          height: 10,
-                          width: 10,
-                          // color: Colors.red,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                IMAGE_URL + widget.post[index].photo
+                    // GridView.count(
+                    //   padding: EdgeInsets.zero,
+                    //   crossAxisCount: 3,
+                    //   children: List.generate(
+                    //     widget.post.length,
+                    //     (index) => Container(
+                    //       height: 10,
+                    //       width: 10,
+                    //       // color: Colors.red,
+                    //       decoration: BoxDecoration(
+                    //         image: DecorationImage(
+                    //           image: NetworkImage(
+                    //             IMAGE_URL + widget.post[index].photo
+                    //           ),
+                    //           fit: BoxFit.fill
+                    //         )
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    GridView.builder(
+                      itemCount: filteredPhoto.length,
+                      gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                      itemBuilder: (context, index) {
+                        return new GestureDetector(
+                          child: new Card(
+                            elevation: 0,
+                            child: new Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    IMAGE_URL + filteredPhoto[index].photo
+                                  ),
+                                  fit: BoxFit.fill
+                                ),
                               ),
-                              fit: BoxFit.fill
-                            )
-                          ),
-                        ),
-                      ),
+                            ),
+                          )
+                        );
+                      },
                     ),
                     ListView.builder(
                       itemCount: widget.post.length,
