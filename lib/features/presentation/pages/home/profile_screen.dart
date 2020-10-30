@@ -1,4 +1,5 @@
 import 'package:SmartShare/core/utils/constants.dart';
+import 'package:SmartShare/core/utils/size_config.dart';
 import 'package:SmartShare/features/domain/entities/home/get_my_post.dart';
 import 'package:SmartShare/features/presentation/bloc/home/post_bloc/post_bloc.dart';
 import 'package:SmartShare/features/presentation/widgets/components/custom_button.dart';
@@ -8,6 +9,7 @@ import 'package:SmartShare/features/presentation/widgets/dashboard/system_paddin
 import 'package:SmartShare/injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -37,6 +39,21 @@ class _ProfileScreenState extends State<ProfileScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: new AppBar(
+        elevation: 2,
+        brightness: Brightness.light,
+        backgroundColor: Colors.white,
+        title: Text("Profile",style: GoogleFonts.leckerliOne(
+          fontSize: SizeConfig.safeBlockHorizontal*7,
+        ),),
+        automaticallyImplyLeading: false,
+        // actions: [
+        //   IconButton(
+        //     icon: Icon(Icons.search,),
+        //     onPressed: (){}
+        //   ),
+        // ],
+      ),
       body: BlocProvider(
         create: (_) => _bloc,
         child: BlocConsumer<PostBloc, PostState>(
@@ -136,7 +153,7 @@ class _ProfileBodyState extends State<ProfileBody> {
               automaticallyImplyLeading: false,
               flexibleSpace: FlexibleSpaceBar(
                 background: Container(
-                  padding: EdgeInsets.only(left: 20,right: 20,bottom: 50,top: 20),
+                  padding: EdgeInsets.only(left: 20,right: 20,top: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -207,7 +224,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                         height: 20,
                       ),
                       MaterialButton(
-                        onPressed: () {},
+                        onPressed: () =>Navigator.of(context).pushReplacementNamed("/saveUser"),
                         minWidth: double.infinity,
                         height: 40,
                         color: Color(0xfffee56f),
@@ -274,7 +291,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                       itemBuilder: (context, index) {
                         return new GestureDetector(
                           child: new Card(
-                            elevation: 0,
+                            elevation: 1,
                             child: new Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(
@@ -292,14 +309,18 @@ class _ProfileBodyState extends State<ProfileBody> {
                     ListView.builder(
                       itemCount: widget.post.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [ 
-                            MyPostCard(post: widget.post[index], myPost: widget.myPost,),
-                            SizedBox(
-                              height: 3,
-                            ),
-                          ],
+                        return Card(
+                          elevation: 1,
+                          // borderOnForeground: false,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [ 
+                              MyPostCard(post: widget.post[index], myPost: widget.myPost,),
+                              SizedBox(
+                                height: 3,
+                              ),
+                            ],
+                          ),
                         );
                       },
                     ),

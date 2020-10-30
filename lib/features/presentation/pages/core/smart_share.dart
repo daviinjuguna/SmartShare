@@ -1,5 +1,6 @@
 import 'package:SmartShare/core/routes/router.dart';
 import 'package:SmartShare/features/presentation/bloc/auth/intro_bloc/intro_bloc.dart';
+import 'package:SmartShare/features/presentation/pages/auth/save_user_info.dart';
 import 'package:SmartShare/features/presentation/pages/home/profile_screen.dart';
 import 'package:SmartShare/injection.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class SmartShare extends StatelessWidget {
         ),
         initialRoute: "/",
         onGenerateRoute: RoutesGenerator.generateRoute,
-        // home: ProfileScreen(),
+        // home: SaveUserInfoScreen(),
       ),
     );
   }

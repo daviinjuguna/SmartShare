@@ -27,6 +27,7 @@ class _NewPostPageState extends State<NewPostPage> {
     super.initState();
     imageUrl = null;
     _bloc = getIt<PostBloc>();
+    desc.clear();
   }
 
   @override

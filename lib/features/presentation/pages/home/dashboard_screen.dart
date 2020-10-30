@@ -35,21 +35,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       extendBody: true,
       backgroundColor: Colors.white,
-      appBar: new AppBar(
-        elevation: 2,
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
-        title: Text("SmartShare",style: GoogleFonts.leckerliOne(
-          fontSize: SizeConfig.safeBlockHorizontal*7,
-        ),),
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search,),
-            onPressed: (){}
-          ),
-        ],
-      ),
+      // appBar: new AppBar(
+      //   elevation: 2,
+      //   brightness: Brightness.light,
+      //   backgroundColor: Colors.white,
+      //   title: Text("SmartShare",style: GoogleFonts.leckerliOne(
+      //     fontSize: SizeConfig.safeBlockHorizontal*7,
+      //   ),),
+      //   automaticallyImplyLeading: false,
+      //   actions: [
+      //     IconButton(
+      //       icon: Icon(Icons.search,),
+      //       onPressed: (){}
+      //     ),
+      //   ],
+      // ),
       body: PageView(
         controller: _pageController,
         onPageChanged: (index){

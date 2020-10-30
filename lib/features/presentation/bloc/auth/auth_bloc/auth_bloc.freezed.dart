@@ -14,6 +14,20 @@ class _$AuthEventTearOff {
   const _$AuthEventTearOff();
 
 // ignore: unused_element
+  NameChanged nameChanged(String name) {
+    return NameChanged(
+      name,
+    );
+  }
+
+// ignore: unused_element
+  LastNameChanged lastNameChanged(String name) {
+    return LastNameChanged(
+      name,
+    );
+  }
+
+// ignore: unused_element
   EmailChanged emailChanged(String email) {
     return EmailChanged(
       email,
@@ -44,6 +58,15 @@ class _$AuthEventTearOff {
       passwordConfirmation,
     );
   }
+
+// ignore: unused_element
+  SaveUser saveUserPressed(String name, String lastName, String imageUrl) {
+    return SaveUser(
+      name,
+      lastName,
+      imageUrl,
+    );
+  }
 }
 
 /// @nodoc
@@ -54,35 +77,48 @@ const $AuthEvent = _$AuthEventTearOff();
 mixin _$AuthEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
+    @required Result nameChanged(String name),
+    @required Result lastNameChanged(String name),
     @required Result emailChanged(String email),
     @required Result passwordChanged(String password),
     @required Result loginPressed(String email, String password),
     @required
         Result registerPressed(
             String email, String password, String passwordConfirmation),
+    @required
+        Result saveUserPressed(String name, String lastName, String imageUrl),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
+    Result nameChanged(String name),
+    Result lastNameChanged(String name),
     Result emailChanged(String email),
     Result passwordChanged(String password),
     Result loginPressed(String email, String password),
     Result registerPressed(
         String email, String password, String passwordConfirmation),
+    Result saveUserPressed(String name, String lastName, String imageUrl),
     @required Result orElse(),
   });
   @optionalTypeArgs
   Result map<Result extends Object>({
+    @required Result nameChanged(NameChanged value),
+    @required Result lastNameChanged(LastNameChanged value),
     @required Result emailChanged(EmailChanged value),
     @required Result passwordChanged(PasswordChanged value),
     @required Result loginPressed(Login value),
     @required Result registerPressed(Register value),
+    @required Result saveUserPressed(SaveUser value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
+    Result nameChanged(NameChanged value),
+    Result lastNameChanged(LastNameChanged value),
     Result emailChanged(EmailChanged value),
     Result passwordChanged(PasswordChanged value),
     Result loginPressed(Login value),
     Result registerPressed(Register value),
+    Result saveUserPressed(SaveUser value),
     @required Result orElse(),
   });
 }
@@ -100,6 +136,302 @@ class _$AuthEventCopyWithImpl<$Res> implements $AuthEventCopyWith<$Res> {
   final AuthEvent _value;
   // ignore: unused_field
   final $Res Function(AuthEvent) _then;
+}
+
+/// @nodoc
+abstract class $NameChangedCopyWith<$Res> {
+  factory $NameChangedCopyWith(
+          NameChanged value, $Res Function(NameChanged) then) =
+      _$NameChangedCopyWithImpl<$Res>;
+  $Res call({String name});
+}
+
+/// @nodoc
+class _$NameChangedCopyWithImpl<$Res> extends _$AuthEventCopyWithImpl<$Res>
+    implements $NameChangedCopyWith<$Res> {
+  _$NameChangedCopyWithImpl(
+      NameChanged _value, $Res Function(NameChanged) _then)
+      : super(_value, (v) => _then(v as NameChanged));
+
+  @override
+  NameChanged get _value => super._value as NameChanged;
+
+  @override
+  $Res call({
+    Object name = freezed,
+  }) {
+    return _then(NameChanged(
+      name == freezed ? _value.name : name as String,
+    ));
+  }
+}
+
+/// @nodoc
+class _$NameChanged implements NameChanged {
+  const _$NameChanged(this.name) : assert(name != null);
+
+  @override
+  final String name;
+
+  @override
+  String toString() {
+    return 'AuthEvent.nameChanged(name: $name)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is NameChanged &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(name);
+
+  @override
+  $NameChangedCopyWith<NameChanged> get copyWith =>
+      _$NameChangedCopyWithImpl<NameChanged>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result nameChanged(String name),
+    @required Result lastNameChanged(String name),
+    @required Result emailChanged(String email),
+    @required Result passwordChanged(String password),
+    @required Result loginPressed(String email, String password),
+    @required
+        Result registerPressed(
+            String email, String password, String passwordConfirmation),
+    @required
+        Result saveUserPressed(String name, String lastName, String imageUrl),
+  }) {
+    assert(nameChanged != null);
+    assert(lastNameChanged != null);
+    assert(emailChanged != null);
+    assert(passwordChanged != null);
+    assert(loginPressed != null);
+    assert(registerPressed != null);
+    assert(saveUserPressed != null);
+    return nameChanged(name);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result nameChanged(String name),
+    Result lastNameChanged(String name),
+    Result emailChanged(String email),
+    Result passwordChanged(String password),
+    Result loginPressed(String email, String password),
+    Result registerPressed(
+        String email, String password, String passwordConfirmation),
+    Result saveUserPressed(String name, String lastName, String imageUrl),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (nameChanged != null) {
+      return nameChanged(name);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result nameChanged(NameChanged value),
+    @required Result lastNameChanged(LastNameChanged value),
+    @required Result emailChanged(EmailChanged value),
+    @required Result passwordChanged(PasswordChanged value),
+    @required Result loginPressed(Login value),
+    @required Result registerPressed(Register value),
+    @required Result saveUserPressed(SaveUser value),
+  }) {
+    assert(nameChanged != null);
+    assert(lastNameChanged != null);
+    assert(emailChanged != null);
+    assert(passwordChanged != null);
+    assert(loginPressed != null);
+    assert(registerPressed != null);
+    assert(saveUserPressed != null);
+    return nameChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result nameChanged(NameChanged value),
+    Result lastNameChanged(LastNameChanged value),
+    Result emailChanged(EmailChanged value),
+    Result passwordChanged(PasswordChanged value),
+    Result loginPressed(Login value),
+    Result registerPressed(Register value),
+    Result saveUserPressed(SaveUser value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (nameChanged != null) {
+      return nameChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class NameChanged implements AuthEvent {
+  const factory NameChanged(String name) = _$NameChanged;
+
+  String get name;
+  $NameChangedCopyWith<NameChanged> get copyWith;
+}
+
+/// @nodoc
+abstract class $LastNameChangedCopyWith<$Res> {
+  factory $LastNameChangedCopyWith(
+          LastNameChanged value, $Res Function(LastNameChanged) then) =
+      _$LastNameChangedCopyWithImpl<$Res>;
+  $Res call({String name});
+}
+
+/// @nodoc
+class _$LastNameChangedCopyWithImpl<$Res> extends _$AuthEventCopyWithImpl<$Res>
+    implements $LastNameChangedCopyWith<$Res> {
+  _$LastNameChangedCopyWithImpl(
+      LastNameChanged _value, $Res Function(LastNameChanged) _then)
+      : super(_value, (v) => _then(v as LastNameChanged));
+
+  @override
+  LastNameChanged get _value => super._value as LastNameChanged;
+
+  @override
+  $Res call({
+    Object name = freezed,
+  }) {
+    return _then(LastNameChanged(
+      name == freezed ? _value.name : name as String,
+    ));
+  }
+}
+
+/// @nodoc
+class _$LastNameChanged implements LastNameChanged {
+  const _$LastNameChanged(this.name) : assert(name != null);
+
+  @override
+  final String name;
+
+  @override
+  String toString() {
+    return 'AuthEvent.lastNameChanged(name: $name)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is LastNameChanged &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(name);
+
+  @override
+  $LastNameChangedCopyWith<LastNameChanged> get copyWith =>
+      _$LastNameChangedCopyWithImpl<LastNameChanged>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result nameChanged(String name),
+    @required Result lastNameChanged(String name),
+    @required Result emailChanged(String email),
+    @required Result passwordChanged(String password),
+    @required Result loginPressed(String email, String password),
+    @required
+        Result registerPressed(
+            String email, String password, String passwordConfirmation),
+    @required
+        Result saveUserPressed(String name, String lastName, String imageUrl),
+  }) {
+    assert(nameChanged != null);
+    assert(lastNameChanged != null);
+    assert(emailChanged != null);
+    assert(passwordChanged != null);
+    assert(loginPressed != null);
+    assert(registerPressed != null);
+    assert(saveUserPressed != null);
+    return lastNameChanged(name);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result nameChanged(String name),
+    Result lastNameChanged(String name),
+    Result emailChanged(String email),
+    Result passwordChanged(String password),
+    Result loginPressed(String email, String password),
+    Result registerPressed(
+        String email, String password, String passwordConfirmation),
+    Result saveUserPressed(String name, String lastName, String imageUrl),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (lastNameChanged != null) {
+      return lastNameChanged(name);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result nameChanged(NameChanged value),
+    @required Result lastNameChanged(LastNameChanged value),
+    @required Result emailChanged(EmailChanged value),
+    @required Result passwordChanged(PasswordChanged value),
+    @required Result loginPressed(Login value),
+    @required Result registerPressed(Register value),
+    @required Result saveUserPressed(SaveUser value),
+  }) {
+    assert(nameChanged != null);
+    assert(lastNameChanged != null);
+    assert(emailChanged != null);
+    assert(passwordChanged != null);
+    assert(loginPressed != null);
+    assert(registerPressed != null);
+    assert(saveUserPressed != null);
+    return lastNameChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result nameChanged(NameChanged value),
+    Result lastNameChanged(LastNameChanged value),
+    Result emailChanged(EmailChanged value),
+    Result passwordChanged(PasswordChanged value),
+    Result loginPressed(Login value),
+    Result registerPressed(Register value),
+    Result saveUserPressed(SaveUser value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (lastNameChanged != null) {
+      return lastNameChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class LastNameChanged implements AuthEvent {
+  const factory LastNameChanged(String name) = _$LastNameChanged;
+
+  String get name;
+  $LastNameChangedCopyWith<LastNameChanged> get copyWith;
 }
 
 /// @nodoc
@@ -161,28 +493,38 @@ class _$EmailChanged implements EmailChanged {
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
+    @required Result nameChanged(String name),
+    @required Result lastNameChanged(String name),
     @required Result emailChanged(String email),
     @required Result passwordChanged(String password),
     @required Result loginPressed(String email, String password),
     @required
         Result registerPressed(
             String email, String password, String passwordConfirmation),
+    @required
+        Result saveUserPressed(String name, String lastName, String imageUrl),
   }) {
+    assert(nameChanged != null);
+    assert(lastNameChanged != null);
     assert(emailChanged != null);
     assert(passwordChanged != null);
     assert(loginPressed != null);
     assert(registerPressed != null);
+    assert(saveUserPressed != null);
     return emailChanged(email);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
+    Result nameChanged(String name),
+    Result lastNameChanged(String name),
     Result emailChanged(String email),
     Result passwordChanged(String password),
     Result loginPressed(String email, String password),
     Result registerPressed(
         String email, String password, String passwordConfirmation),
+    Result saveUserPressed(String name, String lastName, String imageUrl),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -195,25 +537,34 @@ class _$EmailChanged implements EmailChanged {
   @override
   @optionalTypeArgs
   Result map<Result extends Object>({
+    @required Result nameChanged(NameChanged value),
+    @required Result lastNameChanged(LastNameChanged value),
     @required Result emailChanged(EmailChanged value),
     @required Result passwordChanged(PasswordChanged value),
     @required Result loginPressed(Login value),
     @required Result registerPressed(Register value),
+    @required Result saveUserPressed(SaveUser value),
   }) {
+    assert(nameChanged != null);
+    assert(lastNameChanged != null);
     assert(emailChanged != null);
     assert(passwordChanged != null);
     assert(loginPressed != null);
     assert(registerPressed != null);
+    assert(saveUserPressed != null);
     return emailChanged(this);
   }
 
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
+    Result nameChanged(NameChanged value),
+    Result lastNameChanged(LastNameChanged value),
     Result emailChanged(EmailChanged value),
     Result passwordChanged(PasswordChanged value),
     Result loginPressed(Login value),
     Result registerPressed(Register value),
+    Result saveUserPressed(SaveUser value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -291,28 +642,38 @@ class _$PasswordChanged implements PasswordChanged {
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
+    @required Result nameChanged(String name),
+    @required Result lastNameChanged(String name),
     @required Result emailChanged(String email),
     @required Result passwordChanged(String password),
     @required Result loginPressed(String email, String password),
     @required
         Result registerPressed(
             String email, String password, String passwordConfirmation),
+    @required
+        Result saveUserPressed(String name, String lastName, String imageUrl),
   }) {
+    assert(nameChanged != null);
+    assert(lastNameChanged != null);
     assert(emailChanged != null);
     assert(passwordChanged != null);
     assert(loginPressed != null);
     assert(registerPressed != null);
+    assert(saveUserPressed != null);
     return passwordChanged(password);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
+    Result nameChanged(String name),
+    Result lastNameChanged(String name),
     Result emailChanged(String email),
     Result passwordChanged(String password),
     Result loginPressed(String email, String password),
     Result registerPressed(
         String email, String password, String passwordConfirmation),
+    Result saveUserPressed(String name, String lastName, String imageUrl),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -325,25 +686,34 @@ class _$PasswordChanged implements PasswordChanged {
   @override
   @optionalTypeArgs
   Result map<Result extends Object>({
+    @required Result nameChanged(NameChanged value),
+    @required Result lastNameChanged(LastNameChanged value),
     @required Result emailChanged(EmailChanged value),
     @required Result passwordChanged(PasswordChanged value),
     @required Result loginPressed(Login value),
     @required Result registerPressed(Register value),
+    @required Result saveUserPressed(SaveUser value),
   }) {
+    assert(nameChanged != null);
+    assert(lastNameChanged != null);
     assert(emailChanged != null);
     assert(passwordChanged != null);
     assert(loginPressed != null);
     assert(registerPressed != null);
+    assert(saveUserPressed != null);
     return passwordChanged(this);
   }
 
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
+    Result nameChanged(NameChanged value),
+    Result lastNameChanged(LastNameChanged value),
     Result emailChanged(EmailChanged value),
     Result passwordChanged(PasswordChanged value),
     Result loginPressed(Login value),
     Result registerPressed(Register value),
+    Result saveUserPressed(SaveUser value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -429,28 +799,38 @@ class _$Login implements Login {
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
+    @required Result nameChanged(String name),
+    @required Result lastNameChanged(String name),
     @required Result emailChanged(String email),
     @required Result passwordChanged(String password),
     @required Result loginPressed(String email, String password),
     @required
         Result registerPressed(
             String email, String password, String passwordConfirmation),
+    @required
+        Result saveUserPressed(String name, String lastName, String imageUrl),
   }) {
+    assert(nameChanged != null);
+    assert(lastNameChanged != null);
     assert(emailChanged != null);
     assert(passwordChanged != null);
     assert(loginPressed != null);
     assert(registerPressed != null);
+    assert(saveUserPressed != null);
     return loginPressed(email, password);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
+    Result nameChanged(String name),
+    Result lastNameChanged(String name),
     Result emailChanged(String email),
     Result passwordChanged(String password),
     Result loginPressed(String email, String password),
     Result registerPressed(
         String email, String password, String passwordConfirmation),
+    Result saveUserPressed(String name, String lastName, String imageUrl),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -463,25 +843,34 @@ class _$Login implements Login {
   @override
   @optionalTypeArgs
   Result map<Result extends Object>({
+    @required Result nameChanged(NameChanged value),
+    @required Result lastNameChanged(LastNameChanged value),
     @required Result emailChanged(EmailChanged value),
     @required Result passwordChanged(PasswordChanged value),
     @required Result loginPressed(Login value),
     @required Result registerPressed(Register value),
+    @required Result saveUserPressed(SaveUser value),
   }) {
+    assert(nameChanged != null);
+    assert(lastNameChanged != null);
     assert(emailChanged != null);
     assert(passwordChanged != null);
     assert(loginPressed != null);
     assert(registerPressed != null);
+    assert(saveUserPressed != null);
     return loginPressed(this);
   }
 
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
+    Result nameChanged(NameChanged value),
+    Result lastNameChanged(LastNameChanged value),
     Result emailChanged(EmailChanged value),
     Result passwordChanged(PasswordChanged value),
     Result loginPressed(Login value),
     Result registerPressed(Register value),
+    Result saveUserPressed(SaveUser value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -579,28 +968,38 @@ class _$Register implements Register {
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
+    @required Result nameChanged(String name),
+    @required Result lastNameChanged(String name),
     @required Result emailChanged(String email),
     @required Result passwordChanged(String password),
     @required Result loginPressed(String email, String password),
     @required
         Result registerPressed(
             String email, String password, String passwordConfirmation),
+    @required
+        Result saveUserPressed(String name, String lastName, String imageUrl),
   }) {
+    assert(nameChanged != null);
+    assert(lastNameChanged != null);
     assert(emailChanged != null);
     assert(passwordChanged != null);
     assert(loginPressed != null);
     assert(registerPressed != null);
+    assert(saveUserPressed != null);
     return registerPressed(email, password, passwordConfirmation);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
+    Result nameChanged(String name),
+    Result lastNameChanged(String name),
     Result emailChanged(String email),
     Result passwordChanged(String password),
     Result loginPressed(String email, String password),
     Result registerPressed(
         String email, String password, String passwordConfirmation),
+    Result saveUserPressed(String name, String lastName, String imageUrl),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -613,25 +1012,34 @@ class _$Register implements Register {
   @override
   @optionalTypeArgs
   Result map<Result extends Object>({
+    @required Result nameChanged(NameChanged value),
+    @required Result lastNameChanged(LastNameChanged value),
     @required Result emailChanged(EmailChanged value),
     @required Result passwordChanged(PasswordChanged value),
     @required Result loginPressed(Login value),
     @required Result registerPressed(Register value),
+    @required Result saveUserPressed(SaveUser value),
   }) {
+    assert(nameChanged != null);
+    assert(lastNameChanged != null);
     assert(emailChanged != null);
     assert(passwordChanged != null);
     assert(loginPressed != null);
     assert(registerPressed != null);
+    assert(saveUserPressed != null);
     return registerPressed(this);
   }
 
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
+    Result nameChanged(NameChanged value),
+    Result lastNameChanged(LastNameChanged value),
     Result emailChanged(EmailChanged value),
     Result passwordChanged(PasswordChanged value),
     Result loginPressed(Login value),
     Result registerPressed(Register value),
+    Result saveUserPressed(SaveUser value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -653,17 +1061,190 @@ abstract class Register implements AuthEvent {
 }
 
 /// @nodoc
+abstract class $SaveUserCopyWith<$Res> {
+  factory $SaveUserCopyWith(SaveUser value, $Res Function(SaveUser) then) =
+      _$SaveUserCopyWithImpl<$Res>;
+  $Res call({String name, String lastName, String imageUrl});
+}
+
+/// @nodoc
+class _$SaveUserCopyWithImpl<$Res> extends _$AuthEventCopyWithImpl<$Res>
+    implements $SaveUserCopyWith<$Res> {
+  _$SaveUserCopyWithImpl(SaveUser _value, $Res Function(SaveUser) _then)
+      : super(_value, (v) => _then(v as SaveUser));
+
+  @override
+  SaveUser get _value => super._value as SaveUser;
+
+  @override
+  $Res call({
+    Object name = freezed,
+    Object lastName = freezed,
+    Object imageUrl = freezed,
+  }) {
+    return _then(SaveUser(
+      name == freezed ? _value.name : name as String,
+      lastName == freezed ? _value.lastName : lastName as String,
+      imageUrl == freezed ? _value.imageUrl : imageUrl as String,
+    ));
+  }
+}
+
+/// @nodoc
+class _$SaveUser implements SaveUser {
+  const _$SaveUser(this.name, this.lastName, this.imageUrl)
+      : assert(name != null),
+        assert(lastName != null),
+        assert(imageUrl != null);
+
+  @override
+  final String name;
+  @override
+  final String lastName;
+  @override
+  final String imageUrl;
+
+  @override
+  String toString() {
+    return 'AuthEvent.saveUserPressed(name: $name, lastName: $lastName, imageUrl: $imageUrl)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is SaveUser &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.lastName, lastName) ||
+                const DeepCollectionEquality()
+                    .equals(other.lastName, lastName)) &&
+            (identical(other.imageUrl, imageUrl) ||
+                const DeepCollectionEquality()
+                    .equals(other.imageUrl, imageUrl)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(lastName) ^
+      const DeepCollectionEquality().hash(imageUrl);
+
+  @override
+  $SaveUserCopyWith<SaveUser> get copyWith =>
+      _$SaveUserCopyWithImpl<SaveUser>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result nameChanged(String name),
+    @required Result lastNameChanged(String name),
+    @required Result emailChanged(String email),
+    @required Result passwordChanged(String password),
+    @required Result loginPressed(String email, String password),
+    @required
+        Result registerPressed(
+            String email, String password, String passwordConfirmation),
+    @required
+        Result saveUserPressed(String name, String lastName, String imageUrl),
+  }) {
+    assert(nameChanged != null);
+    assert(lastNameChanged != null);
+    assert(emailChanged != null);
+    assert(passwordChanged != null);
+    assert(loginPressed != null);
+    assert(registerPressed != null);
+    assert(saveUserPressed != null);
+    return saveUserPressed(name, lastName, imageUrl);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result nameChanged(String name),
+    Result lastNameChanged(String name),
+    Result emailChanged(String email),
+    Result passwordChanged(String password),
+    Result loginPressed(String email, String password),
+    Result registerPressed(
+        String email, String password, String passwordConfirmation),
+    Result saveUserPressed(String name, String lastName, String imageUrl),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (saveUserPressed != null) {
+      return saveUserPressed(name, lastName, imageUrl);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result nameChanged(NameChanged value),
+    @required Result lastNameChanged(LastNameChanged value),
+    @required Result emailChanged(EmailChanged value),
+    @required Result passwordChanged(PasswordChanged value),
+    @required Result loginPressed(Login value),
+    @required Result registerPressed(Register value),
+    @required Result saveUserPressed(SaveUser value),
+  }) {
+    assert(nameChanged != null);
+    assert(lastNameChanged != null);
+    assert(emailChanged != null);
+    assert(passwordChanged != null);
+    assert(loginPressed != null);
+    assert(registerPressed != null);
+    assert(saveUserPressed != null);
+    return saveUserPressed(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result nameChanged(NameChanged value),
+    Result lastNameChanged(LastNameChanged value),
+    Result emailChanged(EmailChanged value),
+    Result passwordChanged(PasswordChanged value),
+    Result loginPressed(Login value),
+    Result registerPressed(Register value),
+    Result saveUserPressed(SaveUser value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (saveUserPressed != null) {
+      return saveUserPressed(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SaveUser implements AuthEvent {
+  const factory SaveUser(String name, String lastName, String imageUrl) =
+      _$SaveUser;
+
+  String get name;
+  String get lastName;
+  String get imageUrl;
+  $SaveUserCopyWith<SaveUser> get copyWith;
+}
+
+/// @nodoc
 class _$AuthStateTearOff {
   const _$AuthStateTearOff();
 
 // ignore: unused_element
   _AuthState call(
-      {@required bool isEmailValid,
+      {@required bool isNameValid,
+      @required bool isLastNameValid,
+      @required bool isEmailValid,
       @required bool isPasswordValid,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure}) {
     return _AuthState(
+      isNameValid: isNameValid,
+      isLastNameValid: isLastNameValid,
       isEmailValid: isEmailValid,
       isPasswordValid: isPasswordValid,
       isSubmitting: isSubmitting,
@@ -679,6 +1260,8 @@ const $AuthState = _$AuthStateTearOff();
 
 /// @nodoc
 mixin _$AuthState {
+  bool get isNameValid;
+  bool get isLastNameValid;
   bool get isEmailValid;
   bool get isPasswordValid;
   bool get isSubmitting;
@@ -693,7 +1276,9 @@ abstract class $AuthStateCopyWith<$Res> {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
       _$AuthStateCopyWithImpl<$Res>;
   $Res call(
-      {bool isEmailValid,
+      {bool isNameValid,
+      bool isLastNameValid,
+      bool isEmailValid,
       bool isPasswordValid,
       bool isSubmitting,
       bool isSuccess,
@@ -710,6 +1295,8 @@ class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
 
   @override
   $Res call({
+    Object isNameValid = freezed,
+    Object isLastNameValid = freezed,
     Object isEmailValid = freezed,
     Object isPasswordValid = freezed,
     Object isSubmitting = freezed,
@@ -717,6 +1304,11 @@ class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
     Object isFailure = freezed,
   }) {
     return _then(_value.copyWith(
+      isNameValid:
+          isNameValid == freezed ? _value.isNameValid : isNameValid as bool,
+      isLastNameValid: isLastNameValid == freezed
+          ? _value.isLastNameValid
+          : isLastNameValid as bool,
       isEmailValid:
           isEmailValid == freezed ? _value.isEmailValid : isEmailValid as bool,
       isPasswordValid: isPasswordValid == freezed
@@ -737,7 +1329,9 @@ abstract class _$AuthStateCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
       __$AuthStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {bool isEmailValid,
+      {bool isNameValid,
+      bool isLastNameValid,
+      bool isEmailValid,
       bool isPasswordValid,
       bool isSubmitting,
       bool isSuccess,
@@ -755,6 +1349,8 @@ class __$AuthStateCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object isNameValid = freezed,
+    Object isLastNameValid = freezed,
     Object isEmailValid = freezed,
     Object isPasswordValid = freezed,
     Object isSubmitting = freezed,
@@ -762,6 +1358,11 @@ class __$AuthStateCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
     Object isFailure = freezed,
   }) {
     return _then(_AuthState(
+      isNameValid:
+          isNameValid == freezed ? _value.isNameValid : isNameValid as bool,
+      isLastNameValid: isLastNameValid == freezed
+          ? _value.isLastNameValid
+          : isLastNameValid as bool,
       isEmailValid:
           isEmailValid == freezed ? _value.isEmailValid : isEmailValid as bool,
       isPasswordValid: isPasswordValid == freezed
@@ -778,17 +1379,25 @@ class __$AuthStateCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
 /// @nodoc
 class _$_AuthState implements _AuthState {
   const _$_AuthState(
-      {@required this.isEmailValid,
+      {@required this.isNameValid,
+      @required this.isLastNameValid,
+      @required this.isEmailValid,
       @required this.isPasswordValid,
       @required this.isSubmitting,
       @required this.isSuccess,
       @required this.isFailure})
-      : assert(isEmailValid != null),
+      : assert(isNameValid != null),
+        assert(isLastNameValid != null),
+        assert(isEmailValid != null),
         assert(isPasswordValid != null),
         assert(isSubmitting != null),
         assert(isSuccess != null),
         assert(isFailure != null);
 
+  @override
+  final bool isNameValid;
+  @override
+  final bool isLastNameValid;
   @override
   final bool isEmailValid;
   @override
@@ -802,13 +1411,19 @@ class _$_AuthState implements _AuthState {
 
   @override
   String toString() {
-    return 'AuthState(isEmailValid: $isEmailValid, isPasswordValid: $isPasswordValid, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure)';
+    return 'AuthState(isNameValid: $isNameValid, isLastNameValid: $isLastNameValid, isEmailValid: $isEmailValid, isPasswordValid: $isPasswordValid, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _AuthState &&
+            (identical(other.isNameValid, isNameValid) ||
+                const DeepCollectionEquality()
+                    .equals(other.isNameValid, isNameValid)) &&
+            (identical(other.isLastNameValid, isLastNameValid) ||
+                const DeepCollectionEquality()
+                    .equals(other.isLastNameValid, isLastNameValid)) &&
             (identical(other.isEmailValid, isEmailValid) ||
                 const DeepCollectionEquality()
                     .equals(other.isEmailValid, isEmailValid)) &&
@@ -829,6 +1444,8 @@ class _$_AuthState implements _AuthState {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(isNameValid) ^
+      const DeepCollectionEquality().hash(isLastNameValid) ^
       const DeepCollectionEquality().hash(isEmailValid) ^
       const DeepCollectionEquality().hash(isPasswordValid) ^
       const DeepCollectionEquality().hash(isSubmitting) ^
@@ -842,12 +1459,18 @@ class _$_AuthState implements _AuthState {
 
 abstract class _AuthState implements AuthState {
   const factory _AuthState(
-      {@required bool isEmailValid,
+      {@required bool isNameValid,
+      @required bool isLastNameValid,
+      @required bool isEmailValid,
       @required bool isPasswordValid,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure}) = _$_AuthState;
 
+  @override
+  bool get isNameValid;
+  @override
+  bool get isLastNameValid;
   @override
   bool get isEmailValid;
   @override

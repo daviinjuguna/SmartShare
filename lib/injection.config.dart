@@ -126,8 +126,10 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<SelectImageUseCase>(
       () => SelectImageUseCase(repository: get<AuthRepository>()));
   gh.factory<AuthBloc>(() => AuthBloc(
-      loginUseCase: get<LoginUseCase>(),
-      registerUseCase: get<RegisterUseCase>()));
+        loginUseCase: get<LoginUseCase>(),
+        registerUseCase: get<RegisterUseCase>(),
+        saveUserUseCase: get<SaveUserUseCase>(),
+      ));
   gh.factory<CommentBloc>(() => CommentBloc(
         getCommentUseCase: get<GetCommentUseCase>(),
         createCommentUseCase: get<CreateCommentUseCase>(),
