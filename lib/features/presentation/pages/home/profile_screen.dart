@@ -1,3 +1,4 @@
+import 'package:SmartShare/core/routes/router.gr.dart';
 import 'package:SmartShare/core/utils/constants.dart';
 import 'package:SmartShare/core/utils/size_config.dart';
 import 'package:SmartShare/features/domain/entities/home/get_my_post.dart';
@@ -7,6 +8,7 @@ import 'package:SmartShare/features/presentation/widgets/dashboard/my_post_card.
 import 'package:SmartShare/features/presentation/widgets/dashboard/post_card.dart';
 import 'package:SmartShare/features/presentation/widgets/dashboard/system_padding.dart';
 import 'package:SmartShare/injection.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -94,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen>
               return ProfileBody(bloc: _bloc, myPost: myPost, post: post,);
             }else if(state is LogoutSuccess){
               WidgetsBinding.instance.addPostFrameCallback(
-                (_) => Navigator.of(context).pushReplacementNamed('/welcome'),
+                (_) => ExtendedNavigator.of(context).replace(Routes.welcomePage),
               );
               return Container(color: Colors.white,);
             }else{
@@ -224,7 +226,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                         height: 20,
                       ),
                       MaterialButton(
-                        onPressed: () =>Navigator.of(context).pushReplacementNamed("/saveUser"),
+                        onPressed: () =>ExtendedNavigator.of(context).push(Routes.saveUserInfoScreen),
                         minWidth: double.infinity,
                         height: 40,
                         color: Color(0xfffee56f),

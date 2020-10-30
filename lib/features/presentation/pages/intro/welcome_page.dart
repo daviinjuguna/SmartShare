@@ -1,6 +1,8 @@
+import 'package:SmartShare/core/routes/router.gr.dart';
 import 'package:SmartShare/core/utils/size_config.dart';
 import 'package:SmartShare/features/presentation/widgets/components/custom_button.dart';
 import 'package:SmartShare/features/presentation/widgets/components/fade_animation.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -45,12 +47,12 @@ class WelcomePage extends StatelessWidget {
                 children: [
                   FadeAnimation(1.5, CustomButton(
                     color: Color(0xff3ff7cf),
-                    press: ()=>Navigator.of(context).pushNamed("/login"), 
+                    press: ()=>ExtendedNavigator.of(context).push(Routes.loginPage), 
                     text: "Login")),
                   SizedBox(height: SizeConfig.safeBlockHorizontal*2,),
                   FadeAnimation(1.6, CustomButton(
                     color: Color(0xfffee56f),
-                    press: ()=>Navigator.of(context).pushNamed("/register"), 
+                    press: ()=>ExtendedNavigator.of(context).push(Routes.registerPage), 
                     text: "Register"))
                 ],
               ),

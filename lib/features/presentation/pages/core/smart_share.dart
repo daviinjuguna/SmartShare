@@ -1,8 +1,8 @@
-import 'package:SmartShare/core/routes/router.dart';
+import 'package:SmartShare/core/routes/router.gr.dart' as app_router;
 import 'package:SmartShare/features/presentation/bloc/auth/intro_bloc/intro_bloc.dart';
-import 'package:SmartShare/features/presentation/pages/auth/save_user_info.dart';
-import 'package:SmartShare/features/presentation/pages/home/profile_screen.dart';
+
 import 'package:SmartShare/injection.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
@@ -22,13 +22,15 @@ class SmartShare extends StatelessWidget {
       child: MaterialApp(
         title: 'SmartShare',
         debugShowCheckedModeBanner: false,
+        builder:ExtendedNavigator(router: app_router.Router()),
+        // onGenerateRoute: app_router.Router(),
         theme: ThemeData(
           primarySwatch: colorCustom,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        initialRoute: "/",
-        onGenerateRoute: RoutesGenerator.generateRoute,
-        // home: SaveUserInfoScreen(),
+        // initialRoute: "/",
+        // onGenerateRoute: RoutesGenerator.generateRoute,
+        // home: CommentsScreen(),
       ),
     );
   }

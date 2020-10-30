@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:SmartShare/core/routes/router.gr.dart';
 import 'package:SmartShare/core/utils/constants.dart';
 import 'package:SmartShare/features/presentation/bloc/home/post_bloc/post_bloc.dart';
 import 'package:SmartShare/features/presentation/widgets/components/custom_button.dart';
 import 'package:SmartShare/injection.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -54,7 +56,7 @@ class _NewPostPageState extends State<NewPostPage> {
           builder:(context,state){
             if (state is CreatePostSuccess){
               WidgetsBinding.instance.addPostFrameCallback((_) { 
-                Navigator.of(context).pushReplacementNamed("/dashboard");
+                ExtendedNavigator.of(context).replace(Routes.dashboardScreen);
               });
             }
             return Container(

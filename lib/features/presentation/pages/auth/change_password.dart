@@ -1,9 +1,11 @@
+import 'package:SmartShare/core/routes/router.gr.dart';
 import 'package:SmartShare/core/utils/size_config.dart';
 import 'package:SmartShare/features/presentation/widgets/components/background.dart';
 import 'package:SmartShare/features/presentation/widgets/components/custom_button.dart';
 import 'package:SmartShare/features/presentation/widgets/components/fade_animation.dart';
 import 'package:SmartShare/features/presentation/widgets/components/fully_recovered.dart';
 import 'package:SmartShare/features/presentation/widgets/components/textfield.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
@@ -87,7 +89,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   SizedBox(height: SizeConfig.safeBlockHorizontal,),
                   FadeAnimation(1.4,
                     RecoveredPasswordText(
-                      press: ()=>Navigator.of(context).pushReplacementNamed("/login"), 
+                      press: ()=>ExtendedNavigator.of(context).replace(Routes.loginPage), 
                       color: Color(0xfffee56f),
                     ),
                   )

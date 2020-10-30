@@ -1,8 +1,10 @@
+import 'package:SmartShare/core/routes/router.gr.dart';
 import 'package:SmartShare/core/utils/size_config.dart';
 import 'package:SmartShare/features/presentation/widgets/components/background.dart';
 import 'package:SmartShare/features/presentation/widgets/components/custom_button.dart';
 import 'package:SmartShare/features/presentation/widgets/components/fade_animation.dart';
 import 'package:SmartShare/features/presentation/widgets/components/textfield.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
@@ -60,7 +62,7 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                 FadeAnimation(1.3, buildMaterialButton(
                   false, //then color is transparent whether anything,since default button is false
                   "Submit",
-                  ()=>Navigator.of(context).pushNamed("/change_password"), 
+                  ()=>ExtendedNavigator.of(context).push(Routes.changePassword), 
                   Colors.white
                 )),
               ],

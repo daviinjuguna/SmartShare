@@ -1,3 +1,4 @@
+import 'package:SmartShare/core/routes/router.gr.dart';
 import 'package:SmartShare/core/utils/constants.dart';
 import 'package:SmartShare/core/utils/size_config.dart';
 import 'package:SmartShare/features/presentation/bloc/auth/auth_bloc/auth_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:SmartShare/features/presentation/widgets/components/or_divider.d
 import 'package:SmartShare/features/presentation/widgets/components/social_icon.dart';
 import 'package:SmartShare/features/presentation/widgets/components/textfield.dart';
 import 'package:SmartShare/injection.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -101,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
               // getIt<IntroBloc>()..add(IntroEvent.loggedIn());
               // Navigator.of(context).pop();
               WidgetsBinding.instance.addPostFrameCallback((_) { 
-                Navigator.of(context).pushReplacementNamed("/dashboard");
+                ExtendedNavigator.of(context).replace(Routes.dashboardScreen);
               });
             }
           },
@@ -179,11 +181,11 @@ class _LoginPageState extends State<LoginPage> {
                           )),
                           SizedBox(height: SizeConfig.safeBlockHorizontal*2,),
                           FadeAnimation(1.5, AlreadyHaveAnAccountCheck(
-                            press: ()=>Navigator.of(context).pushNamed("/register"),//route to register
+                            press: ()=>ExtendedNavigator.of(context).push(Routes.registerPage),//route to register
                             color: Style.secondaryColor)),
                           SizedBox(height: SizeConfig.safeBlockHorizontal*2,),
                           FadeAnimation(1.6, ForgotPasswordText(
-                            press: ()=>Navigator.of(context).pushNamed("/reset_password"), 
+                            press: ()=>ExtendedNavigator.of(context).push(Routes.recoverPassword), 
                             color: Style.secondaryColor)),
                         ],
                       ),

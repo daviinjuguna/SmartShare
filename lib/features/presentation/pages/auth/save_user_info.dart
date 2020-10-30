@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:SmartShare/core/routes/router.gr.dart';
 import 'package:SmartShare/core/utils/constants.dart';
 import 'package:SmartShare/core/utils/size_config.dart';
 import 'package:SmartShare/features/presentation/bloc/auth/auth_bloc/auth_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:SmartShare/features/presentation/widgets/components/custom_butto
 import 'package:SmartShare/features/presentation/widgets/components/custom_flushbar.dart';
 import 'package:SmartShare/features/presentation/widgets/components/textfield.dart';
 import 'package:SmartShare/injection.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -92,7 +94,7 @@ class _SaveUserInfoScreenState extends State<SaveUserInfoScreen> {
               // getIt<IntroBloc>()..add(IntroEvent.loggedIn());
               // Navigator.of(context).pop();
               WidgetsBinding.instance.addPostFrameCallback((_) { 
-                Navigator.of(context).pushReplacementNamed("/dashboard");
+                ExtendedNavigator.of(context).replace(Routes.dashboardScreen);
               });
             }
           },

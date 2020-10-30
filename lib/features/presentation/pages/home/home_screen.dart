@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
               brightness: Brightness.light,
               backgroundColor: Colors.white,
               title: !isSearching
-              ? Text("SmartShare",style: GoogleFonts.leckerliOne(
+              ? Text("eKonnect",style: GoogleFonts.leckerliOne(
                 fontSize: SizeConfig.safeBlockHorizontal*7,
               ),)
               : TextField(

@@ -1,3 +1,4 @@
+import 'package:SmartShare/core/routes/router.gr.dart';
 import 'package:SmartShare/core/utils/constants.dart';
 import 'package:SmartShare/core/utils/size_config.dart';
 import 'package:SmartShare/features/presentation/bloc/auth/auth_bloc/auth_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:SmartShare/features/presentation/widgets/components/custom_flush
 import 'package:SmartShare/features/presentation/widgets/components/fade_animation.dart';
 import 'package:SmartShare/features/presentation/widgets/components/textfield.dart';
 import 'package:SmartShare/injection.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -94,7 +96,7 @@ class _RegisterPageState extends State<RegisterPage> {
               getIt<IntroBloc>().add(IntroEvent.loggedIn());
               // Navigator.of(context).pop();
               WidgetsBinding.instance.addPostFrameCallback((_) { 
-                Navigator.of(context).pushReplacementNamed("/saveUser");
+                ExtendedNavigator.of(context).replace(Routes.saveUserInfoScreen);
               });
             }
           },
@@ -203,7 +205,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     SizedBox(height: SizeConfig.safeBlockHorizontal*2,),
                     FadeAnimation(1.6, AlreadyHaveAnAccountCheck(
                       login: false,
-                      press: ()=>Navigator.of(context).pushNamed("/login"),
+                      press: ()=>ExtendedNavigator.of(context).push(Routes.loginPage),
                       color: Style.primaryColor,)),
                   ],
                 ),

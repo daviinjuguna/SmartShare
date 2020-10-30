@@ -1,9 +1,11 @@
+import 'package:SmartShare/core/routes/router.gr.dart';
 import 'package:SmartShare/core/utils/constants.dart';
 import 'package:SmartShare/core/utils/size_config.dart';
 import 'package:SmartShare/features/domain/entities/home/get_my_post.dart';
 import 'package:SmartShare/features/domain/entities/home/get_post.dart';
 import 'package:SmartShare/features/presentation/bloc/home/post_bloc/post_bloc.dart';
 import 'package:SmartShare/features/presentation/widgets/dashboard/system_padding.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -183,7 +185,7 @@ class _PostsCardState extends State<PostsCard> {
           Padding(
             padding: EdgeInsets.only(left: SizeConfig.safeBlockHorizontal * 4),
             child: GestureDetector(
-              onTap: () {},  //TODO route to comments screen
+              onTap: () =>ExtendedNavigator.of(context).pushCommentsScreen(post: widget.post, myPost: widget.myPost),  
               child: Text(
                 widget.post.commentsCount != 0 && widget.post.commentsCount != 1 
                 ? "View all " + widget.post.commentsCount.toString()+ " comments"
