@@ -118,6 +118,7 @@ class _NewPostPageState extends State<NewPostPage> {
                   true, 
                   "POST", 
                   (){
+                    if(desc.text.isEmpty)return;
                     _bloc.add(CreatePostEvent(postDescription: desc.text,imageUrl: imageUrl));
                   }, 
                   Color(0xfffee56f)
