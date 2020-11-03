@@ -1,6 +1,8 @@
-# SmartShare
+# eKonnect
 
 A new Flutter project.
+use laravelblogapi as backend
+link https://github.com/daviinjuguna/laravelblogapi.git
 
 ## Getting Started
 
