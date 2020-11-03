@@ -15,10 +15,11 @@ class CreatePostLoading extends PostState {}
 
 class CreatePostSuccess extends PostState {
   final String message;
+  final GetPost getPost;
 
-  CreatePostSuccess({@required this.message});
+  CreatePostSuccess({@required this.message,@required this.getPost});
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message,getPost];
 }
 
 class Success extends PostState {

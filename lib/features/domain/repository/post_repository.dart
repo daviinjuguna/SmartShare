@@ -10,7 +10,7 @@ import 'package:dartz/dartz.dart';
 abstract class PostRepository {
   Future<Either<Failure, List<GetPost>>> getPost();
   Future<Either<Failure,GetMyPost>>getMyPost();
-  Future<Either<Failure, ApiSuccess>>createUserPost(String postDescription,String imageUrl);
+  Future<Either<Failure, GetPost>>createUserPost(String postDescription,String imageUrl);
   Future<Either<Failure,ApiSuccess>>editPost(int postId,String postDescription);
   Future<Either<Failure,ApiSuccess>>deletePost(int postId,);
   Future<Either<Failure,ApiSuccess>>likePost(int postId,);

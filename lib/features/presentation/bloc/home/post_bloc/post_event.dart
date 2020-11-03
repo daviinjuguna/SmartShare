@@ -70,3 +70,13 @@ class LikePostEvent extends PostEvent {
 }
 
 class LogoutEvent extends PostEvent {}
+
+class ChangePostStateEvent extends PostEvent {
+  final List<GetPost> model;
+  final GetMyPost myModel;
+
+  ChangePostStateEvent({@required this.model, @required this.myModel});
+
+  @override
+  List<Object> get props => [model, myModel];
+}

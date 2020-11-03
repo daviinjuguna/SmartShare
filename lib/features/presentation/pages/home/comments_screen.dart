@@ -252,6 +252,8 @@ class _CommentBodyState extends State<CommentBody> {
                   ),
                 ),
               ));
+          }if (state is Created){
+            Scaffold.of(context).hideCurrentSnackBar();
           }
         },
         builder: (context, state) {
@@ -288,135 +290,127 @@ class _CommentBodyState extends State<CommentBody> {
                   : ListView.builder(
                       itemCount: comments.length,
                       itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onLongPress: () {
-                            print("long pessed"); //!delete function
-                          },
-                          onTap: () {
-                            print("On pressed"); //!edit
-                          },
-                          child: Card(
-                            elevation: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      height: 30,
-                                      width: 30,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                              fit: BoxFit.fill,
-                                              image: new NetworkImage(comments[
-                                                              index]
-                                                          .user
-                                                          .photo !=
-                                                      ""
-                                                  ? IMAGE_URL +
-                                                      comments[index].user.photo
-                                                  : 'https://ramcotubular.com/wp-content/uploads/default-avatar.jpg'))),
-                                    ),
-                                    SizedBox(
-                                        width:
-                                            SizeConfig.safeBlockHorizontal * 2),
-                                    Flexible(
-                                      flex: 1,
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                padding: EdgeInsets.all(SizeConfig
-                                                        .safeBlockHorizontal *
-                                                    2),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.grey[200],
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      comments[index]
-                                                              .user
-                                                              .name +
-                                                          " " +
-                                                          comments[index]
-                                                              .user
-                                                              .lastName,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontSize: 15),
-                                                    ),
-                                                    SizedBox(
-                                                      height: SizeConfig
-                                                              .safeBlockHorizontal *
-                                                          0.5,
-                                                    ),
-                                                    Text(
-                                                      comments[index].comment,
-                                                      style: TextStyle(
-                                                          color:
-                                                              Colors.grey[700]),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: SizeConfig
-                                                    .blockSizeVertical,
-                                              ),
-                                              Text(timeago.format(
-                                                  DateTime.parse(comments[index]
-                                                      .createdAt)))
-                                            ],
-                                          ),
-                                          //!check comments if the user is the one commenting so as to edit
-                                          comments[index].user.id ==
-                                                  widget.widget.myPost.user.id
-                                              ? PopupMenuButton<String>(
-                                                  icon: Icon(
-                                                    LineAwesomeIcons
-                                                        .horizontal_ellipsis,
-                                                    color: Colors.black,
+                        return Card(
+                          elevation: 1,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 30,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            fit: BoxFit.fill,
+                                            image: new NetworkImage(comments[
+                                                            index]
+                                                        .user
+                                                        .photo !=
+                                                    ""
+                                                ? IMAGE_URL +
+                                                    comments[index].user.photo
+                                                : 'https://ramcotubular.com/wp-content/uploads/default-avatar.jpg'))),
+                                  ),
+                                  SizedBox(
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 2),
+                                  Flexible(
+                                    flex: 1,
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.all(SizeConfig
+                                                      .safeBlockHorizontal *
+                                                  2),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey[200],
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    comments[index]
+                                                            .user
+                                                            .name +
+                                                        " " +
+                                                        comments[index]
+                                                            .user
+                                                            .lastName,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 15),
                                                   ),
-                                                  onSelected: (choice) =>
-                                                      choiceAction(
-                                                          choice,
-                                                          context,
-                                                          comments[index],
-                                                          comments),
-                                                  itemBuilder: (context) {
-                                                    return PopUpMenu.choices
-                                                        .map((String choice) {
-                                                      return PopupMenuItem<
-                                                          String>(
-                                                        child: Text(choice),
-                                                        value: choice,
-                                                      );
-                                                    }).toList();
-                                                  })
-                                              : Opacity(
-                                                  opacity: 1,
-                                                )
-                                        ],
-                                      ),
+                                                  SizedBox(
+                                                    height: SizeConfig
+                                                            .safeBlockHorizontal *
+                                                        0.5,
+                                                  ),
+                                                  Text(
+                                                    comments[index].comment,
+                                                    style: TextStyle(
+                                                        color:
+                                                            Colors.grey[700]),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: SizeConfig
+                                                  .blockSizeVertical,
+                                            ),
+                                            Text(timeago.format(
+                                                DateTime.parse(comments[index]
+                                                    .createdAt)))
+                                          ],
+                                        ),
+                                        //!check comments if the user is the one commenting so as to edit
+                                        comments[index].user.id ==
+                                                widget.widget.myPost.user.id
+                                            ? PopupMenuButton<String>(
+                                                icon: Icon(
+                                                  LineAwesomeIcons
+                                                      .horizontal_ellipsis,
+                                                  color: Colors.black,
+                                                ),
+                                                onSelected: (choice) =>
+                                                    choiceAction(
+                                                        choice,
+                                                        context,
+                                                        comments[index],
+                                                        comments),
+                                                itemBuilder: (context) {
+                                                  return PopUpMenu.choices
+                                                      .map((String choice) {
+                                                    return PopupMenuItem<
+                                                        String>(
+                                                      child: Text(choice),
+                                                      value: choice,
+                                                    );
+                                                  }).toList();
+                                                })
+                                            : Opacity(
+                                                opacity: 1,
+                                              )
+                                      ],
                                     ),
-                                    // SizedBox(width: SizeConfig.safeBlockHorizontal * 0.5),
-                                  ]),
-                            ),
+                                  ),
+                                  // SizedBox(width: SizeConfig.safeBlockHorizontal * 0.5),
+                                ]),
                           ),
                         );
                       },

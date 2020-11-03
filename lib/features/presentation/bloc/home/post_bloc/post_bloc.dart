@@ -69,8 +69,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           postDescription: event.postDescription, imageUrl: event.imageUrl));
       yield* createEither.fold((failure) async* {
         yield Error(message: mapFailureToMessage(failure), title: "Error");
-      }, (success) async* {
-        yield CreatePostSuccess(message: success.message);
+      }, (post) async* {
+        yield CreatePostSuccess(message: 'Success',getPost: post);
       });
     } else if (event is GetImageEvent) {
       // yield RegisterImageLoading();
@@ -117,6 +117,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       }, (success) async* {
         yield LogoutSuccess();
       });
+    }else if(event is ChangePostStateEvent){
+      yield Success(model: event.model, myModel: event.myModel);
     }
   }
 }

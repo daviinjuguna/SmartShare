@@ -54,17 +54,17 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<Either<Failure, ApiSuccess>> createUserPost(
+  Future<Either<Failure, GetPost>> createUserPost(
       String postDescription, String imageUrl) async {
     final accessToken = localDataSource.getAuthToken();
     if (accessToken != null) {
       if (await networkInfo.isConnected) {
         try {
-          await remoteDataSource.createUserPost(
+          final post = await remoteDataSource.createUserPost(
               await accessToken, postDescription, imageUrl);
-          ApiSuccessModel apiSuccessModel =
-              new ApiSuccessModel(success: true, message: "Created");
-          return Right(apiSuccessModel);
+          // ApiSuccessModel apiSuccessModel =
+          //     new ApiSuccessModel(success: true, message: "Created");
+          return Right(post);
         } on ServerException {
           print("server exception");
           return Left(ServerFailure());
