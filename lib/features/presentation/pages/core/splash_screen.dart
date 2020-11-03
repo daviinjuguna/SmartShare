@@ -4,11 +4,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SplashScreen extends StatelessWidget {//handle authentication 
+class SplashScreen extends StatelessWidget {
+  //handle authentication
   @override
   Widget build(BuildContext context) {
-    return BlocListener<IntroBloc,IntroState>(
-      listener: (context, state) { 
+    return BlocListener<IntroBloc, IntroState>(
+      listener: (context, state) {
         // state.map(
         //   initial: (_){},
         //   authenticated: (_)=> Navigator.of(context).pushReplacementNamed("/dashboard"),
@@ -16,8 +17,10 @@ class SplashScreen extends StatelessWidget {//handle authentication
         //   error: (_){}
         // );
 
-        if(state is Authenticated) ExtendedNavigator.of(context).replace(Routes.dashboardScreen);
-        if(state is Unauthenticated)ExtendedNavigator.of(context).replace(Routes.welcomePage);
+        if (state is Authenticated)
+          ExtendedNavigator.of(context).replace(Routes.dashboardScreen);
+        if (state is Unauthenticated)
+          ExtendedNavigator.of(context).replace(Routes.welcomePage);
       },
       child: Container(),
     );

@@ -7,9 +7,7 @@ abstract class PostEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetPostEvent extends PostEvent {
-  
-}
+class GetPostEvent extends PostEvent {}
 
 class GetImageEvent extends PostEvent {
   final String selection;
@@ -19,25 +17,26 @@ class GetImageEvent extends PostEvent {
   List<Object> get props => [selection];
 }
 
-class CreatePostEvent extends PostEvent{
+class CreatePostEvent extends PostEvent {
   final String postDescription;
   final String imageUrl;
 
   CreatePostEvent({@required this.postDescription, this.imageUrl});
 
   @override
-  List<Object> get props => [postDescription,imageUrl];
+  List<Object> get props => [postDescription, imageUrl];
 }
 
-class DeletePostEvent extends PostEvent{
+class DeletePostEvent extends PostEvent {
   final int postId;
   final List<GetPost> model;
   final GetMyPost myModel;
 
-  DeletePostEvent({@required this.postId,@required this.model,@required this.myModel});
+  DeletePostEvent(
+      {@required this.postId, @required this.model, @required this.myModel});
 
   @override
-  List<Object> get props => [postId,model,myModel];
+  List<Object> get props => [postId, model, myModel];
 }
 
 class EditPostEvent extends PostEvent {
@@ -47,22 +46,27 @@ class EditPostEvent extends PostEvent {
   final List<GetPost> model;
   final GetMyPost myModel;
 
-  EditPostEvent({@required this.postId,@required this.postDescription,@required this.model,@required this.myModel});
+  EditPostEvent(
+      {@required this.postId,
+      @required this.postDescription,
+      @required this.model,
+      @required this.myModel});
 
   @override
-  List<Object> get props => [postId,postDescription,model,myModel];
+  List<Object> get props => [postId, postDescription, model, myModel];
 }
 
-class LikePostEvent extends PostEvent{
+class LikePostEvent extends PostEvent {
   final int postId;
 
   final List<GetPost> model;
   final GetMyPost myModel;
 
-  LikePostEvent({@required this.postId,@required this.model,@required this.myModel});
+  LikePostEvent(
+      {@required this.postId, @required this.model, @required this.myModel});
 
   @override
-  List<Object> get props => [postId,model,myModel];
+  List<Object> get props => [postId, model, myModel];
 }
 
 class LogoutEvent extends PostEvent {}

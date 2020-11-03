@@ -20,9 +20,8 @@ class IntroBloc extends Bloc<IntroEvent, IntroState> {
     @required this.isLoggedIn,
     @required this.logoutUseCase,
     @required this.refreshTokenUseCase,
-  }):
-   super(Initial());
-  
+  }) : super(Initial());
+
   final CheckLogin isLoggedIn;
   final LogoutUseCase logoutUseCase;
   final RefreshTokenUseCase refreshTokenUseCase;
@@ -32,38 +31,34 @@ class IntroBloc extends Bloc<IntroEvent, IntroState> {
     IntroEvent event,
   ) async* {
     yield* event.map(
-      started: (e)async*{
-         final userIsLoggedIn = await isLoggedIn();
+      started: (e) async* {
+        final userIsLoggedIn = await isLoggedIn();
         if (userIsLoggedIn) {
           yield Authenticated();
-        }else{
+        } else {
           yield Unauthenticated();
         }
       },
-      loggedIn: (e)async*{
+      loggedIn: (e) async* {
         yield Unauthenticated();
       },
-      loggedOut: (e)async*{
+      loggedOut: (e) async* {
         final logoutEither = await logoutUseCase(NoParams());
-        yield* logoutEither.fold(
-          (failure) async*{
-            yield Error(message:"naamini utaenda utarudii ooooh, mimi wakoo sheeerrieeeh");
-          },
-          (success) async*{
-            yield Unauthenticated(); //successfully unauthenticated
-          }
-        );
+        yield* logoutEither.fold((failure) async* {
+          yield Error(
+              message:
+                  "naamini utaenda utarudii ooooh, mimi wakoo sheeerrieeeh");
+        }, (success) async* {
+          yield Unauthenticated(); //successfully unauthenticated
+        });
       },
-      refreshToken: (e) async*{
+      refreshToken: (e) async* {
         final refreshEither = await refreshTokenUseCase(NoParams());
-        yield* refreshEither.fold(
-          (failure) async*{
-            yield Unauthenticated();
-          },
-          (success) async*{
-            yield Authenticated();
-          }
-        );
+        yield* refreshEither.fold((failure) async* {
+          yield Unauthenticated();
+        }, (success) async* {
+          yield Authenticated();
+        });
       },
     );
   }

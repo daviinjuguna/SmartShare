@@ -16,7 +16,7 @@ abstract class PostRepository {
   Future<Either<Failure,ApiSuccess>>likePost(int postId,);
 
   //!comments section
-  Future<Either<Failure,ApiSuccess>> createComments(
+  Future<Either<Failure,GetComments>> createComments(
     int postId,
     String comments
   );

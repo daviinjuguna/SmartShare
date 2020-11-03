@@ -12,17 +12,17 @@ class SmartShare extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MaterialColor colorCustom = MaterialColor(0xfffee56f, color);
-    FlutterStatusbarcolor.setNavigationBarColor(Colors.white,animate: true);
-    FlutterStatusbarcolor.setStatusBarColor(Colors.white,animate: true);
+    FlutterStatusbarcolor.setNavigationBarColor(Colors.white, animate: true);
+    FlutterStatusbarcolor.setStatusBarColor(Colors.white, animate: true);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     FlutterStatusbarcolor.setNavigationBarWhiteForeground(false);
 
     return BlocProvider(
-      create: (context)=>getIt<IntroBloc>()..add(const IntroEvent.started()),
+      create: (context) => getIt<IntroBloc>()..add(const IntroEvent.started()),
       child: MaterialApp(
-        title: 'SmartShare',
+        title: 'eKonnect',
         debugShowCheckedModeBanner: false,
-        builder:ExtendedNavigator(router: app_router.Router()),
+        builder: ExtendedNavigator(router: app_router.Router()),
         // onGenerateRoute: app_router.Router(),
         theme: ThemeData(
           primarySwatch: colorCustom,

@@ -7,7 +7,7 @@ abstract class CommentEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetCommentEvent extends CommentEvent{
+class GetCommentEvent extends CommentEvent {
   final int postId;
 
   GetCommentEvent({@required this.postId});
@@ -15,33 +15,47 @@ class GetCommentEvent extends CommentEvent{
   List<Object> get props => [postId];
 }
 
-class EditCommentEvent extends CommentEvent{
+class EditCommentEvent extends CommentEvent {
   final int commentId;
   final String comment;
   final List<GetComments> commentModel;
 
-  EditCommentEvent({@required this.commentId,@required  this.commentModel,@required this.comment});
+  EditCommentEvent(
+      {@required this.commentId,
+      @required this.commentModel,
+      @required this.comment});
 
   @override
-  List<Object> get props => [commentId,commentModel,comment];
+  List<Object> get props => [commentId, commentModel, comment];
 }
 
-class CreateCommentEvent extends CommentEvent{
+class CreateCommentEvent extends CommentEvent {
   final int postId;
   final String comment;
   final List<GetComments> commentModel;
 
-  CreateCommentEvent({@required this.postId,@required this.comment,@required this.commentModel});
+  CreateCommentEvent(
+      {@required this.postId,
+      @required this.comment,
+      @required this.commentModel});
 
   @override
-  List<Object> get props => [postId,comment,commentModel];
+  List<Object> get props => [postId, comment, commentModel];
 }
 
-class DeleteCommentEvent extends CommentEvent{
+class DeleteCommentEvent extends CommentEvent {
   final int commentId;
   final List<GetComments> commentModel;
 
-  DeleteCommentEvent({@required this.commentId,@required this.commentModel});
-   @override
-  List<Object> get props => [commentId,commentModel];
+  DeleteCommentEvent({@required this.commentId, @required this.commentModel});
+  @override
+  List<Object> get props => [commentId, commentModel];
+}
+
+class ChangeStateEvent extends CommentEvent{
+  final List<GetComments> commentModel;
+
+  ChangeStateEvent({@required this.commentModel});
+  @override
+  List<Object> get props => [commentModel];
 }

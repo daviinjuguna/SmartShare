@@ -8,7 +8,6 @@ class CheckAppState {
 
   CheckAppState({@required this.sharedPreferences});
 
-
   Future<bool> userLoggedIn() async {
     final authToken = sharedPreferences.getString("access_token");
     if (authToken != null) {

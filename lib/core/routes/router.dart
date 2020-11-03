@@ -11,21 +11,17 @@ import 'package:SmartShare/features/presentation/pages/intro/welcome_page.dart';
 import 'package:auto_route/auto_route_annotations.dart';
 
 @MaterialAutoRouter(
-  generateNavigationHelperExtension: true,
-  routes: <AutoRoute>[
-    MaterialRoute(page: SplashScreen,initial: true),
-    MaterialRoute(page: WelcomePage),
-    MaterialRoute(page: RegisterPage),
-    MaterialRoute(page: LoginPage),
-    MaterialRoute(page: RecoverPassword),
-    MaterialRoute(page: ChangePassword),
-    MaterialRoute(page: DashboardScreen),
-    MaterialRoute(page: NewPostPage),
-    MaterialRoute(page: SaveUserInfoScreen),
-    MaterialRoute(page: CommentsScreen)
-  ]
-)
-
-class $Router {
-  
-}
+    generateNavigationHelperExtension: true,
+    routes: <AutoRoute>[
+      MaterialRoute(page: SplashScreen, initial: true),
+      MaterialRoute(page: WelcomePage),
+      MaterialRoute(page: RegisterPage),
+      MaterialRoute(page: LoginPage),
+      MaterialRoute(page: RecoverPassword),
+      MaterialRoute(page: ChangePassword),
+      MaterialRoute(page: DashboardScreen),
+      MaterialRoute(page: NewPostPage),
+      MaterialRoute(page: SaveUserInfoScreen),
+      MaterialRoute(page: CommentsScreen)
+    ])
+class $Router {}

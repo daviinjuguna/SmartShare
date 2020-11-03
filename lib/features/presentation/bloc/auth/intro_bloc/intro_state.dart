@@ -11,8 +11,11 @@ abstract class IntroState extends Equatable {
 }
 
 class Initial extends IntroState {}
+
 class Authenticated extends IntroState {}
+
 class Unauthenticated extends IntroState {}
+
 class Error extends IntroState {
   final String message;
 

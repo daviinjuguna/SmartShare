@@ -15,45 +15,64 @@ class WelcomePage extends StatelessWidget {
         child: Container(
           width: double.infinity,
           height: SizeConfig.screenHeight,
-          padding: EdgeInsets.symmetric(horizontal: SizeConfig.safeBlockHorizontal*6,vertical: SizeConfig.safeBlockHorizontal*10),
+          padding: EdgeInsets.symmetric(
+              horizontal: SizeConfig.safeBlockHorizontal * 6,
+              vertical: SizeConfig.safeBlockHorizontal * 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Column(
                 children: [
-                  FadeAnimation(1, Text("Welcome", style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: SizeConfig.safeBlockHorizontal*8
-                  ),)),
-                  SizedBox(height: SizeConfig.safeBlockHorizontal*2),
-                  FadeAnimation(1.2, Text("Automatic identity verification which enables you to verify your identity", 
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.grey[700],
-                    fontSize: SizeConfig.safeBlockHorizontal*4
-                  ),)),
+                  FadeAnimation(
+                      1,
+                      Text(
+                        "Welcome to eKonnect",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: SizeConfig.safeBlockHorizontal * 8),
+                      )),
+                  SizedBox(height: SizeConfig.safeBlockHorizontal * 2),
+                  FadeAnimation(
+                      1.2,
+                      Text(
+                        "Please login to verify your identity",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.grey[700],
+                            fontSize: SizeConfig.safeBlockHorizontal * 4),
+                      )),
                 ],
               ),
-              FadeAnimation(1.4, Container(
-                height: SizeConfig.screenHeight/3,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/illustration.png"),
-                  ),
-                ),
-              )),
+              FadeAnimation(
+                  1.4,
+                  Container(
+                    height: SizeConfig.screenHeight / 3,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/illustration.png"),
+                      ),
+                    ),
+                  )),
               Column(
                 children: [
-                  FadeAnimation(1.5, CustomButton(
-                    color: Color(0xff3ff7cf),
-                    press: ()=>ExtendedNavigator.of(context).push(Routes.loginPage), 
-                    text: "Login")),
-                  SizedBox(height: SizeConfig.safeBlockHorizontal*2,),
-                  FadeAnimation(1.6, CustomButton(
-                    color: Color(0xfffee56f),
-                    press: ()=>ExtendedNavigator.of(context).push(Routes.registerPage), 
-                    text: "Register"))
+                  FadeAnimation(
+                      1.5,
+                      CustomButton(
+                          color: Color(0xff3ff7cf),
+                          press: () => ExtendedNavigator.of(context)
+                              .push(Routes.loginPage),
+                          text: "Login")),
+                  SizedBox(
+                    height: SizeConfig.safeBlockHorizontal * 2,
+                  ),
+                  FadeAnimation(
+                      1.6,
+                      CustomButton(
+                          color: Color(0xfffee56f),
+                          press: () => ExtendedNavigator.of(context)
+                              .push(Routes.registerPage),
+                          text: "Register"))
                 ],
               ),
             ],

@@ -24,16 +24,16 @@ part 'post_state.dart';
 
 @injectable
 class PostBloc extends Bloc<PostEvent, PostState> {
-  PostBloc({
-    @required this.getPost,
-    @required this.createPostUseCase,
-    @required this.getMyPostUseCase,
-    @required this.selectImageUseCase,
-    @required this.likePostUseCase,
-    @required this.editPostUseCase,
-    @required this.deletePostUseCase,
-    @required this.logoutUseCase
-  }) : super(Initial());
+  PostBloc(
+      {@required this.getPost,
+      @required this.createPostUseCase,
+      @required this.getMyPostUseCase,
+      @required this.selectImageUseCase,
+      @required this.likePostUseCase,
+      @required this.editPostUseCase,
+      @required this.deletePostUseCase,
+      @required this.logoutUseCase})
+      : super(Initial());
 
   final GetPostUseCase getPost;
   final CreatePostUseCase createPostUseCase;
@@ -43,100 +43,80 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   final EditPostUseCase editPostUseCase;
   final DeletePostUseCase deletePostUseCase;
   final LogoutUseCase logoutUseCase;
+  
 
   @override
   Stream<PostState> mapEventToState(
     PostEvent event,
   ) async* {
-    if(event is GetPostEvent){
+    if (event is GetPostEvent) {
       yield Loading();
       final getPostEither = await getPost(NoParams());
-      yield* getPostEither.fold(
-        (failure) async*{
-          yield Error(message: mapFailureToMessage(failure),title: "Error");
-        },
-        (model) async*{
-          // yield Success(model: model);
-          final myPostEither = await getMyPostUseCase(NoParams());
-          yield* myPostEither.fold(
-            (failure) async*{
-              yield Error(message: mapFailureToMessage(failure),title: "Error");
-            },
-            (myModel) async*{
-              yield Success(model: model,myModel:myModel);
-            }
-          );
-        }
-      );
-    }else if(event is CreatePostEvent){
+      yield* getPostEither.fold((failure) async* {
+        yield Error(message: mapFailureToMessage(failure), title: "Error");
+      }, (model) async* {
+        // yield Success(model: model);
+        final myPostEither = await getMyPostUseCase(NoParams());
+        yield* myPostEither.fold((failure) async* {
+          yield Error(message: mapFailureToMessage(failure), title: "Error");
+        }, (myModel) async* {
+          yield Success(model: model, myModel: myModel);
+        });
+      });
+    } else if (event is CreatePostEvent) {
       yield CreatePostLoading();
-      final createEither = await createPostUseCase(
-        CreatePostParams(
-          postDescription: event.postDescription,
-          imageUrl: event.imageUrl));
-      yield* createEither.fold(
-        (failure) async*{
-          yield Error(message: mapFailureToMessage(failure), title: "Error");
-        }, 
-        (success) async*{
-          yield CreatePostSuccess(message:success.message);
-        }
-      );
-    }else if(event is GetImageEvent){
+      final createEither = await createPostUseCase(CreatePostParams(
+          postDescription: event.postDescription, imageUrl: event.imageUrl));
+      yield* createEither.fold((failure) async* {
+        yield Error(message: mapFailureToMessage(failure), title: "Error");
+      }, (success) async* {
+        yield CreatePostSuccess(message: success.message);
+      });
+    } else if (event is GetImageEvent) {
       // yield RegisterImageLoading();
-      final imageEither = await selectImageUseCase(SelectImageParams(item: event.selection),);
-      yield* imageEither.fold(
-        (failure) async*{
-          yield Error(message: mapFailureToMessage(failure), title: "Error");
-        }, 
-        (imageUrl) async*{
-          yield RegisterImageState(imageFile: imageUrl);
-        }
+      final imageEither = await selectImageUseCase(
+        SelectImageParams(item: event.selection),
       );
-    }else if(event is DeletePostEvent){
+      yield* imageEither.fold((failure) async* {
+        yield Error(message: mapFailureToMessage(failure), title: "Error");
+      }, (imageUrl) async* {
+        yield RegisterImageState(imageFile: imageUrl);
+      });
+    } else if (event is DeletePostEvent) {
       // yield DeleteLoading();
-      final deleteEither = await deletePostUseCase(DeletePostParams(postId: event.postId));
-      yield* deleteEither.fold(
-        (failure) async*{
-          yield Error(message: mapFailureToMessage(failure), title: "Error");
-        } ,
-        (success) async*{
-          yield Success(model: event.model,myModel: event.myModel);
-        }
-      );
-    }else if (event is EditPostEvent){
+      final deleteEither =
+          await deletePostUseCase(DeletePostParams(postId: event.postId));
+      yield* deleteEither.fold((failure) async* {
+        yield Error(message: mapFailureToMessage(failure), title: "Error");
+      }, (success) async* {
+        yield Success(model: event.model, myModel: event.myModel);
+      });
+    } else if (event is EditPostEvent) {
       // yield EditLoading();
-      final editEither = await editPostUseCase(EditPostParams(postId: event.postId, postDescription: event.postDescription));
-      yield* editEither.fold(
-        (failure) async*{
-          yield Error(message: mapFailureToMessage(failure), title: "Error");
-        },
-        (success) async*{
-          yield Success(model: event.model,myModel: event.myModel);
-        }
-      );
-    }else if(event is LikePostEvent){
+      final editEither = await editPostUseCase(EditPostParams(
+          postId: event.postId, postDescription: event.postDescription));
+      yield* editEither.fold((failure) async* {
+        yield Error(message: mapFailureToMessage(failure), title: "Error");
+      }, (success) async* {
+        yield Success(model: event.model, myModel: event.myModel);
+      });
+    } else if (event is LikePostEvent) {
       // yield LikeLoading();
-      final likeEither = await likePostUseCase(LikePostParams(postId: event.postId));
-      yield* likeEither.fold(
-        (failure) async*{
-          yield Error(message: mapFailureToMessage(failure), title: "Error");
-        },
-        (success) async*{
-          yield Success(model: event.model,myModel: event.myModel);
-        }
-      );
-    }else if(event is LogoutEvent){
+      final likeEither =
+          await likePostUseCase(LikePostParams(postId: event.postId));
+      yield* likeEither.fold((failure) async* {
+        yield Error(message: mapFailureToMessage(failure), title: "Error");
+      }, (success) async* {
+        yield Success(model: event.model, myModel: event.myModel);
+      });
+    } else if (event is LogoutEvent) {
       yield LogoutLoading();
       final logoutEither = await logoutUseCase(NoParams());
-      yield* logoutEither.fold(
-        (failure) async*{
-          yield Error(message: mapFailureToMessage(failure), title: "Error");
-        },
-        (success) async*{
-          yield LogoutSuccess();
-        }
-      );
+      yield* logoutEither.fold((failure) async* {
+        yield Error(message: mapFailureToMessage(failure), title: "Error");
+      }, (success) async* {
+        yield LogoutSuccess();
+      });
     }
   }
 }

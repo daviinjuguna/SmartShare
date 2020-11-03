@@ -17,11 +17,12 @@ part 'comment_state.dart';
 
 @injectable
 class CommentBloc extends Bloc<CommentEvent, CommentState> {
-  CommentBloc({
-    @required this.getCommentUseCase,
-    @required this.createCommentUseCase,
-    @required this.editCommentUseCase,
-    @required this.deleteCommentUseCase}) : super(Initial());
+  CommentBloc(
+      {@required this.getCommentUseCase,
+      @required this.createCommentUseCase,
+      @required this.editCommentUseCase,
+      @required this.deleteCommentUseCase})
+      : super(Initial());
 
   final GetCommentUseCase getCommentUseCase;
   final CreateCommentUseCase createCommentUseCase;
@@ -32,48 +33,44 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
   Stream<CommentState> mapEventToState(
     CommentEvent event,
   ) async* {
-    if(event is GetCommentEvent){
+    if (event is GetCommentEvent) {
       yield Loading();
-      final getCmmentEither = await getCommentUseCase(ParamsId(id: event.postId));
-      yield* getCmmentEither.fold(
-        (failure) async*{
-          yield Error(message: mapFailureToMessage(failure),title: "Error");
-        }, 
-        (commentModel) async*{
-          yield Success(message: "Success", commentModel: commentModel);
-        }
-      );
-    }else if(event is CreateCommentEvent){
+      final getCmmentEither =
+          await getCommentUseCase(ParamsId(id: event.postId));
+      yield* getCmmentEither.fold((failure) async* {
+        yield Error(message: mapFailureToMessage(failure), title: "Error");
+      }, (commentModel) async* {
+        yield Success(message: "Success", commentModel: commentModel);
+      });
+    } else if (event is CreateCommentEvent) {
+      yield CreateCommentLoading();
       final createCommentEither = await createCommentUseCase(
-        CreateCommentParams(postId: event.postId, comments: event.comment));
-      yield* createCommentEither.fold(
-        (failure) async*{
-          yield Error(message: mapFailureToMessage(failure),title: "Error");
-        }, 
-        (success) async*{
-          yield Success(message:"Success",commentModel: event.commentModel);
-        }
-      );
-    }else if(event is EditCommentEvent){
-      final editCommentEither = await editCommentUseCase(EditCommentParams(commentId: event.commentId, comments: event.comment));
-      yield* editCommentEither.fold(
-        (failure) async*{
-          yield Error(message: mapFailureToMessage(failure),title: "Error");
-        }, 
-        (success) async*{
-          yield Success(message:"Success",commentModel: event.commentModel);
-        }
-      );
-    }else if( event is DeleteCommentEvent){
-      final deleteCommentEither = await deleteCommentUseCase(ParamsId(id: event.commentId));
-      yield* deleteCommentEither.fold(
-        (failure) async*{
-          yield Error(message: mapFailureToMessage(failure),title: "Error");
-        }, 
-        (success) async*{
-          yield Success(message:"Success",commentModel: event.commentModel);
-        }
-      );
+          CreateCommentParams(postId: event.postId, comments: event.comment));
+      yield* createCommentEither.fold((failure) async* {
+        yield Error(message: mapFailureToMessage(failure), title: "Error");
+      }, (getCommentSuccess) async* {
+        // final List<GetComments> getComment = [];
+        // getComment.insert(0, getCommentSuccess);
+        yield Created(message: "Success", getComments: getCommentSuccess,);
+      });
+    } else if (event is EditCommentEvent) {
+      final editCommentEither = await editCommentUseCase(EditCommentParams(
+          commentId: event.commentId, comments: event.comment));
+      yield* editCommentEither.fold((failure) async* {
+        yield Error(message: mapFailureToMessage(failure), title: "Error");
+      }, (success) async* {
+        yield Success(message: "Success", commentModel: event.commentModel);
+      });
+    } else if (event is DeleteCommentEvent) {
+      final deleteCommentEither =
+          await deleteCommentUseCase(ParamsId(id: event.commentId));
+      yield* deleteCommentEither.fold((failure) async* {
+        yield Error(message: mapFailureToMessage(failure), title: "Error");
+      }, (success) async* {
+        yield Success(message: "Success", commentModel: event.commentModel);
+      });
+    }else if(event is ChangeStateEvent){
+      yield Success(message: "State Changed", commentModel: event.commentModel);
     }
   }
 }

@@ -23,19 +23,18 @@ class PostRepositoryImpl implements PostRepository {
   final CommentsRemoteDataSource commentsRemoteDataSource;
   final NetworkInfo networkInfo;
 
-  PostRepositoryImpl({
-    @required this.localDataSource,
-    @required this.remoteDataSource,
-    @required this.networkInfo,
-    @required this.commentsRemoteDataSource
-  });
+  PostRepositoryImpl(
+      {@required this.localDataSource,
+      @required this.remoteDataSource,
+      @required this.networkInfo,
+      @required this.commentsRemoteDataSource});
 
   @override
-  Future<Either<Failure, List<GetPost>>> getPost() async{
+  Future<Either<Failure, List<GetPost>>> getPost() async {
     final accessToken = localDataSource.getAuthToken();
     if (accessToken != null) {
       if (await networkInfo.isConnected) {
-        try{
+        try {
           final post = await remoteDataSource.getPost(await accessToken);
           return Right(post);
         } on ServerException {
@@ -49,126 +48,24 @@ class PostRepositoryImpl implements PostRepository {
       } else {
         return Left(ServerFailure());
       }
-      
-    }else{
+    } else {
       return Left(UnAuthenticatedFailure());
     }
   }
 
   @override
-  Future<Either<Failure, ApiSuccess>> createUserPost(String postDescription, String imageUrl) async{
-      final accessToken = localDataSource.getAuthToken();
-      if (accessToken != null) {
-        if (await networkInfo.isConnected) {
-          try{
-            await remoteDataSource.createUserPost(await accessToken, postDescription, imageUrl);
-            ApiSuccessModel apiSuccessModel = new ApiSuccessModel(success: true, message: "Created");
-            return Right(apiSuccessModel);
-          }on ServerException {
-          print("server exception");
-          return Left(ServerFailure());
-        } on UnAuthenticatedException {
-          return Left(UnAuthenticatedFailure());
-        } on CacheException {
-          return Left(CacheFailure());
-        }
-        } else {
-          return Left(ServerFailure());
-        }
-      
-      }else{
-        return Left(UnAuthenticatedFailure());
-      }
-  }
-  
-    @override
-    Future<Either<Failure, ApiSuccess>> deletePost(int postId) async{
-     final accessToken = localDataSource.getAuthToken();
-      if (accessToken != null) {
-        if (await networkInfo.isConnected) {
-          try{
-            await remoteDataSource.deletePost(await accessToken, postId);
-            ApiSuccessModel apiSuccessModel = new ApiSuccessModel(success: true, message: "Deleted");
-            return Right(apiSuccessModel);
-          }on ServerException {
-          print("server exception");
-          return Left(ServerFailure());
-        } on UnAuthenticatedException {
-          return Left(UnAuthenticatedFailure());
-        } on CacheException {
-          return Left(CacheFailure());
-        }
-        } else {
-          return Left(ServerFailure());
-        }
-      
-      }else{
-        return Left(UnAuthenticatedFailure());
-      }
-    }
-  
-    @override
-    Future<Either<Failure, ApiSuccess>> editPost(int postId, String postDescription) async{
-      final accessToken = localDataSource.getAuthToken();
-      if (accessToken != null) {
-        if (await networkInfo.isConnected) {
-          try{
-            await remoteDataSource.editPost(await accessToken,postId, postDescription,);
-            ApiSuccessModel apiSuccessModel = new ApiSuccessModel(success: true, message: "Edited");
-            return Right(apiSuccessModel);
-          }on ServerException {
-          print("server exception");
-          return Left(ServerFailure());
-        } on UnAuthenticatedException {
-          return Left(UnAuthenticatedFailure());
-        } on CacheException {
-          return Left(CacheFailure());
-        }
-        } else {
-          return Left(ServerFailure());
-        }
-      
-      }else{
-        return Left(UnAuthenticatedFailure());
-      }
-    }
-  
-    @override
-    Future<Either<Failure, GetMyPost>> getMyPost() async{
-      final accessToken = localDataSource.getAuthToken();
-      if (accessToken != null) {
-        if (await networkInfo.isConnected) {
-          try{
-            final post = await remoteDataSource.getMyPost(await accessToken);
-            return Right(post);
-          } on ServerException {
-            print("server exception");
-            return Left(ServerFailure());
-          } on UnAuthenticatedException {
-            return Left(UnAuthenticatedFailure());
-          } on CacheException {
-            return Left(CacheFailure());
-          }
-        } else {
-          return Left(ServerFailure());
-        }
-      
-      }else{
-        return Left(UnAuthenticatedFailure());
-      }
-    }
-    
-  
-    @override
-  Future<Either<Failure, ApiSuccess>> likePost(int postId) async{
+  Future<Either<Failure, ApiSuccess>> createUserPost(
+      String postDescription, String imageUrl) async {
     final accessToken = localDataSource.getAuthToken();
-      if (accessToken != null) {
-        if (await networkInfo.isConnected) {
-          try{
-            await remoteDataSource.likePost(await accessToken, postId);
-            ApiSuccessModel apiSuccessModel = new ApiSuccessModel(success: true, message: "Liked");
-            return Right(apiSuccessModel);
-          }on ServerException {
+    if (accessToken != null) {
+      if (await networkInfo.isConnected) {
+        try {
+          await remoteDataSource.createUserPost(
+              await accessToken, postDescription, imageUrl);
+          ApiSuccessModel apiSuccessModel =
+              new ApiSuccessModel(success: true, message: "Created");
+          return Right(apiSuccessModel);
+        } on ServerException {
           print("server exception");
           return Left(ServerFailure());
         } on UnAuthenticatedException {
@@ -176,112 +73,226 @@ class PostRepositoryImpl implements PostRepository {
         } on CacheException {
           return Left(CacheFailure());
         }
-        } else {
-          return Left(ServerFailure());
-        }
-      
-      }else{
-        return Left(UnAuthenticatedFailure());
+      } else {
+        return Left(ServerFailure());
       }
+    } else {
+      return Left(UnAuthenticatedFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ApiSuccess>> deletePost(int postId) async {
+    final accessToken = localDataSource.getAuthToken();
+    if (accessToken != null) {
+      if (await networkInfo.isConnected) {
+        try {
+          await remoteDataSource.deletePost(await accessToken, postId);
+          ApiSuccessModel apiSuccessModel =
+              new ApiSuccessModel(success: true, message: "Deleted");
+          return Right(apiSuccessModel);
+        } on ServerException {
+          print("server exception");
+          return Left(ServerFailure());
+        } on UnAuthenticatedException {
+          return Left(UnAuthenticatedFailure());
+        } on CacheException {
+          return Left(CacheFailure());
+        }
+      } else {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(UnAuthenticatedFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ApiSuccess>> editPost(
+      int postId, String postDescription) async {
+    final accessToken = localDataSource.getAuthToken();
+    if (accessToken != null) {
+      if (await networkInfo.isConnected) {
+        try {
+          await remoteDataSource.editPost(
+            await accessToken,
+            postId,
+            postDescription,
+          );
+          ApiSuccessModel apiSuccessModel =
+              new ApiSuccessModel(success: true, message: "Edited");
+          return Right(apiSuccessModel);
+        } on ServerException {
+          print("server exception");
+          return Left(ServerFailure());
+        } on UnAuthenticatedException {
+          return Left(UnAuthenticatedFailure());
+        } on CacheException {
+          return Left(CacheFailure());
+        }
+      } else {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(UnAuthenticatedFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, GetMyPost>> getMyPost() async {
+    final accessToken = localDataSource.getAuthToken();
+    if (accessToken != null) {
+      if (await networkInfo.isConnected) {
+        try {
+          final post = await remoteDataSource.getMyPost(await accessToken);
+          return Right(post);
+        } on ServerException {
+          print("server exception");
+          return Left(ServerFailure());
+        } on UnAuthenticatedException {
+          return Left(UnAuthenticatedFailure());
+        } on CacheException {
+          return Left(CacheFailure());
+        }
+      } else {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(UnAuthenticatedFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ApiSuccess>> likePost(int postId) async {
+    final accessToken = localDataSource.getAuthToken();
+    if (accessToken != null) {
+      if (await networkInfo.isConnected) {
+        try {
+          await remoteDataSource.likePost(await accessToken, postId);
+          ApiSuccessModel apiSuccessModel =
+              new ApiSuccessModel(success: true, message: "Liked");
+          return Right(apiSuccessModel);
+        } on ServerException {
+          print("server exception");
+          return Left(ServerFailure());
+        } on UnAuthenticatedException {
+          return Left(UnAuthenticatedFailure());
+        } on CacheException {
+          return Left(CacheFailure());
+        }
+      } else {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(UnAuthenticatedFailure());
+    }
   }
 
   //!comments section
 
   @override
-  Future<Either<Failure, ApiSuccess>> createComments(int postId, String comments) async{
+  Future<Either<Failure, GetComments>> createComments(
+      int postId, String comments) async {
     final accessToken = localDataSource.getAuthToken();
-    if (accessToken != null){
-      if(await networkInfo.isConnected){
-        try{
-          await commentsRemoteDataSource.createComments(await accessToken, postId, comments);
-          ApiSuccessModel apiSuccessModel = new ApiSuccessModel(success: true, message: "comments created");
-          return Right(apiSuccessModel);
-        }on ServerException {
+    if (accessToken != null) {
+      if (await networkInfo.isConnected) {
+        try {
+          final getComments = await commentsRemoteDataSource.createComments(
+              await accessToken, postId, comments);
+          // ApiSuccessModel apiSuccessModel = new ApiSuccessModel(success: true, message: "comments created");
+          return Right(getComments);
+        } on ServerException {
           print("server exception");
           return Left(ServerFailure());
-        }on UnAuthenticatedException {
+        } on UnAuthenticatedException {
           return Left(UnAuthenticatedFailure());
-        }on CacheException {
+        } on CacheException {
           return Left(CacheFailure());
         }
-      }else{
+      } else {
         return Left(ServerFailure());
       }
-    }else{
+    } else {
       return Left(UnAuthenticatedFailure());
     }
   }
 
   @override
-  Future<Either<Failure,List<GetComments>>>getComments(int postId) async{
+  Future<Either<Failure, List<GetComments>>> getComments(int postId) async {
     final accessToken = localDataSource.getAuthToken();
-    if(accessToken != null){
-      if(await networkInfo.isConnected){
-        try{
-          final comments = await commentsRemoteDataSource.getComments(await accessToken, postId);
+    if (accessToken != null) {
+      if (await networkInfo.isConnected) {
+        try {
+          final comments = await commentsRemoteDataSource.getComments(
+              await accessToken, postId);
           return Right(comments);
-        }on ServerException {
+        } on ServerException {
           print("server exception");
           return Left(ServerFailure());
-        }on UnAuthenticatedException {
+        } on UnAuthenticatedException {
           return Left(UnAuthenticatedFailure());
-        }on CacheException {
+        } on CacheException {
           return Left(CacheFailure());
         }
-      }else{
+      } else {
         return Left(ServerFailure());
       }
-    }else{
+    } else {
       return Left(UnAuthenticatedFailure());
     }
   }
 
   @override
-  Future<Either<Failure, ApiSuccess>> editComments(int commentId, String comments) async{
+  Future<Either<Failure, ApiSuccess>> editComments(
+      int commentId, String comments) async {
     final accessToken = localDataSource.getAuthToken();
-    if (accessToken != null){
-      if(await networkInfo.isConnected){
-        try{
-          await commentsRemoteDataSource.editComments(await accessToken, commentId, comments);
-          ApiSuccessModel apiSuccessModel = new ApiSuccessModel(success: true, message: "Comments Edited");
+    if (accessToken != null) {
+      if (await networkInfo.isConnected) {
+        try {
+          await commentsRemoteDataSource.editComments(
+              await accessToken, commentId, comments);
+          ApiSuccessModel apiSuccessModel =
+              new ApiSuccessModel(success: true, message: "Comments Edited");
           return Right(apiSuccessModel);
-        }on ServerException {
+        } on ServerException {
           print("server exception");
           return Left(ServerFailure());
-        }on UnAuthenticatedException {
+        } on UnAuthenticatedException {
           return Left(UnAuthenticatedFailure());
-        }on CacheException {
+        } on CacheException {
           return Left(CacheFailure());
         }
-      }else{
+      } else {
         return Left(ServerFailure());
       }
-    }else{
+    } else {
       return Left(UnAuthenticatedFailure());
     }
   }
 
   @override
-  Future<Either<Failure, ApiSuccess>> deleteComments(int commentId) async{
+  Future<Either<Failure, ApiSuccess>> deleteComments(int commentId) async {
     final accessToken = localDataSource.getAuthToken();
-    if (accessToken != null){
-      if(await networkInfo.isConnected){
-        try{
-          await commentsRemoteDataSource.deleteComments(await accessToken, commentId);
-          ApiSuccessModel apiSuccessModel = new ApiSuccessModel(success: true, message: "Comments Deleted");
+    if (accessToken != null) {
+      if (await networkInfo.isConnected) {
+        try {
+          await commentsRemoteDataSource.deleteComments(
+              await accessToken, commentId);
+          ApiSuccessModel apiSuccessModel =
+              new ApiSuccessModel(success: true, message: "Comments Deleted");
           return Right(apiSuccessModel);
-        }on ServerException {
+        } on ServerException {
           print("server exception");
           return Left(ServerFailure());
-        }on UnAuthenticatedException {
+        } on UnAuthenticatedException {
           return Left(UnAuthenticatedFailure());
-        }on CacheException {
+        } on CacheException {
           return Left(CacheFailure());
         }
-      }else{
+      } else {
         return Left(ServerFailure());
       }
-    }else{
+    } else {
       return Left(UnAuthenticatedFailure());
     }
   }

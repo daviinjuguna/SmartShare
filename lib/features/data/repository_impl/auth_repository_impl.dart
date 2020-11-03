@@ -11,130 +11,141 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
-@LazySingleton(as:AuthRepository)
+@LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
   final AuthLocalDataSource localDataSource;
   final AuthRemoteDataSource remoteDataSource;
   final NetworkInfo networkInfo;
   final ImageDataSource imageDataSource;
-  
-  AuthRepositoryImpl({
-    @required this.localDataSource,
-    @required this.remoteDataSource,
-    @required this.networkInfo,
-    @required this.imageDataSource
-  });
+
+  AuthRepositoryImpl(
+      {@required this.localDataSource,
+      @required this.remoteDataSource,
+      @required this.networkInfo,
+      @required this.imageDataSource});
 
   @override
-  Future<Either<Failure, ApiSuccess>> logout() async{
+  Future<Either<Failure, ApiSuccess>> logout() async {
     final accessToken = localDataSource.getAuthToken();
-    if(accessToken != null){
-     if (await networkInfo.isConnected) {
-       try {
-        await remoteDataSource.logout(await accessToken);
-        localDataSource.deleteCachedToken();
-        ApiSuccessModel apiSuccessModel = new ApiSuccessModel(success: true, message: "Logout success");
-        return Right(apiSuccessModel);
-       } on ServerException {
-         return Left(ServerFailure());
-       }on CacheException{
-         return Left(CacheFailure());
-       } on UnAuthenticatedException {
-            return Left(UnAuthenticatedFailure());
-      } 
-     } else {
-       return Left(ServerFailure());
-     }
-    }else{
+    if (accessToken != null) {
+      if (await networkInfo.isConnected) {
+        try {
+          await remoteDataSource.logout(await accessToken);
+          localDataSource.deleteCachedToken();
+          ApiSuccessModel apiSuccessModel =
+              new ApiSuccessModel(success: true, message: "Logout success");
+          return Right(apiSuccessModel);
+        } on ServerException {
+          return Left(ServerFailure());
+        } on CacheException {
+          return Left(CacheFailure());
+        } on UnAuthenticatedException {
+          return Left(UnAuthenticatedFailure());
+        }
+      } else {
+        return Left(ServerFailure());
+      }
+    } else {
       return Left(UnAuthenticatedFailure());
     }
   }
-  
+
   @override
-  Future<Either<Failure, ApiSuccess>> refreshToken() async{
+  Future<Either<Failure, ApiSuccess>> refreshToken() async {
     final accessToken = localDataSource.getAuthToken();
-    if(accessToken != null){
-     if (await networkInfo.isConnected) {
-       try {
-         final response = await remoteDataSource.refreshToken(await accessToken);
-         localDataSource.cacheAuthToken(response);//catchess the token again
-         ApiSuccessModel apiSuccessModel = new ApiSuccessModel(success: true, message: "Refresh success");
-         return Right(apiSuccessModel);
-       }on ServerException {
-         return Left(ServerFailure());
-       }on CacheException{
-         return Left(CacheFailure());
-       }
-     } else {
-       return Left(ServerFailure());
-     }
-    }else{
+    if (accessToken != null) {
+      if (await networkInfo.isConnected) {
+        try {
+          final response =
+              await remoteDataSource.refreshToken(await accessToken);
+          localDataSource.cacheAuthToken(response); //catchess the token again
+          ApiSuccessModel apiSuccessModel =
+              new ApiSuccessModel(success: true, message: "Refresh success");
+          return Right(apiSuccessModel);
+        } on ServerException {
+          return Left(ServerFailure());
+        } on CacheException {
+          return Left(CacheFailure());
+        }
+      } else {
+        return Left(ServerFailure());
+      }
+    } else {
       return Left(UnAuthenticatedFailure());
     }
   }
-  
+
   @override
-  Future<Either<Failure, ApiSuccess>> registerUser(String email, String password, String passwordConfirmation) async{
+  Future<Either<Failure, ApiSuccess>> registerUser(
+      String email, String password, String passwordConfirmation) async {
     if (await networkInfo.isConnected) {
       try {
-        final registerSuccessModel = await remoteDataSource.registerUser(email, password, passwordConfirmation);
+        final registerSuccessModel = await remoteDataSource.registerUser(
+            email, password, passwordConfirmation);
         localDataSource.cacheAuthToken(registerSuccessModel);
-        ApiSuccessModel apiSuccessModel = new ApiSuccessModel(success: true, message: "Register success");
+        ApiSuccessModel apiSuccessModel =
+            new ApiSuccessModel(success: true, message: "Register success");
         return Right(apiSuccessModel);
       } on ServerException {
         return Left(ServerFailure());
-      } on CacheException{
+      } on CacheException {
         return Left(CacheFailure());
       }
-    }else{
+    } else {
       return Left(ServerFailure());
     }
   }
 
   @override
-  Future<Either<Failure, ApiSuccess>> loginUser(String email, String password) async{
+  Future<Either<Failure, ApiSuccess>> loginUser(
+      String email, String password) async {
     if (await networkInfo.isConnected) {
       try {
-        final loginSuccessModel = await remoteDataSource.loginUser(email, password);
+        final loginSuccessModel =
+            await remoteDataSource.loginUser(email, password);
         localDataSource.cacheAuthToken(loginSuccessModel);
-        ApiSuccessModel apiSuccessModel = new ApiSuccessModel(success: true, message: "Login success");
+        ApiSuccessModel apiSuccessModel =
+            new ApiSuccessModel(success: true, message: "Login success");
         return Right(apiSuccessModel);
       } on ServerException {
         return Left(ServerFailure());
-      } on CacheException{
+      } on CacheException {
         return Left(CacheFailure());
       }
-    } else{
+    } else {
       return Left(ServerFailure());
     }
   }
 
   @override
-  Future<Either<Failure, ApiSuccess>> saveUserInfo(String firstName, String lastName, String imageUrl) async{
-     final accessToken = localDataSource.getAuthToken();
-    if(accessToken != null){
-     if (await networkInfo.isConnected) {
-       try {
-          await remoteDataSource.saveUserInfo(await accessToken, firstName, lastName, imageUrl);//catchess the token again
-         ApiSuccessModel apiSuccessModel = new ApiSuccessModel(success: true, message: "User Saved");
-         return Right(apiSuccessModel);
-       }on ServerException {
-         return Left(ServerFailure());
-       }on CacheException{
-         return Left(CacheFailure());
-       }on UnAuthenticatedException {
-         return Left(UnAuthenticatedFailure());
-       } 
-     } else {
-       return Left(ServerFailure());
-     }
-    }else{
+  Future<Either<Failure, ApiSuccess>> saveUserInfo(
+      String firstName, String lastName, String imageUrl) async {
+    final accessToken = localDataSource.getAuthToken();
+    if (accessToken != null) {
+      if (await networkInfo.isConnected) {
+        try {
+          await remoteDataSource.saveUserInfo(await accessToken, firstName,
+              lastName, imageUrl); //catchess the token again
+          ApiSuccessModel apiSuccessModel =
+              new ApiSuccessModel(success: true, message: "User Saved");
+          return Right(apiSuccessModel);
+        } on ServerException {
+          return Left(ServerFailure());
+        } on CacheException {
+          return Left(CacheFailure());
+        } on UnAuthenticatedException {
+          return Left(UnAuthenticatedFailure());
+        }
+      } else {
+        return Left(ServerFailure());
+      }
+    } else {
       return Left(UnAuthenticatedFailure());
     }
   }
 
   @override
-  Future<Either<Failure, String>> fetchImageUrl(String url) async{
+  Future<Either<Failure, String>> fetchImageUrl(String url) async {
     if (url == "Camera") {
       try {
         final imageFile = await imageDataSource.selectFromCamera();

@@ -6,5 +6,4 @@ abstract class IntroEvent with _$IntroEvent {
   const factory IntroEvent.loggedIn() = LoggedIn;
   const factory IntroEvent.loggedOut() = LoggedOut;
   const factory IntroEvent.refreshToken() = RefreshToken;
-  
 }

@@ -14,8 +14,11 @@ part 'auth_bloc.freezed.dart';
 
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc({@required this.loginUseCase, @required this.registerUseCase,@required this.saveUserUseCase}):
-   super(AuthState.initial());
+  AuthBloc(
+      {@required this.loginUseCase,
+      @required this.registerUseCase,
+      @required this.saveUserUseCase})
+      : super(AuthState.initial());
 
   final LoginUseCase loginUseCase;
   final RegisterUseCase registerUseCase;
@@ -25,87 +28,74 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Stream<AuthState> mapEventToState(
     AuthEvent event,
   ) async* {
-    yield* event.map(
-      nameChanged: (e)async*{
-        yield state.copyWith(
+    yield* event.map(nameChanged: (e) async* {
+      yield state.copyWith(
+          isEmailValid: true,
+          isPasswordValid: true,
+          isSubmitting: false,
+          isSuccess: false,
+          isFailure: false,
+          isNameValid: Validators.isValidName(e.name),
+          isLastNameValid: true);
+    }, lastNameChanged: (e) async* {
+      yield state.copyWith(
         isEmailValid: true,
         isPasswordValid: true,
         isSubmitting: false,
         isSuccess: false,
         isFailure: false,
-        isNameValid:Validators.isValidName(e.name),
-        isLastNameValid:true
-        );
-      },
-      lastNameChanged: (e) async*{
-        yield state.copyWith(
-        isEmailValid: true,
-        isPasswordValid: true,
-        isSubmitting: false,
-        isSuccess: false,
-        isFailure: false,
-        isNameValid:true,
-        isLastNameValid:Validators.isValidName(e.name),
-        );
-      },
-      emailChanged: (e)async*{
-        yield state.copyWith(
+        isNameValid: true,
+        isLastNameValid: Validators.isValidName(e.name),
+      );
+    }, emailChanged: (e) async* {
+      yield state.copyWith(
         isEmailValid: Validators.isValidEmail(e.email),
-        isLastNameValid:true,
+        isLastNameValid: true,
         isPasswordValid: true,
         isSubmitting: false,
         isSuccess: false,
         isFailure: false,
-        isNameValid:true,
-        );
-      },
-      passwordChanged: (e)async*{
-        yield state.copyWith(
+        isNameValid: true,
+      );
+    }, passwordChanged: (e) async* {
+      yield state.copyWith(
         isEmailValid: true,
-        isLastNameValid:true,
+        isLastNameValid: true,
         isPasswordValid: Validators.isValidPassword(e.password),
         isSubmitting: false,
         isSuccess: false,
         isFailure: false,
-        isNameValid:true,
-        );
-      },
-      loginPressed: (e)async*{
-        yield AuthState.loading();
-        final loginEither = await loginUseCase(LoginParams(email: e.email, password: e.password));
-        yield* loginEither.fold(
-          (failure) async*{
-            yield AuthState.failure();
-          },
-          (success) async*{
-            yield AuthState.success();
-          }
-        );
-      },
-      registerPressed: (e)async*{
-        yield AuthState.loading();
-        final regesterEither = await registerUseCase(RegisterParams(email: e.email, password: e.password, passwordConfirmation: e.passwordConfirmation));
-        yield* regesterEither.fold(
-          (failure) async*{
-            yield AuthState.failure();
-          },
-          (success) async*{
-            yield AuthState.success();
-          }
-        );
-      },
-      saveUserPressed: (e)async*{
-        yield AuthState.loading();
-        final saveEither = await saveUserUseCase(SaveUserParams(firstName: e.name, lastName: e.lastName,imageUrl: e.imageUrl));
-        yield* saveEither.fold(
-          (failure) async*{
-            yield AuthState.failure();
-          },
-          (success) async*{
-            yield AuthState.success();
-          }
-        );
-      }
-    );
+        isNameValid: true,
+      );
+    }, loginPressed: (e) async* {
+      yield AuthState.loading();
+      final loginEither =
+          await loginUseCase(LoginParams(email: e.email, password: e.password));
+      yield* loginEither.fold((failure) async* {
+        yield AuthState.failure();
+      }, (success) async* {
+        yield AuthState.success();
+      });
+    }, registerPressed: (e) async* {
+      yield AuthState.loading();
+      final regesterEither = await registerUseCase(RegisterParams(
+          email: e.email,
+          password: e.password,
+          passwordConfirmation: e.passwordConfirmation));
+      yield* regesterEither.fold((failure) async* {
+        yield AuthState.failure();
+      }, (success) async* {
+        yield AuthState.success();
+      });
+    }, saveUserPressed: (e) async* {
+      yield AuthState.loading();
+      final saveEither = await saveUserUseCase(SaveUserParams(
+          firstName: e.name, lastName: e.lastName, imageUrl: e.imageUrl));
+      yield* saveEither.fold((failure) async* {
+        yield AuthState.failure();
+      }, (success) async* {
+        yield AuthState.success();
+      });
+    });
   }
 }

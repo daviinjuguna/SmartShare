@@ -8,21 +8,33 @@ abstract class CommentState extends Equatable {
 }
 
 class Initial extends CommentState {}
+
 class Loading extends CommentState {}
 
-class Error extends CommentState {
-  final String title,message;
 
-  Error({@required this.message,@required this.title});
+class Error extends CommentState {
+  final String title, message;
+
+  Error({@required this.message, @required this.title});
   @override
-  List<Object> get props => [message,title];
+  List<Object> get props => [message, title];
 }
 
 class Success extends CommentState {
   final String message;
   final List<GetComments> commentModel;
 
-  Success({@required this.message,@required this.commentModel});
+  Success({@required this.message, @required this.commentModel});
   @override
-  List<Object> get props => [message,commentModel];
+  List<Object> get props => [message, commentModel];
+}
+
+class CreateCommentLoading extends CommentState{}
+class Created extends CommentState{
+  final String message;
+  final GetComments getComments;
+
+  Created({@required this.getComments,@required this.message});
+  @override
+  List<Object> get props => [getComments,message,];
 }
