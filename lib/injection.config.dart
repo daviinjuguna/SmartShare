@@ -36,9 +36,12 @@ import 'features/presentation/bloc/auth/intro_bloc/intro_bloc.dart';
 import 'features/domain/usecase/like_post.dart';
 import 'features/domain/usecase/login.dart';
 import 'features/domain/usecase/logout_usecase.dart';
+import 'database/my_post/my_post_dao.dart';
 import 'core/utils/network_info.dart';
 import 'features/presentation/bloc/home/post_bloc/post_bloc.dart';
 import 'features/data/data_source/post_api/post_client.dart';
+import 'database/post/post_dao.dart';
+import 'features/data/data_source/post_api/post_local_data.dart';
 import 'features/data/data_source/post_api/post_remote_data.dart';
 import 'features/domain/repository/post_repository.dart';
 import 'features/data/repository_impl/post_repository_impl.dart';
@@ -46,6 +49,7 @@ import 'features/domain/usecase/refresh_token_usecase.dart';
 import 'features/domain/usecase/register.dart';
 import 'features/domain/usecase/save_user_usecase.dart';
 import 'features/domain/usecase/select_image_usecase.dart';
+import 'database/smart_share_database.dart';
 
 /// adds generated dependencies
 /// to the provided [GetIt] instance
@@ -73,6 +77,7 @@ Future<GetIt> $initGetIt(
       () => PostRemoteDataImpl(client: get<PostClient>()));
   final sharedPreferences = await injectionModule.prefs;
   gh.factory<SharedPreferences>(() => sharedPreferences);
+  gh.lazySingleton<SmartShareDatabase>(() => SmartShareDatabase());
   gh.lazySingleton<AuthLocalDataSource>(() =>
       AuthLocalDataSourceImpl(sharedPreferences: get<SharedPreferences>()));
   gh.lazySingleton<CheckAppState>(
@@ -81,11 +86,16 @@ Future<GetIt> $initGetIt(
       () => CheckLogin(appState: get<CheckAppState>()));
   gh.lazySingleton<ImageDataSource>(
       () => ImageDataSourceImpl(imagePicker: get<ImagePicker>()));
+  gh.lazySingleton<MyPostDao>(() => MyPostDao(get<SmartShareDatabase>()));
+  gh.lazySingleton<PostDao>(() => PostDao(get<SmartShareDatabase>()));
+  gh.lazySingleton<PostLocalDataSource>(() =>
+      PostLocalDataSourceImpl(dao: get<PostDao>(), myDao: get<MyPostDao>()));
   gh.lazySingleton<PostRepository>(() => PostRepositoryImpl(
         localDataSource: get<AuthLocalDataSource>(),
         remoteDataSource: get<PostRemoteData>(),
         networkInfo: get<NetworkInfo>(),
         commentsRemoteDataSource: get<CommentsRemoteDataSource>(),
+        postLocalDataSource: get<PostLocalDataSource>(),
       ));
   gh.lazySingleton<AuthRepository>(() => AuthRepositoryImpl(
         localDataSource: get<AuthLocalDataSource>(),

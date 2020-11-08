@@ -2,7 +2,10 @@ import 'package:SmartShare/core/errors/failures.dart';
 import 'package:flutter/material.dart';
 import 'package:supercharged/supercharged.dart';
 
-const String BASE_URL = "http://192.168.0.18:80";
+// const String BASE_URL = "http://192.168.0.18:80"; //! local host
+// const String BASE_URL = "https://88953f311f39.ngrok.io"; //! ngrok
+const String BASE_URL = "https://rocky-waters-30536.herokuapp.com"; //!heroku online server
+
 const String IMAGE_URL = BASE_URL + "/";
 
 const String SERVER_FAILURE_MESSAGE = "Server Failure";

@@ -5,6 +5,7 @@ import 'package:SmartShare/core/errors/failures.dart';
 import 'package:SmartShare/core/utils/network_info.dart';
 import 'package:SmartShare/features/data/data_source/auth_api/auth_local_data.dart';
 import 'package:SmartShare/features/data/data_source/comments_api/comments_remote.dart';
+import 'package:SmartShare/features/data/data_source/post_api/post_local_data.dart';
 import 'package:SmartShare/features/data/data_source/post_api/post_remote_data.dart';
 import 'package:SmartShare/features/data/model/auth/api_success_model.dart';
 import 'package:SmartShare/features/domain/entities/home/get_comment.dart';
@@ -22,34 +23,42 @@ class PostRepositoryImpl implements PostRepository {
   final PostRemoteData remoteDataSource;
   final CommentsRemoteDataSource commentsRemoteDataSource;
   final NetworkInfo networkInfo;
+  final PostLocalDataSource postLocalDataSource;
 
   PostRepositoryImpl(
       {@required this.localDataSource,
       @required this.remoteDataSource,
       @required this.networkInfo,
-      @required this.commentsRemoteDataSource});
+      @required this.commentsRemoteDataSource,
+      @required this.postLocalDataSource});
 
   @override
   Future<Either<Failure, List<GetPost>>> getPost() async {
     final accessToken = localDataSource.getAuthToken();
-    if (accessToken != null) {
-      if (await networkInfo.isConnected) {
-        try {
-          final post = await remoteDataSource.getPost(await accessToken);
-          return Right(post);
-        } on ServerException {
-          print("server exception");
+    final cachedPost = await postLocalDataSource.getCachedPost();
+    if (cachedPost.isEmpty) {
+      if (accessToken != null) {
+        if (await networkInfo.isConnected) {
+          try {
+            final post = await remoteDataSource.getPost(await accessToken);
+            await postLocalDataSource.cachePost(post);
+            return Right(post);
+          } on ServerException {
+            print("server exception");
+            return Left(ServerFailure());
+          } on UnAuthenticatedException {
+            return Left(UnAuthenticatedFailure());
+          } on CacheException {
+            return Left(CacheFailure());
+          }
+        } else {
           return Left(ServerFailure());
-        } on UnAuthenticatedException {
-          return Left(UnAuthenticatedFailure());
-        } on CacheException {
-          return Left(CacheFailure());
         }
       } else {
-        return Left(ServerFailure());
+        return Left(UnAuthenticatedFailure());
       }
     } else {
-      return Left(UnAuthenticatedFailure());
+      return Right(cachedPost);
     }
   }
 
@@ -141,24 +150,30 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<Either<Failure, GetMyPost>> getMyPost() async {
     final accessToken = localDataSource.getAuthToken();
-    if (accessToken != null) {
-      if (await networkInfo.isConnected) {
-        try {
-          final post = await remoteDataSource.getMyPost(await accessToken);
-          return Right(post);
-        } on ServerException {
-          print("server exception");
+    final cachedMyPost = await postLocalDataSource.getCachedMyPost();
+    if (cachedMyPost.isEmpty) {
+      if (accessToken != null) {
+        if (await networkInfo.isConnected) {
+          try {
+            final post = await remoteDataSource.getMyPost(await accessToken);
+            await postLocalDataSource.cacheMyPost(post);
+            return Right(post);
+          } on ServerException {
+            print("server exception");
+            return Left(ServerFailure());
+          } on UnAuthenticatedException {
+            return Left(UnAuthenticatedFailure());
+          } on CacheException {
+            return Left(CacheFailure());
+          }
+        } else {
           return Left(ServerFailure());
-        } on UnAuthenticatedException {
-          return Left(UnAuthenticatedFailure());
-        } on CacheException {
-          return Left(CacheFailure());
         }
       } else {
-        return Left(ServerFailure());
+        return Left(UnAuthenticatedFailure());
       }
     } else {
-      return Left(UnAuthenticatedFailure());
+      return Right(cachedMyPost.single);
     }
   }
 
