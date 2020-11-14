@@ -114,8 +114,12 @@ class Router extends RouterBase {
       );
     },
     NewPostPage: (data) {
+      final args = data.getArgs<NewPostPageArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => NewPostPage(),
+        builder: (context) => NewPostPage(
+          key: args.key,
+          bloc: args.bloc,
+        ),
         settings: data,
       );
     },
@@ -174,7 +178,14 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
   Future<dynamic> pushDashboardScreen() =>
       push<dynamic>(Routes.dashboardScreen);
 
-  Future<dynamic> pushNewPostPage() => push<dynamic>(Routes.newPostPage);
+  Future<dynamic> pushNewPostPage({
+    Key key,
+    @required dynamic bloc,
+  }) =>
+      push<dynamic>(
+        Routes.newPostPage,
+        arguments: NewPostPageArguments(key: key, bloc: bloc),
+      );
 
   Future<dynamic> pushSaveUserInfoScreen({
     Key key,
@@ -210,6 +221,13 @@ class RegisterPageArguments {
 class RecoverPasswordArguments {
   final Key key;
   RecoverPasswordArguments({this.key});
+}
+
+/// NewPostPage arguments holder class
+class NewPostPageArguments {
+  final Key key;
+  final dynamic bloc;
+  NewPostPageArguments({this.key, @required this.bloc});
 }
 
 /// SaveUserInfoScreen arguments holder class

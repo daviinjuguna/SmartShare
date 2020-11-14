@@ -252,7 +252,8 @@ class _CommentBodyState extends State<CommentBody> {
                   ),
                 ),
               ));
-          }if (state is Created){
+          }
+          if (state is Created) {
             Scaffold.of(context).hideCurrentSnackBar();
           }
         },
@@ -343,9 +344,7 @@ class _CommentBodyState extends State<CommentBody> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    comments[index]
-                                                            .user
-                                                            .name +
+                                                    comments[index].user.name +
                                                         " " +
                                                         comments[index]
                                                             .user
@@ -370,12 +369,11 @@ class _CommentBodyState extends State<CommentBody> {
                                               ),
                                             ),
                                             SizedBox(
-                                              height: SizeConfig
-                                                  .blockSizeVertical,
+                                              height:
+                                                  SizeConfig.blockSizeVertical,
                                             ),
-                                            Text(timeago.format(
-                                                DateTime.parse(comments[index]
-                                                    .createdAt)))
+                                            Text(timeago.format(DateTime.parse(
+                                                comments[index].createdAt)))
                                           ],
                                         ),
                                         //!check comments if the user is the one commenting so as to edit

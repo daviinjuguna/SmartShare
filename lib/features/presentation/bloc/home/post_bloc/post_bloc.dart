@@ -75,7 +75,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     } else if (event is GetImageEvent) {
       // yield RegisterImageLoading();
       final imageEither = await selectImageUseCase(
-        SelectImageParams(item: event.selection),
+        SelectImageParams(url: event.selection),
       );
       yield* imageEither.fold((failure) async* {
         yield Error(message: mapFailureToMessage(failure), title: "Error");

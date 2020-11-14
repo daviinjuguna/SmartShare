@@ -16,13 +16,12 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthLocalDataSource localDataSource;
   final AuthRemoteDataSource remoteDataSource;
   final NetworkInfo networkInfo;
-  final ImageDataSource imageDataSource;
 
   AuthRepositoryImpl(
       {@required this.localDataSource,
       @required this.remoteDataSource,
       @required this.networkInfo,
-      @required this.imageDataSource});
+      });
 
   @override
   Future<Either<Failure, ApiSuccess>> logout() async {
@@ -144,26 +143,4 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, String>> fetchImageUrl(String url) async {
-    if (url == "Camera") {
-      try {
-        final imageFile = await imageDataSource.selectFromCamera();
-        return Right(imageFile);
-      } on SelectImageException {
-        return Left(SelectImageFailure());
-      } on SelectImageFromCameraException {
-        return Left(SelectImageFromCameraFailure());
-      }
-    } else {
-      try {
-        final imageFile = await imageDataSource.selectFromGallery();
-        return Right(imageFile);
-      } on SelectImageException {
-        return Left(SelectImageFailure());
-      } on SelectImageFromGalleryException {
-        return Left(SelectImageFromGalleryFailure());
-      }
-    }
-  }
 }

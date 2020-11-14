@@ -66,49 +66,47 @@ class _LoginPageState extends State<LoginPage> {
           backgroundColor: Colors.white,
           leading: IconButton(
             onPressed: () {
-             Navigator.pop(context);
+              Navigator.pop(context);
             },
-            icon: Icon(LineAwesomeIcons.angle_left, size: SizeConfig.safeBlockHorizontal*6, color: Colors.black,),
+            icon: Icon(
+              LineAwesomeIcons.angle_left,
+              size: SizeConfig.safeBlockHorizontal * 6,
+              color: Colors.black,
+            ),
           ),
         ),
-        body: BlocConsumer<AuthBloc,AuthState>(
-          listener: (context,state){
-            if (state.isSubmitting) {
-              Scaffold.of(context)
+        body: BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
+          if (state.isSubmitting) {
+            Scaffold.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(SnackBar(
+                backgroundColor: Style.secondaryColor,
+                content: loadingFlashbar(
+                    "Signing In", //title
+                    "Please wait........", //message
+                    Style.secondaryColor //color
+                    ),
+              ));
+          }
+          if (state.isFailure) {
+            Scaffold.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
                 SnackBar(
-                  backgroundColor: Style.secondaryColor,
-                  content:loadingFlashbar(
-                    "Signing In",//title
-                    "Please wait........",//message
-                    Style.secondaryColor//color
-                  ),
-                )
+                    backgroundColor: Colors.red[400],
+                    content: errorFlushbar(
+                        "Sorry, Sign in failed, check your credentials" //message
+                        )),
               );
-            }
-            if (state.isFailure) {
-              Scaffold.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                SnackBar(
-                  backgroundColor: Colors.red[400],
-                  content: errorFlushbar(
-                    "Sorry, Sign in failed, check your credentials"//message
-                  )
-                ),
-              );
-            }
-            if (state.isSuccess) {
-              // getIt<IntroBloc>()..add(IntroEvent.loggedIn());
-              // Navigator.of(context).pop();
-              WidgetsBinding.instance.addPostFrameCallback((_) { 
-                ExtendedNavigator.of(context).replace(Routes.dashboardScreen);
-              });
-            }
-          },
-
-          builder: (context, state) {
+          }
+          if (state.isSuccess) {
+            // getIt<IntroBloc>()..add(IntroEvent.loggedIn());
+            // Navigator.of(context).pop();
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              ExtendedNavigator.of(context).replace(Routes.dashboardScreen);
+            });
+          }
+        }, builder: (context, state) {
           return SingleChildScrollView(
             child: CustomBackground(
               child: Container(
@@ -118,110 +116,152 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: SizeConfig.safeBlockHorizontal*8),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: SizeConfig.safeBlockHorizontal * 8),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Column(
                             children: [
-                              FadeAnimation(1, Text("Sign In", style: TextStyle(
-                                fontSize: SizeConfig.safeBlockHorizontal*8,
-                                fontWeight: FontWeight.bold
-                              ),)),
-                              SizedBox(height: SizeConfig.safeBlockHorizontal,),
-                              FadeAnimation(1.2, Text("Login to your account", style: TextStyle(
-                                fontSize: SizeConfig.safeBlockHorizontal*4,
-                                color: Colors.grey[700]
-                              ),)),
+                              FadeAnimation(
+                                  1,
+                                  Text(
+                                    "Sign In",
+                                    style: TextStyle(
+                                        fontSize:
+                                            SizeConfig.safeBlockHorizontal * 8,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                              SizedBox(
+                                height: SizeConfig.safeBlockHorizontal,
+                              ),
+                              FadeAnimation(
+                                  1.2,
+                                  Text(
+                                    "Login to your account",
+                                    style: TextStyle(
+                                        fontSize:
+                                            SizeConfig.safeBlockHorizontal * 4,
+                                        color: Colors.grey[700]),
+                                  )),
                             ],
                           ),
-                          SizedBox(height: SizeConfig.safeBlockHorizontal*3,),
+                          SizedBox(
+                            height: SizeConfig.safeBlockHorizontal * 3,
+                          ),
                           Column(
                             children: [
-                              FadeAnimation(1.2, CustomTextField(
-                                obscureText: false,
-                                controller: _emailController,
-                                keyboardType: TextInputType.emailAddress,
-                                validation: (_){
-                                  return !state.isEmailValid ? "Please enter a valid email" : null;
-                                },
-                                prefix: Icon(LineAwesomeIcons.envelope), 
-                                lableText: "Email", 
-                                hintText: "Enter your email")),
-                              SizedBox(height: SizeConfig.safeBlockHorizontal*2,),
-                              FadeAnimation(1.3, PasswordTextField(
-                                obscureText: !_passwordVisible, 
-                                controller: _passwordController, 
-                                keyboardType: TextInputType.text,
-                                textInputAction: TextInputAction.go,
-                                onSubmitted: (_){
-                                  _login();
-                                },
-                                validation:(_){
-                                  return !state.isPasswordValid ? "Please enter alpha-numerical min of 6" :null;
-                                },
-                                prefix: Icon(LineAwesomeIcons.lock),
-                                suffix: IconButton(
-                                  icon: Icon(_passwordVisible ? LineAwesomeIcons.eye:LineAwesomeIcons.eye_slash),
-                                  onPressed: (){
-                                    setState(() {
-                                      _passwordVisible = !_passwordVisible;
-                                    });
-                                  }
-                                ), 
-                                lableText: "Password", 
-                                hintText: "Enter your password")),
+                              FadeAnimation(
+                                  1.2,
+                                  CustomTextField(
+                                      obscureText: false,
+                                      controller: _emailController,
+                                      keyboardType: TextInputType.emailAddress,
+                                      validation: (_) {
+                                        return !state.isEmailValid
+                                            ? "Please enter a valid email"
+                                            : null;
+                                      },
+                                      prefix: Icon(LineAwesomeIcons.envelope),
+                                      lableText: "Email",
+                                      hintText: "Enter your email")),
+                              SizedBox(
+                                height: SizeConfig.safeBlockHorizontal * 2,
+                              ),
+                              FadeAnimation(
+                                  1.3,
+                                  PasswordTextField(
+                                      obscureText: !_passwordVisible,
+                                      controller: _passwordController,
+                                      keyboardType: TextInputType.text,
+                                      textInputAction: TextInputAction.go,
+                                      onSubmitted: (_) {
+                                        _login();
+                                      },
+                                      validation: (_) {
+                                        return !state.isPasswordValid
+                                            ? "Please enter alpha-numerical min of 6"
+                                            : null;
+                                      },
+                                      prefix: Icon(LineAwesomeIcons.lock),
+                                      suffix: IconButton(
+                                          icon: Icon(_passwordVisible
+                                              ? LineAwesomeIcons.eye
+                                              : LineAwesomeIcons.eye_slash),
+                                          onPressed: () {
+                                            setState(() {
+                                              _passwordVisible =
+                                                  !_passwordVisible;
+                                            });
+                                          }),
+                                      lableText: "Password",
+                                      hintText: "Enter your password")),
                             ],
                           ),
-                          SizedBox(height: SizeConfig.safeBlockHorizontal*3,),
-                          FadeAnimation(1.4, CustomButton(
-                            press: _login, 
-                            text: "Sign In",
-                                  color:Style.secondaryColor,
-                          )),
-                          SizedBox(height: SizeConfig.safeBlockHorizontal*2,),
-                          FadeAnimation(1.5, AlreadyHaveAnAccountCheck(
-                            press: ()=>ExtendedNavigator.of(context).push(Routes.registerPage),//route to register
-                            color: Style.secondaryColor)),
-                          SizedBox(height: SizeConfig.safeBlockHorizontal*2,),
-                          FadeAnimation(1.6, ForgotPasswordText(
-                            press: ()=>ExtendedNavigator.of(context).push(Routes.recoverPassword), 
-                            color: Style.secondaryColor)),
+                          SizedBox(
+                            height: SizeConfig.safeBlockHorizontal * 3,
+                          ),
+                          FadeAnimation(
+                              1.4,
+                              CustomButton(
+                                press: _login,
+                                text: "Sign In",
+                                color: Style.secondaryColor,
+                              )),
+                          SizedBox(
+                            height: SizeConfig.safeBlockHorizontal * 2,
+                          ),
+                          FadeAnimation(
+                              1.5,
+                              AlreadyHaveAnAccountCheck(
+                                  press: () => ExtendedNavigator.of(context)
+                                      .push(Routes
+                                          .registerPage), //route to register
+                                  color: Style.secondaryColor)),
+                          SizedBox(
+                            height: SizeConfig.safeBlockHorizontal * 2,
+                          ),
+                          FadeAnimation(
+                              1.6,
+                              ForgotPasswordText(
+                                  press: () => ExtendedNavigator.of(context)
+                                      .push(Routes.recoverPassword),
+                                  color: Style.secondaryColor)),
                         ],
                       ),
                     ),
                     FadeAnimation(1.7, OrDivider()),
-                    FadeAnimation(1.8, Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SocalIcon(
-                          iconSrc: "assets/icons/facebook.svg",
-                          press: (){},
-                        ),
-                        SocalIcon(
-                          iconSrc: "assets/icons/twitter.svg",
-                          press: (){},
-                        ),
-                        SocalIcon(
-                          iconSrc: "assets/icons/google-plus.svg",
-                          press: (){},
-                        ),
-                      ],
-                    )),
+                    FadeAnimation(
+                        1.8,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SocalIcon(
+                              iconSrc: "assets/icons/facebook.svg",
+                              press: () {},
+                            ),
+                            SocalIcon(
+                              iconSrc: "assets/icons/twitter.svg",
+                              press: () {},
+                            ),
+                            SocalIcon(
+                              iconSrc: "assets/icons/google-plus.svg",
+                              press: () {},
+                            ),
+                          ],
+                        )),
                   ],
                 ),
               ),
             ),
-          );}
-        ),
+          );
+        }),
       ),
     );
   }
 
-
   _login() {
     _bloc.add(AuthEvent.loginPressed(
-      _emailController.text,
-      _passwordController.text));
+        _emailController.text, _passwordController.text));
   }
 }

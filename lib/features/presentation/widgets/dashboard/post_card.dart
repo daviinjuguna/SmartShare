@@ -6,6 +6,7 @@ import 'package:SmartShare/features/domain/entities/home/get_post.dart';
 import 'package:SmartShare/features/presentation/bloc/home/post_bloc/post_bloc.dart';
 import 'package:SmartShare/features/presentation/widgets/dashboard/system_padding.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -16,12 +17,17 @@ class PostsCard extends StatefulWidget {
   final GetMyPost myPost;
   final bloc;
   final model;
-  final Function delete,edit;
+  final Function delete, edit;
 
-
-  PostsCard({
-    Key key,@required this.post,@required this.myPost, @required this.bloc,@required this.model,@required this.delete,@required this.edit
-  }) : super(key: key);
+  PostsCard(
+      {Key key,
+      @required this.post,
+      @required this.myPost,
+      @required this.bloc,
+      @required this.model,
+      @required this.delete,
+      @required this.edit})
+      : super(key: key);
 
   @override
   _PostsCardState createState() => _PostsCardState();
@@ -40,7 +46,6 @@ class _PostsCardState extends State<PostsCard> {
   void dispose() {
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +76,10 @@ class _PostsCardState extends State<PostsCard> {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               fit: BoxFit.fill,
-                              image: new NetworkImage(
-                                widget.post.user.photo !="" ? IMAGE_URL + widget.post.user.photo:
-                                  'https://ramcotubular.com/wp-content/uploads/default-avatar.jpg'),
+                              image: new NetworkImage(widget.post.user.photo !=
+                                      ""
+                                  ? IMAGE_URL + widget.post.user.photo
+                                  : 'https://ramcotubular.com/wp-content/uploads/default-avatar.jpg'),
                             ),
                           ),
                         ),
@@ -85,12 +91,15 @@ class _PostsCardState extends State<PostsCard> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.post.user.name +" "+ widget.post.user.lastName,
+                              widget.post.user.name +
+                                  " " +
+                                  widget.post.user.lastName,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 15),
                             ),
                             Text(
-                              timeago.format(DateTime.parse(widget.post.createdAt)),
+                              timeago.format(
+                                  DateTime.parse(widget.post.createdAt)),
                               // post.createdAt,
                               style: TextStyle(
                                   fontWeight: FontWeight.w300, fontSize: 10),
@@ -99,20 +108,23 @@ class _PostsCardState extends State<PostsCard> {
                         )
                       ],
                     ),
-                    widget.post.user.id == widget.myPost.user.id ? PopupMenuButton<String>(
-                      icon: Icon(LineAwesomeIcons.horizontal_ellipsis,color: Colors.black,),
-                      onSelected: (choice)=>choiceAction(choice,context),
-                      itemBuilder: (context){
-                        return PopUpMenu.choices.map(
-                          (String choice) {
-                            return PopupMenuItem<String>(
-                              child: Text(choice),
-                              value: choice,
-                            );
-                          }
-                        ).toList();
-                      }
-                    ) : Opacity(opacity: 1),
+                    widget.post.user.id == widget.myPost.user.id
+                        ? PopupMenuButton<String>(
+                            icon: Icon(
+                              LineAwesomeIcons.horizontal_ellipsis,
+                              color: Colors.black,
+                            ),
+                            onSelected: (choice) =>
+                                choiceAction(choice, context),
+                            itemBuilder: (context) {
+                              return PopUpMenu.choices.map((String choice) {
+                                return PopupMenuItem<String>(
+                                  child: Text(choice),
+                                  value: choice,
+                                );
+                              }).toList();
+                            })
+                        : Opacity(opacity: 1),
                   ],
                 ),
                 SizedBox(
@@ -125,15 +137,26 @@ class _PostsCardState extends State<PostsCard> {
               ],
             ),
           ),
-          widget.post.photo !=""?
-          Flexible(
-            flex: 2,
-            fit: FlexFit.loose,
-            child: new Image.network(
-              IMAGE_URL + widget.post.photo,
-              fit: BoxFit.cover,
-            ),
-          ): SizedBox(),
+          widget.post.photo != ""
+              ? Flexible(
+                  flex: 2,
+                  fit: FlexFit.loose,
+                  // child: new Image.network(
+                  //   IMAGE_URL + widget.post.photo,
+                  //   fit: BoxFit.cover,
+                  // ),
+                  child: CachedNetworkImage(
+                    imageUrl: IMAGE_URL + widget.post.photo,
+                    fit: BoxFit.fill,
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) => Center(
+                      child: CircularProgressIndicator(
+                          value: downloadProgress.progress),
+                    ),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
+                )
+              : SizedBox(),
           SizedBox(
             height: SizeConfig.safeBlockHorizontal * 2,
           ),
@@ -143,25 +166,35 @@ class _PostsCardState extends State<PostsCard> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 LikeButton(
-                  circleColor: CircleColor(start: Colors.yellow[300], end: Colors.yellow[800]),
+                  circleColor: CircleColor(
+                      start: Colors.yellow[300], end: Colors.yellow[800]),
                   bubblesColor: BubblesColor(
                     dotPrimaryColor: Color(0xfffee56f),
                     dotSecondaryColor: Colors.yellow[800],
                   ),
                   likeCount: widget.post.likesCount,
                   isLiked: isLiked,
-                  onTap: (isLiked) async{
-                    widget.bloc.add(LikePostEvent(postId: widget.post.id, model: widget.model, myModel: widget.myPost));
+                  onTap: (isLiked) async {
+                    widget.bloc.add(LikePostEvent(
+                        postId: widget.post.id,
+                        model: widget.model,
+                        myModel: widget.myPost));
                     return !isLiked;
                   },
                 ),
-                // SizedBox(
-                //   width: SizeConfig.blockSizeVertical * 3,
-                // ),
-                // new Icon(
-                //   LineAwesomeIcons.sms,
-                //   size: 30,
-                // ),
+                SizedBox(
+                  width: SizeConfig.blockSizeVertical * 3,
+                ),
+                new IconButton(
+                  icon: Icon(
+                    LineAwesomeIcons.sms,
+                    size: 30,
+                    color: Colors.grey[600],
+                  ),
+                  onPressed: () => ExtendedNavigator.of(context)
+                      .pushCommentsScreen(
+                          post: widget.post, myPost: widget.myPost),
+                ),
               ],
             ),
           ),
@@ -171,9 +204,9 @@ class _PostsCardState extends State<PostsCard> {
           // Padding(
           //   padding: EdgeInsets.only(left: SizeConfig.safeBlockHorizontal * 4),
           //   child: Text(
-          //     widget.post.likesCount != 0 && widget.post.likesCount != 1 
+          //     widget.post.likesCount != 0 && widget.post.likesCount != 1
           //     ? widget.post.likesCount.toString() + " Likes"
-          //     : widget.post.likesCount == 1 
+          //     : widget.post.likesCount == 1
           //     ? widget.post.likesCount.toString() + " Like"
           //     : "No Likes",
           //     style: TextStyle(fontWeight: FontWeight.w600),
@@ -185,19 +218,24 @@ class _PostsCardState extends State<PostsCard> {
           Padding(
             padding: EdgeInsets.only(left: SizeConfig.safeBlockHorizontal * 4),
             child: GestureDetector(
-              onTap: () =>ExtendedNavigator.of(context).pushCommentsScreen(post: widget.post, myPost: widget.myPost),  
+              onTap: () => ExtendedNavigator.of(context)
+                  .pushCommentsScreen(post: widget.post, myPost: widget.myPost),
               child: Text(
-                widget.post.commentsCount != 0 && widget.post.commentsCount != 1 
-                ? "View all " + widget.post.commentsCount.toString()+ " comments"
-                : widget.post.commentsCount == 1 
-                ? "View all " + widget.post.commentsCount.toString()+ " comment" 
-                : "No Comments",
+                widget.post.commentsCount != 0 && widget.post.commentsCount != 1
+                    ? "View all " +
+                        widget.post.commentsCount.toString() +
+                        " comments"
+                    : widget.post.commentsCount == 1
+                        ? "View all " +
+                            widget.post.commentsCount.toString() +
+                            " comment"
+                        : "No Comments",
                 style: TextStyle(color: Colors.grey[700]),
               ),
             ),
           ),
           SizedBox(
-            height: SizeConfig.safeBlockHorizontal *5,
+            height: SizeConfig.safeBlockHorizontal * 5,
           ),
         ],
       ),
@@ -205,13 +243,13 @@ class _PostsCardState extends State<PostsCard> {
   }
 
   void choiceAction(String choice, BuildContext context) {
-    if(choice == PopUpMenu.editPost){
+    if (choice == PopUpMenu.editPost) {
       print("Edit post");
+
       widget.edit();
-    }else if(choice == PopUpMenu.deletePost){
+    } else if (choice == PopUpMenu.deletePost) {
       print("Delete Post");
       widget.delete();
     }
   }
-
 }

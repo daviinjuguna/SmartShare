@@ -11,5 +11,5 @@ abstract class AuthRepository {
   Future<Either<Failure, ApiSuccess>> refreshToken();
   Future<Either<Failure, ApiSuccess>> saveUserInfo(
       String firstName, String lastName, String imageUrl);
-  Future<Either<Failure, String>> fetchImageUrl(String url);
+  
 }

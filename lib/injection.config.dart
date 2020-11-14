@@ -31,6 +31,8 @@ import 'features/domain/usecase/get_comment_usecase.dart';
 import 'features/domain/usecase/get_my_post_usecase.dart';
 import 'features/domain/usecase/get_post.dart';
 import 'features/data/data_source/image/image_data_source.dart';
+import 'features/domain/repository/image_repository.dart';
+import 'features/data/repository_impl/image_repository_impl.dart';
 import 'injection_module.dart';
 import 'features/presentation/bloc/auth/intro_bloc/intro_bloc.dart';
 import 'features/domain/usecase/like_post.dart';
@@ -80,12 +82,23 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<SmartShareDatabase>(() => SmartShareDatabase());
   gh.lazySingleton<AuthLocalDataSource>(() =>
       AuthLocalDataSourceImpl(sharedPreferences: get<SharedPreferences>()));
+  gh.lazySingleton<AuthRepository>(() => AuthRepositoryImpl(
+        localDataSource: get<AuthLocalDataSource>(),
+        remoteDataSource: get<AuthRemoteDataSource>(),
+        networkInfo: get<NetworkInfo>(),
+      ));
   gh.lazySingleton<CheckAppState>(
       () => CheckAppState(sharedPreferences: get<SharedPreferences>()));
   gh.lazySingleton<CheckLogin>(
       () => CheckLogin(appState: get<CheckAppState>()));
   gh.lazySingleton<ImageDataSource>(
       () => ImageDataSourceImpl(imagePicker: get<ImagePicker>()));
+  gh.lazySingleton<ImageRepository>(
+      () => ImageRepositoryImpl(imageDataSource: get<ImageDataSource>()));
+  gh.lazySingleton<LoginUseCase>(
+      () => LoginUseCase(repository: get<AuthRepository>()));
+  gh.lazySingleton<LogoutUseCase>(
+      () => LogoutUseCase(repository: get<AuthRepository>()));
   gh.lazySingleton<MyPostDao>(() => MyPostDao(get<SmartShareDatabase>()));
   gh.lazySingleton<PostDao>(() => PostDao(get<SmartShareDatabase>()));
   gh.lazySingleton<PostLocalDataSource>(() =>
@@ -97,11 +110,18 @@ Future<GetIt> $initGetIt(
         commentsRemoteDataSource: get<CommentsRemoteDataSource>(),
         postLocalDataSource: get<PostLocalDataSource>(),
       ));
-  gh.lazySingleton<AuthRepository>(() => AuthRepositoryImpl(
-        localDataSource: get<AuthLocalDataSource>(),
-        remoteDataSource: get<AuthRemoteDataSource>(),
-        networkInfo: get<NetworkInfo>(),
-        imageDataSource: get<ImageDataSource>(),
+  gh.lazySingleton<RefreshTokenUseCase>(
+      () => RefreshTokenUseCase(repository: get<AuthRepository>()));
+  gh.lazySingleton<RegisterUseCase>(
+      () => RegisterUseCase(repository: get<AuthRepository>()));
+  gh.lazySingleton<SaveUserUseCase>(
+      () => SaveUserUseCase(repository: get<AuthRepository>()));
+  gh.lazySingleton<SelectImageUseCase>(
+      () => SelectImageUseCase(repository: get<ImageRepository>()));
+  gh.factory<AuthBloc>(() => AuthBloc(
+        loginUseCase: get<LoginUseCase>(),
+        registerUseCase: get<RegisterUseCase>(),
+        saveUserUseCase: get<SaveUserUseCase>(),
       ));
   gh.lazySingleton<CreateCommentUseCase>(
       () => CreateCommentUseCase(repository: get<PostRepository>()));
@@ -121,36 +141,13 @@ Future<GetIt> $initGetIt(
       () => GetMyPostUseCase(repository: get<PostRepository>()));
   gh.lazySingleton<GetPostUseCase>(
       () => GetPostUseCase(repository: get<PostRepository>()));
-  gh.lazySingleton<LikePostUseCase>(
-      () => LikePostUseCase(repository: get<PostRepository>()));
-  gh.lazySingleton<LoginUseCase>(
-      () => LoginUseCase(repository: get<AuthRepository>()));
-  gh.lazySingleton<LogoutUseCase>(
-      () => LogoutUseCase(repository: get<AuthRepository>()));
-  gh.lazySingleton<RefreshTokenUseCase>(
-      () => RefreshTokenUseCase(repository: get<AuthRepository>()));
-  gh.lazySingleton<RegisterUseCase>(
-      () => RegisterUseCase(repository: get<AuthRepository>()));
-  gh.lazySingleton<SaveUserUseCase>(
-      () => SaveUserUseCase(repository: get<AuthRepository>()));
-  gh.lazySingleton<SelectImageUseCase>(
-      () => SelectImageUseCase(repository: get<AuthRepository>()));
-  gh.factory<AuthBloc>(() => AuthBloc(
-        loginUseCase: get<LoginUseCase>(),
-        registerUseCase: get<RegisterUseCase>(),
-        saveUserUseCase: get<SaveUserUseCase>(),
-      ));
-  gh.factory<CommentBloc>(() => CommentBloc(
-        getCommentUseCase: get<GetCommentUseCase>(),
-        createCommentUseCase: get<CreateCommentUseCase>(),
-        editCommentUseCase: get<EditCommentUseCase>(),
-        deleteCommentUseCase: get<DeleteCommentUseCase>(),
-      ));
   gh.factory<IntroBloc>(() => IntroBloc(
         isLoggedIn: get<CheckLogin>(),
         logoutUseCase: get<LogoutUseCase>(),
         refreshTokenUseCase: get<RefreshTokenUseCase>(),
       ));
+  gh.lazySingleton<LikePostUseCase>(
+      () => LikePostUseCase(repository: get<PostRepository>()));
   gh.factory<PostBloc>(() => PostBloc(
         getPost: get<GetPostUseCase>(),
         createPostUseCase: get<CreatePostUseCase>(),
@@ -160,6 +157,12 @@ Future<GetIt> $initGetIt(
         editPostUseCase: get<EditPostUseCase>(),
         deletePostUseCase: get<DeletePostUseCase>(),
         logoutUseCase: get<LogoutUseCase>(),
+      ));
+  gh.factory<CommentBloc>(() => CommentBloc(
+        getCommentUseCase: get<GetCommentUseCase>(),
+        createCommentUseCase: get<CreateCommentUseCase>(),
+        editCommentUseCase: get<EditCommentUseCase>(),
+        deleteCommentUseCase: get<DeleteCommentUseCase>(),
       ));
   return get;
 }
