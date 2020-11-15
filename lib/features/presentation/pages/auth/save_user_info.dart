@@ -11,6 +11,7 @@ import 'package:SmartShare/injection.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
@@ -218,11 +219,15 @@ class _SaveUserInfoScreenState extends State<SaveUserInfoScreen> {
   _imgFromCamera() async {
     final pickedFile =
         await picker.getImage(source: ImageSource.camera, imageQuality: 50);
+    File compressedFile = await FlutterNativeImage.compressImage(
+      pickedFile.path,
+      quality: 25,
+    );
 
     setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-        imageUrl = pickedFile.path;
+      if (compressedFile != null) {
+        _image = File(compressedFile.path);
+        imageUrl = compressedFile.path;
       } else {
         print('No image selected.');
       }
@@ -232,11 +237,15 @@ class _SaveUserInfoScreenState extends State<SaveUserInfoScreen> {
   _imgFromGallery() async {
     final pickedFile =
         await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
+    File compressedFile = await FlutterNativeImage.compressImage(
+      pickedFile.path,
+      quality: 25,
+    );
 
     setState(() {
-      if (pickedFile != null) {
+      if (compressedFile != null) {
         _image = File(pickedFile.path);
-        imageUrl = pickedFile.path;
+        imageUrl = compressedFile.path;
       } else {
         print('No image selected.');
       }

@@ -26,7 +26,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin<HomeScreen>{
   // PostBloc _bloc;
   final TextEditingController _desc = TextEditingController();
-  final TextEditingController _search = TextEditingController();
+  // final TextEditingController _search = TextEditingController();
   // List<GetPost> filteredPosts = [];
   // GetMyPost myPost;
 
@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   void dispose() {
     super.dispose();
 
-    _search.dispose();
+    // _search.dispose();
     _desc.dispose();
   }
 
@@ -57,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: new AppBar(
         elevation: 2,
         brightness: Brightness.light,

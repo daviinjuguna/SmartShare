@@ -139,6 +139,7 @@ class Router extends RouterBase {
           key: args.key,
           post: args.post,
           myPost: args.myPost,
+          postBloc: args.postBloc,
         ),
         settings: data,
       );
@@ -199,11 +200,12 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
     Key key,
     @required GetPost post,
     @required GetMyPost myPost,
+    @required dynamic postBloc,
   }) =>
       push<dynamic>(
         Routes.commentsScreen,
-        arguments:
-            CommentsScreenArguments(key: key, post: post, myPost: myPost),
+        arguments: CommentsScreenArguments(
+            key: key, post: post, myPost: myPost, postBloc: postBloc),
       );
 }
 
@@ -241,6 +243,10 @@ class CommentsScreenArguments {
   final Key key;
   final GetPost post;
   final GetMyPost myPost;
+  final dynamic postBloc;
   CommentsScreenArguments(
-      {this.key, @required this.post, @required this.myPost});
+      {this.key,
+      @required this.post,
+      @required this.myPost,
+      @required this.postBloc});
 }

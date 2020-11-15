@@ -4,6 +4,7 @@ import 'package:SmartShare/core/errors/exceptions.dart';
 import 'package:SmartShare/core/errors/failures.dart';
 import 'package:SmartShare/core/utils/network_info.dart';
 import 'package:SmartShare/features/data/data_source/auth_api/auth_local_data.dart';
+import 'package:SmartShare/features/data/data_source/comments_api/comments_local_data_source.dart';
 import 'package:SmartShare/features/data/data_source/comments_api/comments_remote.dart';
 import 'package:SmartShare/features/data/data_source/post_api/post_local_data.dart';
 import 'package:SmartShare/features/data/data_source/post_api/post_remote_data.dart';
@@ -24,13 +25,15 @@ class PostRepositoryImpl implements PostRepository {
   final CommentsRemoteDataSource commentsRemoteDataSource;
   final NetworkInfo networkInfo;
   final PostLocalDataSource postLocalDataSource;
+  final CommentLocalDataSource commentLocalDataSource;
 
   PostRepositoryImpl(
       {@required this.localDataSource,
       @required this.remoteDataSource,
       @required this.networkInfo,
       @required this.commentsRemoteDataSource,
-      @required this.postLocalDataSource});
+      @required this.postLocalDataSource,
+      @required this.commentLocalDataSource});
 
   @override
   Future<Either<Failure, List<GetPost>>> getPost() async {
@@ -41,7 +44,10 @@ class PostRepositoryImpl implements PostRepository {
         if (await networkInfo.isConnected) {
           try {
             final post = await remoteDataSource.getPost(await accessToken);
-            await postLocalDataSource.cachePost(post);
+            if (post.isNotEmpty) {
+              await postLocalDataSource.cachePost(post);
+            }
+
             return Right(post);
           } on ServerException {
             print("server exception");
@@ -156,7 +162,9 @@ class PostRepositoryImpl implements PostRepository {
         if (await networkInfo.isConnected) {
           try {
             final post = await remoteDataSource.getMyPost(await accessToken);
-            await postLocalDataSource.cacheMyPost(post);
+            if (post.post.isNotEmpty) {
+              await postLocalDataSource.cacheMyPost(post);
+            }
             return Right(post);
           } on ServerException {
             print("server exception");
@@ -235,25 +243,34 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<Either<Failure, List<GetComments>>> getComments(int postId) async {
     final accessToken = localDataSource.getAuthToken();
-    if (accessToken != null) {
-      if (await networkInfo.isConnected) {
-        try {
-          final comments = await commentsRemoteDataSource.getComments(
-              await accessToken, postId);
-          return Right(comments);
-        } on ServerException {
-          print("server exception");
+    final cachedComments = await commentLocalDataSource.getCachedComments();
+    if (cachedComments.isEmpty) {
+      if (accessToken != null) {
+        if (await networkInfo.isConnected) {
+          try {
+            final comments = await commentsRemoteDataSource.getComments(
+                await accessToken, postId);
+            if (comments.isNotEmpty) {
+              await commentLocalDataSource.cacheComments(comments);
+            }
+
+            return Right(comments);
+          } on ServerException {
+            print("server exception");
+            return Left(ServerFailure());
+          } on UnAuthenticatedException {
+            return Left(UnAuthenticatedFailure());
+          } on CacheException {
+            return Left(CacheFailure());
+          }
+        } else {
           return Left(ServerFailure());
-        } on UnAuthenticatedException {
-          return Left(UnAuthenticatedFailure());
-        } on CacheException {
-          return Left(CacheFailure());
         }
       } else {
-        return Left(ServerFailure());
+        return Left(UnAuthenticatedFailure());
       }
     } else {
-      return Left(UnAuthenticatedFailure());
+      return Right(cachedComments);
     }
   }
 

@@ -8,6 +8,7 @@ abstract class PostEvent extends Equatable {
 }
 
 class GetPostEvent extends PostEvent {}
+class UpdatePostEvent extends PostEvent {}
 
 class GetImageEvent extends PostEvent {
   final String selection;

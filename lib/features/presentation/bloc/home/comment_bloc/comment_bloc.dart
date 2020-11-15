@@ -51,7 +51,10 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
       }, (getCommentSuccess) async* {
         // final List<GetComments> getComment = [];
         // getComment.insert(0, getCommentSuccess);
-        yield Created(message: "Success", getComments: getCommentSuccess,);
+        yield Created(
+          message: "Success",
+          getComments: getCommentSuccess,
+        );
       });
     } else if (event is EditCommentEvent) {
       final editCommentEither = await editCommentUseCase(EditCommentParams(
@@ -69,8 +72,16 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
       }, (success) async* {
         yield Success(message: "Success", commentModel: event.commentModel);
       });
-    }else if(event is ChangeStateEvent){
+    } else if (event is ChangeStateEvent) {
       yield Success(message: "State Changed", commentModel: event.commentModel);
+    } else if (event is UpdateCommentEvent) {
+      final getCmmentEither =
+          await getCommentUseCase(ParamsId(id: event.postId));
+      yield* getCmmentEither.fold((failure) async* {
+        yield Error(message: mapFailureToMessage(failure), title: "Error");
+      }, (commentModel) async* {
+        yield Success(message: "Success", commentModel: commentModel);
+      });
     }
   }
 }

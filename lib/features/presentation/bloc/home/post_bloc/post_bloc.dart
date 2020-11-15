@@ -53,12 +53,12 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       yield Loading();
       final getPostEither = await getPost(NoParams());
       yield* getPostEither.fold((failure) async* {
-        yield Error(message: mapFailureToMessage(failure), title: "Error");
+        yield ErrorPost(message: mapFailureToMessage(failure), title: "Error");
       }, (model) async* {
         // yield Success(model: model);
         final myPostEither = await getMyPostUseCase(NoParams());
         yield* myPostEither.fold((failure) async* {
-          yield Error(message: mapFailureToMessage(failure), title: "Error");
+          yield ErrorPost(message: mapFailureToMessage(failure), title: "Error");
         }, (myModel) async* {
           yield Success(model: model, myModel: myModel);
         });
@@ -68,7 +68,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       final createEither = await createPostUseCase(CreatePostParams(
           postDescription: event.postDescription, imageUrl: event.imageUrl));
       yield* createEither.fold((failure) async* {
-        yield Error(message: mapFailureToMessage(failure), title: "Error");
+        yield ErrorPost(message: mapFailureToMessage(failure), title: "Error");
       }, (post) async* {
         yield CreatePostSuccess(message: 'Success',getPost: post);
       });
@@ -78,7 +78,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         SelectImageParams(url: event.selection),
       );
       yield* imageEither.fold((failure) async* {
-        yield Error(message: mapFailureToMessage(failure), title: "Error");
+        yield ErrorPost(message: mapFailureToMessage(failure), title: "Error");
       }, (imageUrl) async* {
         yield RegisterImageState(imageFile: imageUrl);
       });
@@ -87,7 +87,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       final deleteEither =
           await deletePostUseCase(DeletePostParams(postId: event.postId));
       yield* deleteEither.fold((failure) async* {
-        yield Error(message: mapFailureToMessage(failure), title: "Error");
+        yield ErrorPost(message: mapFailureToMessage(failure), title: "Error");
       }, (success) async* {
         yield Success(model: event.model, myModel: event.myModel);
       });
@@ -96,7 +96,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       final editEither = await editPostUseCase(EditPostParams(
           postId: event.postId, postDescription: event.postDescription));
       yield* editEither.fold((failure) async* {
-        yield Error(message: mapFailureToMessage(failure), title: "Error");
+        yield ErrorPost(message: mapFailureToMessage(failure), title: "Error");
       }, (success) async* {
         yield Success(model: event.model, myModel: event.myModel);
       });
@@ -105,7 +105,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       final likeEither =
           await likePostUseCase(LikePostParams(postId: event.postId));
       yield* likeEither.fold((failure) async* {
-        yield Error(message: mapFailureToMessage(failure), title: "Error");
+        yield ErrorPost(message: mapFailureToMessage(failure), title: "Error");
       }, (success) async* {
         yield Success(model: event.model, myModel: event.myModel);
       });
@@ -113,12 +113,26 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       yield LogoutLoading();
       final logoutEither = await logoutUseCase(NoParams());
       yield* logoutEither.fold((failure) async* {
-        yield Error(message: mapFailureToMessage(failure), title: "Error");
+        yield ErrorPost(message: mapFailureToMessage(failure), title: "Error");
       }, (success) async* {
         yield LogoutSuccess();
       });
     }else if(event is ChangePostStateEvent){
       yield Success(model: event.model, myModel: event.myModel);
+    }else if(event is UpdatePostEvent){
+      yield UpdateLoading();
+      final getPostEither = await getPost(NoParams());
+      yield* getPostEither.fold((failure) async* {
+        yield ErrorPost(message: mapFailureToMessage(failure), title: "Error");
+      }, (model) async* {
+        // yield Success(model: model);
+        final myPostEither = await getMyPostUseCase(NoParams());
+        yield* myPostEither.fold((failure) async* {
+          yield ErrorPost(message: mapFailureToMessage(failure), title: "Error");
+        }, (myModel) async* {
+          yield Success(model: model, myModel: myModel);
+        });
+      });
     }
   }
 }

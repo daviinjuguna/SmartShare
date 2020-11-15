@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:SmartShare/core/routes/router.gr.dart';
 import 'package:SmartShare/core/utils/size_config.dart';
 import 'package:SmartShare/features/domain/entities/home/get_my_post.dart';
@@ -6,6 +8,7 @@ import 'package:SmartShare/features/presentation/bloc/auth/intro_bloc/intro_bloc
 import 'package:SmartShare/features/presentation/bloc/home/post_bloc/post_bloc.dart';
 import 'package:SmartShare/features/presentation/pages/home/home_screen.dart';
 import 'package:SmartShare/features/presentation/pages/home/profile_screen.dart';
+import 'package:SmartShare/features/presentation/widgets/components/my_alert_dialogue.dart';
 import 'package:SmartShare/features/presentation/widgets/dashboard/register_select_image_list.dart';
 import 'package:SmartShare/features/presentation/widgets/dashboard/shimmer_card.dart';
 import 'package:SmartShare/injection.dart';
@@ -29,7 +32,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   PostBloc _bloc;
   List<GetPost> filteredPosts = [];
   GetMyPost myPost;
-  dynamic post;
+  dynamic post, filteredPhoto;
 
   @override
   void initState() {
@@ -37,6 +40,11 @@ class _DashboardScreenState extends State<DashboardScreen>
     _pageController = PageController();
     _bloc = getIt<PostBloc>();
     _bloc.add(GetPostEvent());
+
+    //updates post every one minute
+    Timer.periodic(Duration(minutes: 1), (Timer timer) {
+      _bloc.add(UpdatePostEvent());
+    });
   }
 
   @override
@@ -50,6 +58,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBody: true,
       backgroundColor: Colors.white,
       body: BlocProvider<PostBloc>(
@@ -84,6 +93,14 @@ class _DashboardScreenState extends State<DashboardScreen>
                     ExtendedNavigator.of(context).replace(Routes.welcomePage),
               );
             }
+
+            if (state is ErrorPost) {
+              return MyAlertDialog(
+                  press: () => _bloc.add(UpdatePostEvent()),
+                  message: "Sorry something went wrong",
+                  title: "Error",
+                  buttonTitle: "Retry");
+            }
           },
           builder: (context, state) {
             if (state is Loading) {
@@ -100,10 +117,13 @@ class _DashboardScreenState extends State<DashboardScreen>
               filteredPosts = state.model;
               myPost = state.myModel;
               post = myPost.post;
+              filteredPhoto =
+                  post.where((element) => element.photo != "").toList();
             }
-            // if(state is CreatePostSuccess){
-            //   filteredPosts.insert(0, state.getPost);
-            //   _bloc.add(ChangePostStateEvent(model: filteredPosts, myModel: myPost));
+            // if (state is CreatePostSuccess) {
+            //   // filteredPosts.insert(0, state.getPost);
+            //   getIt<PostBloc>()..add(UpdatePostEvent());
+            //   // _bloc.add(ChangePostStateEvent(model: filteredPosts, myModel: myPost));
             // }
             return PageView(
               controller: _pageController,
@@ -120,6 +140,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                   bloc: _bloc,
                   myPost: myPost,
                   post: post,
+                  filteredPhoto: filteredPhoto,
                 ),
               ],
             );
@@ -166,6 +187,8 @@ class _DashboardScreenState extends State<DashboardScreen>
       floatingActionButton: FloatingActionButton(
         onPressed: () =>
             ExtendedNavigator.of(context).pushNewPostPage(bloc: _bloc),
+        //  ExtendedNavigator.of(context).replace(Routes.welcomePage),
+
         child: Icon(LineAwesomeIcons.plus),
         backgroundColor: Color(0xfffee56f),
         elevation: 2,

@@ -14,9 +14,10 @@ class ProfileBody extends StatefulWidget {
     @required this.post,
     @required this.myPost,
     @required this.bloc,
+    @required this.filteredPhoto,
   }) : super(key: key);
 
-  final post, bloc;
+  final post, bloc, filteredPhoto;
   final GetMyPost myPost;
 
   @override
@@ -25,12 +26,12 @@ class ProfileBody extends StatefulWidget {
 
 class _ProfileBodyState extends State<ProfileBody> {
   // final TextEditingController _desc = TextEditingController();
-  var filteredPhoto;
+  // var filteredPhoto;
 
   @override
   void initState() {
-    filteredPhoto =
-        widget.myPost.post.where((element) => element.photo != "").toList();
+    // filteredPhoto =
+    //     widget.myPost.post.where((element) => element.photo != "").toList();
     super.initState();
   }
 
@@ -167,35 +168,41 @@ class _ProfileBodyState extends State<ProfileBody> {
                 child: TabBarView(
                   children: [
                     GridView.builder(
-                      itemCount: filteredPhoto.length,
+                      itemCount: widget.filteredPhoto.length,
                       gridDelegate:
                           new SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3),
                       itemBuilder: (context, index) {
-                        return new GestureDetector(
-                            child: new Card(
-                          elevation: 1,
-                          child: new Container(
-                            // decoration: BoxDecoration(
-                            //   image: DecorationImage(
-                            //       image: NetworkImage(
-                            //           IMAGE_URL + filteredPhoto[index].photo),
-                            //       fit: BoxFit.fill
-                            //   ),
-                            // ),
-                            child: CachedNetworkImage(
-                              imageUrl: IMAGE_URL + filteredPhoto[index].photo,
-                              fit: BoxFit.fill,
-                              progressIndicatorBuilder:
-                                  (context, url, downloadProgress) => Center(
-                                child: CircularProgressIndicator(
-                                    value: downloadProgress.progress),
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                            ),
-                          ),
-                        ));
+                        return widget.filteredPhoto.isEmpty
+                            ? Opacity(
+                                opacity: 1,
+                              )
+                            : GestureDetector(
+                                child: new Card(
+                                elevation: 1,
+                                child: new Container(
+                                  // decoration: BoxDecoration(
+                                  //   image: DecorationImage(
+                                  //       image: NetworkImage(
+                                  //           IMAGE_URL + filteredPhoto[index].photo),
+                                  //       fit: BoxFit.fill
+                                  //   ),
+                                  // ),
+                                  child: CachedNetworkImage(
+                                    imageUrl: IMAGE_URL +
+                                        widget.filteredPhoto[index].photo,
+                                    fit: BoxFit.fill,
+                                    progressIndicatorBuilder:
+                                        (context, url, downloadProgress) =>
+                                            Center(
+                                      child: CircularProgressIndicator(
+                                          value: downloadProgress.progress),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
+                                ),
+                              ));
                       },
                     ),
                     ListView.builder(

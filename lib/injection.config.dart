@@ -20,6 +20,8 @@ import 'core/utils/check_app_state.dart';
 import 'features/domain/usecase/check_login.dart';
 import 'features/presentation/bloc/home/comment_bloc/comment_bloc.dart';
 import 'features/data/data_source/comments_api/comments_client.dart';
+import 'database/comments/comments_dao.dart';
+import 'features/data/data_source/comments_api/comments_local_data_source.dart';
 import 'features/data/data_source/comments_api/comments_remote.dart';
 import 'features/domain/usecase/create_comment_usecase.dart';
 import 'features/domain/usecase/create_user_post.dart';
@@ -91,6 +93,9 @@ Future<GetIt> $initGetIt(
       () => CheckAppState(sharedPreferences: get<SharedPreferences>()));
   gh.lazySingleton<CheckLogin>(
       () => CheckLogin(appState: get<CheckAppState>()));
+  gh.lazySingleton<CommentDao>(() => CommentDao(get<SmartShareDatabase>()));
+  gh.lazySingleton<CommentLocalDataSource>(
+      () => CommentLocalDataSourceImpl(dao: get<CommentDao>()));
   gh.lazySingleton<ImageDataSource>(
       () => ImageDataSourceImpl(imagePicker: get<ImagePicker>()));
   gh.lazySingleton<ImageRepository>(
@@ -109,6 +114,7 @@ Future<GetIt> $initGetIt(
         networkInfo: get<NetworkInfo>(),
         commentsRemoteDataSource: get<CommentsRemoteDataSource>(),
         postLocalDataSource: get<PostLocalDataSource>(),
+        commentLocalDataSource: get<CommentLocalDataSource>(),
       ));
   gh.lazySingleton<RefreshTokenUseCase>(
       () => RefreshTokenUseCase(repository: get<AuthRepository>()));

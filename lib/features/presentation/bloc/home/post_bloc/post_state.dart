@@ -10,6 +10,7 @@ abstract class PostState extends Equatable {
 class Initial extends PostState {}
 
 class Loading extends PostState {}
+class UpdateLoading extends PostState {}
 
 class CreatePostLoading extends PostState {}
 
@@ -32,10 +33,10 @@ class Success extends PostState {
   List<Object> get props => [model, myModel];
 }
 
-class Error extends PostState {
+class ErrorPost extends PostState {
   final String title, message;
 
-  Error({@required this.message, @required this.title});
+  ErrorPost({@required this.message, @required this.title});
   @override
   List<Object> get props => [message, title];
 }

@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 part 'post_dao.g.dart';
 
-@UseDao(tables: [PostsTable])//!plural
+@UseDao(tables: [PostsTable]) //!plural
 @lazySingleton
 class PostDao extends DatabaseAccessor<SmartShareDatabase> with _$PostDaoMixin {
   PostDao(SmartShareDatabase db) : super(db);
@@ -13,8 +13,7 @@ class PostDao extends DatabaseAccessor<SmartShareDatabase> with _$PostDaoMixin {
   Future<List<PostTable>> getPost(int id) =>
       (select(postsTable)..where((tbl) => tbl.id.equals(id))).get();
 
-  Future insertPost(PostTable post) =>
-      into(postsTable).insert(post);
+  Future insertPost(PostTable post) => into(postsTable).insert(post);
   Future deleteAll() => delete(postsTable).go();
 }
 

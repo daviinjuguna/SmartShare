@@ -886,6 +886,444 @@ class $MyPostTableTable extends MyPostTable
   }
 }
 
+class CommentsDataClass extends DataClass
+    implements Insertable<CommentsDataClass> {
+  final int id;
+  final int userId;
+  final int postId;
+  final String comment;
+  final String createdAt;
+  final String updatedAt;
+  final String user;
+  CommentsDataClass(
+      {@required this.id,
+      @required this.userId,
+      @required this.postId,
+      @required this.comment,
+      @required this.createdAt,
+      @required this.updatedAt,
+      @required this.user});
+  factory CommentsDataClass.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    return CommentsDataClass(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      userId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
+      postId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}post_id']),
+      comment:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}comment']),
+      createdAt: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
+      updatedAt: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}updated_at']),
+      user: stringType.mapFromDatabaseResponse(data['${effectivePrefix}user']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || userId != null) {
+      map['user_id'] = Variable<int>(userId);
+    }
+    if (!nullToAbsent || postId != null) {
+      map['post_id'] = Variable<int>(postId);
+    }
+    if (!nullToAbsent || comment != null) {
+      map['comment'] = Variable<String>(comment);
+    }
+    if (!nullToAbsent || createdAt != null) {
+      map['created_at'] = Variable<String>(createdAt);
+    }
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<String>(updatedAt);
+    }
+    if (!nullToAbsent || user != null) {
+      map['user'] = Variable<String>(user);
+    }
+    return map;
+  }
+
+  CommentTableCompanion toCompanion(bool nullToAbsent) {
+    return CommentTableCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      userId:
+          userId == null && nullToAbsent ? const Value.absent() : Value(userId),
+      postId:
+          postId == null && nullToAbsent ? const Value.absent() : Value(postId),
+      comment: comment == null && nullToAbsent
+          ? const Value.absent()
+          : Value(comment),
+      createdAt: createdAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+      user: user == null && nullToAbsent ? const Value.absent() : Value(user),
+    );
+  }
+
+  factory CommentsDataClass.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return CommentsDataClass(
+      id: serializer.fromJson<int>(json['id']),
+      userId: serializer.fromJson<int>(json['userId']),
+      postId: serializer.fromJson<int>(json['postId']),
+      comment: serializer.fromJson<String>(json['comment']),
+      createdAt: serializer.fromJson<String>(json['createdAt']),
+      updatedAt: serializer.fromJson<String>(json['updatedAt']),
+      user: serializer.fromJson<String>(json['user']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'userId': serializer.toJson<int>(userId),
+      'postId': serializer.toJson<int>(postId),
+      'comment': serializer.toJson<String>(comment),
+      'createdAt': serializer.toJson<String>(createdAt),
+      'updatedAt': serializer.toJson<String>(updatedAt),
+      'user': serializer.toJson<String>(user),
+    };
+  }
+
+  CommentsDataClass copyWith(
+          {int id,
+          int userId,
+          int postId,
+          String comment,
+          String createdAt,
+          String updatedAt,
+          String user}) =>
+      CommentsDataClass(
+        id: id ?? this.id,
+        userId: userId ?? this.userId,
+        postId: postId ?? this.postId,
+        comment: comment ?? this.comment,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        user: user ?? this.user,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('CommentsDataClass(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('postId: $postId, ')
+          ..write('comment: $comment, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('user: $user')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(
+          userId.hashCode,
+          $mrjc(
+              postId.hashCode,
+              $mrjc(
+                  comment.hashCode,
+                  $mrjc(createdAt.hashCode,
+                      $mrjc(updatedAt.hashCode, user.hashCode)))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is CommentsDataClass &&
+          other.id == this.id &&
+          other.userId == this.userId &&
+          other.postId == this.postId &&
+          other.comment == this.comment &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.user == this.user);
+}
+
+class CommentTableCompanion extends UpdateCompanion<CommentsDataClass> {
+  final Value<int> id;
+  final Value<int> userId;
+  final Value<int> postId;
+  final Value<String> comment;
+  final Value<String> createdAt;
+  final Value<String> updatedAt;
+  final Value<String> user;
+  const CommentTableCompanion({
+    this.id = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.postId = const Value.absent(),
+    this.comment = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.user = const Value.absent(),
+  });
+  CommentTableCompanion.insert({
+    this.id = const Value.absent(),
+    @required int userId,
+    @required int postId,
+    @required String comment,
+    @required String createdAt,
+    @required String updatedAt,
+    @required String user,
+  })  : userId = Value(userId),
+        postId = Value(postId),
+        comment = Value(comment),
+        createdAt = Value(createdAt),
+        updatedAt = Value(updatedAt),
+        user = Value(user);
+  static Insertable<CommentsDataClass> custom({
+    Expression<int> id,
+    Expression<int> userId,
+    Expression<int> postId,
+    Expression<String> comment,
+    Expression<String> createdAt,
+    Expression<String> updatedAt,
+    Expression<String> user,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (userId != null) 'user_id': userId,
+      if (postId != null) 'post_id': postId,
+      if (comment != null) 'comment': comment,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (user != null) 'user': user,
+    });
+  }
+
+  CommentTableCompanion copyWith(
+      {Value<int> id,
+      Value<int> userId,
+      Value<int> postId,
+      Value<String> comment,
+      Value<String> createdAt,
+      Value<String> updatedAt,
+      Value<String> user}) {
+    return CommentTableCompanion(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      postId: postId ?? this.postId,
+      comment: comment ?? this.comment,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      user: user ?? this.user,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (userId.present) {
+      map['user_id'] = Variable<int>(userId.value);
+    }
+    if (postId.present) {
+      map['post_id'] = Variable<int>(postId.value);
+    }
+    if (comment.present) {
+      map['comment'] = Variable<String>(comment.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<String>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<String>(updatedAt.value);
+    }
+    if (user.present) {
+      map['user'] = Variable<String>(user.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CommentTableCompanion(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('postId: $postId, ')
+          ..write('comment: $comment, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('user: $user')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $CommentTableTable extends CommentTable
+    with TableInfo<$CommentTableTable, CommentsDataClass> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $CommentTableTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  GeneratedIntColumn _userId;
+  @override
+  GeneratedIntColumn get userId => _userId ??= _constructUserId();
+  GeneratedIntColumn _constructUserId() {
+    return GeneratedIntColumn(
+      'user_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _postIdMeta = const VerificationMeta('postId');
+  GeneratedIntColumn _postId;
+  @override
+  GeneratedIntColumn get postId => _postId ??= _constructPostId();
+  GeneratedIntColumn _constructPostId() {
+    return GeneratedIntColumn(
+      'post_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _commentMeta = const VerificationMeta('comment');
+  GeneratedTextColumn _comment;
+  @override
+  GeneratedTextColumn get comment => _comment ??= _constructComment();
+  GeneratedTextColumn _constructComment() {
+    return GeneratedTextColumn(
+      'comment',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
+  GeneratedTextColumn _createdAt;
+  @override
+  GeneratedTextColumn get createdAt => _createdAt ??= _constructCreatedAt();
+  GeneratedTextColumn _constructCreatedAt() {
+    return GeneratedTextColumn(
+      'created_at',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
+  GeneratedTextColumn _updatedAt;
+  @override
+  GeneratedTextColumn get updatedAt => _updatedAt ??= _constructUpdatedAt();
+  GeneratedTextColumn _constructUpdatedAt() {
+    return GeneratedTextColumn(
+      'updated_at',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _userMeta = const VerificationMeta('user');
+  GeneratedTextColumn _user;
+  @override
+  GeneratedTextColumn get user => _user ??= _constructUser();
+  GeneratedTextColumn _constructUser() {
+    return GeneratedTextColumn(
+      'user',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, userId, postId, comment, createdAt, updatedAt, user];
+  @override
+  $CommentTableTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'comment_table';
+  @override
+  final String actualTableName = 'comment_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<CommentsDataClass> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('user_id')) {
+      context.handle(_userIdMeta,
+          userId.isAcceptableOrUnknown(data['user_id'], _userIdMeta));
+    } else if (isInserting) {
+      context.missing(_userIdMeta);
+    }
+    if (data.containsKey('post_id')) {
+      context.handle(_postIdMeta,
+          postId.isAcceptableOrUnknown(data['post_id'], _postIdMeta));
+    } else if (isInserting) {
+      context.missing(_postIdMeta);
+    }
+    if (data.containsKey('comment')) {
+      context.handle(_commentMeta,
+          comment.isAcceptableOrUnknown(data['comment'], _commentMeta));
+    } else if (isInserting) {
+      context.missing(_commentMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at'], _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at'], _updatedAtMeta));
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('user')) {
+      context.handle(
+          _userMeta, user.isAcceptableOrUnknown(data['user'], _userMeta));
+    } else if (isInserting) {
+      context.missing(_userMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CommentsDataClass map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return CommentsDataClass.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $CommentTableTable createAlias(String alias) {
+    return $CommentTableTable(_db, alias);
+  }
+}
+
 abstract class _$SmartShareDatabase extends GeneratedDatabase {
   _$SmartShareDatabase(QueryExecutor e)
       : super(SqlTypeSystem.defaultInstance, e);
@@ -893,13 +1331,20 @@ abstract class _$SmartShareDatabase extends GeneratedDatabase {
   $PostsTableTable get postsTable => _postsTable ??= $PostsTableTable(this);
   $MyPostTableTable _myPostTable;
   $MyPostTableTable get myPostTable => _myPostTable ??= $MyPostTableTable(this);
+  $CommentTableTable _commentTable;
+  $CommentTableTable get commentTable =>
+      _commentTable ??= $CommentTableTable(this);
   PostDao _postDao;
   PostDao get postDao => _postDao ??= PostDao(this as SmartShareDatabase);
   MyPostDao _myPostDao;
   MyPostDao get myPostDao =>
       _myPostDao ??= MyPostDao(this as SmartShareDatabase);
+  CommentDao _commentDao;
+  CommentDao get commentDao =>
+      _commentDao ??= CommentDao(this as SmartShareDatabase);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [postsTable, myPostTable];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [postsTable, myPostTable, commentTable];
 }

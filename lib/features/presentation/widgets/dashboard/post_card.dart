@@ -193,7 +193,9 @@ class _PostsCardState extends State<PostsCard> {
                   ),
                   onPressed: () => ExtendedNavigator.of(context)
                       .pushCommentsScreen(
-                          post: widget.post, myPost: widget.myPost),
+                          post: widget.post,
+                          myPost: widget.myPost,
+                          postBloc: widget.bloc),
                 ),
               ],
             ),
@@ -218,8 +220,10 @@ class _PostsCardState extends State<PostsCard> {
           Padding(
             padding: EdgeInsets.only(left: SizeConfig.safeBlockHorizontal * 4),
             child: GestureDetector(
-              onTap: () => ExtendedNavigator.of(context)
-                  .pushCommentsScreen(post: widget.post, myPost: widget.myPost),
+              onTap: () => ExtendedNavigator.of(context).pushCommentsScreen(
+                  post: widget.post,
+                  myPost: widget.myPost,
+                  postBloc: widget.bloc),
               child: Text(
                 widget.post.commentsCount != 0 && widget.post.commentsCount != 1
                     ? "View all " +
@@ -229,7 +233,7 @@ class _PostsCardState extends State<PostsCard> {
                         ? "View all " +
                             widget.post.commentsCount.toString() +
                             " comment"
-                        : "No Comments",
+                        : "No comments",
                 style: TextStyle(color: Colors.grey[700]),
               ),
             ),

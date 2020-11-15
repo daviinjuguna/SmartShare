@@ -16,19 +16,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final post, myPost, bloc;
+  final post, myPost, bloc, filteredPhoto;
   ProfileScreen(
       {Key key,
       @required this.post,
       @required this.myPost,
-      @required this.bloc})
+      @required this.bloc,
+      @required this.filteredPhoto})
       : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveClientMixin<ProfileScreen>{
+class _ProfileScreenState extends State<ProfileScreen>
+    with AutomaticKeepAliveClientMixin<ProfileScreen> {
   @override
   void initState() {
     super.initState();
@@ -57,8 +59,9 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
       body: ProfileBody(
         post: widget.post,
         myPost: widget.myPost,
-        bloc: widget.bloc),
-      
+        bloc: widget.bloc,
+        filteredPhoto: widget.filteredPhoto,
+      ),
     );
   }
 

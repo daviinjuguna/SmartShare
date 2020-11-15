@@ -15,6 +15,14 @@ class GetCommentEvent extends CommentEvent {
   List<Object> get props => [postId];
 }
 
+class UpdateCommentEvent extends CommentEvent {
+  final int postId;
+
+  UpdateCommentEvent({@required this.postId});
+  @override
+  List<Object> get props => [postId];
+}
+
 class EditCommentEvent extends CommentEvent {
   final int commentId;
   final String comment;
