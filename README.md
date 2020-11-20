@@ -4,6 +4,7 @@ A new Flutter project.
 use laravelblogapi as backend
 link https://github.com/daviinjuguna/laravelblogapi.git
 
+![Farmers Market Finder Demo](demo/ekonnect.gif)
 ## Getting Started
 
 This project is a starting point for a Flutter application.

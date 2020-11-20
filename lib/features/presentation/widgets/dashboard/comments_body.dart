@@ -372,6 +372,7 @@ class _CommentBodyState extends State<CommentBody> {
                           controller: _comment,
                           maxLines: null,
                           decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeHorizontal),
                             border: InputBorder.none,
                             hintText: state is CreateCommentLoading
                                 ? "Commenting...."
